@@ -1,0 +1,280 @@
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+  SafeAreaView,
+} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
+import Orientation from 'react-native-orientation-locker';
+import Icon from 'react-native-vector-icons/dist/Ionicons';
+import * as config from '../assets/properties';
+import {authAxios} from '../utils/axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+
+import PlayTopNCards from '../components/PlayTopNCards';
+import HorizontalScrollCards from '../components/HorizontalScrollCards';
+import MediaCards from '../components/MediaCards';
+
+const Home = props => {
+  const [playTopNMediaList, setPlayTopNMediaList] = useState([]);
+  const [currentUploadedMediaList, setCurrentUploadedMediaList] = useState([]);
+  const [tagList, setTagList] = useState([]);
+
+  useEffect(() => {
+    console.log('[VIEW] Home');
+
+    Orientation.lockToPortrait();
+
+    // 최근 일주일 동안 가장 많이 재생된 비디오
+    getPlayTopNMedia();
+
+    // 최신 업로드 미디어 리스트
+    getCurrentUploadedMedia();
+
+    // 전체 태그 리스트
+    getAllTags();
+  }, []);
+
+  /*
+   * 최근 일주일동안 가장 많이 재생된 비디오
+   */
+  const getPlayTopNMedia = async () => {
+    console.log('>> getPlayTopNMedia');
+
+    let _playTopNMediaList = [];
+    let _7daysBeforeObj = new Date(
+      new Date().getTime() - 7 * 24 * 60 * 60 * 1000,
+    );
+    let _7daysBefore =
+      _7daysBeforeObj.getFullYear() +
+      '' +
+      (_7daysBeforeObj.getMonth() * 1 + 1 < 10
+        ? '0' + (_7daysBeforeObj.getMonth() * 1 + 1)
+        : '' + (_7daysBeforeObj.getMonth() * 1 + 1)) +
+      '' +
+      (_7daysBeforeObj.getDate() * 1 + 1 < 10
+        ? '0' + (_7daysBeforeObj.getDate() * 1 + 1)
+        : '' + (_7daysBeforeObj.getDate() * 1 + 1));
+
+    try {
+      const response = await axios.get(
+        `${config.MIDIBUS_PLAY_API}/play/log/object?contentIds=${config.CHANNEL}&from=${_7daysBefore}000000&to=20500331235959&amount=5&dataIndex=0`,
+      );
+
+      const objectList = response.data;
+
+      if (
+        typeof objectList !== 'undefined' &&
+        objectList !== null &&
+        objectList.length > 0
+      ) {
+        for (let o = 0; o < objectList.length; o++) {
+          // 수정해야함
+          try {
+            const response = await authAxios.get(
+              `${config.MIDIBUS_API}/v2/channel/${config.CHANNEL}/${objectList[o].objectId}`,
+            );
+
+            const objectInfo = response.data;
+
+            if (objectInfo.length !== 0) {
+              _playTopNMediaList.push(objectInfo);
+            }
+          } catch (error) {
+            console.error('Error fetching object info:', error);
+            // 필요한 경우 추가 에러 처리 로직
+          }
+        }
+
+        setPlayTopNMediaList(_playTopNMediaList);
+      }
+    } catch (error) {
+      console.error('Error fetching play log:', error);
+      // 필요한 경우 추가 에러 처리 로직
+    }
+  };
+
+  /*
+   * 최신 업로드 미디어 리스트
+   */
+  const getCurrentUploadedMedia = async () => {
+    console.log('>> getCurrentUploadedMedia');
+
+    try {
+      const response = await authAxios.get(
+        `/v2/channel/${config.CHANNEL}?limit=5`,
+      );
+
+      const _objectList = response.data;
+
+      if (
+        _objectList &&
+        _objectList.object_list &&
+        _objectList.object_list.length > 0
+      ) {
+        setCurrentUploadedMediaList(_objectList.object_list);
+      } else {
+        // 필요한 경우 추가 처리 로직
+      }
+    } catch (error) {
+      console.error('Error fetching current uploaded media:', error);
+      // 필요한 경우 추가 에러 처리 로직
+    }
+  };
+
+  /*
+   * 전체 태그 리스트
+   */
+  const getAllTags = async () => {
+    console.log('>> getAllTags');
+    console.log(config.CHANNEL);
+
+    try {
+      const response = await authAxios.get(`/v2/channel/${config.CHANNEL}/tag`);
+
+      const _tagList = response.data;
+
+      if (typeof _tagList !== 'undefined' && _tagList !== null) {
+        if (
+          typeof _tagList.tag_list !== 'undefined' &&
+          _tagList.tag_list !== null &&
+          _tagList.tag_list.length > 0
+        ) {
+          setTagList(_tagList.tag_list);
+        } else {
+          //
+        }
+      } else {
+        //
+      }
+    } catch (error) {
+      console.error('Error fetching tag list:', error);
+      // 에러 처리 로직 추가 (필요 시)
+    }
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.headerArea}>
+        <Image
+          source={require('../assets/images/logo_midibus.png')}
+          style={{marginTop: 20, marginLeft: 30}}
+        />
+        <View style={{alignItems: 'flex-end', marginRight: 30, marginTop: -30}}>
+          <Icon name="person-circle-outline" size={35} color={'#ffffff'} />
+        </View>
+      </View>
+      {/* contents : vertical scroll */}
+      <ScrollView style={styles.contentsArea}>
+        <View style={styles.playTopNArea}>
+          <Text style={styles.subTitle}>최근 일주일 동안</Text>
+          <Text style={styles.mainTitle}>가장 많이 재생된 Top5</Text>
+          <PlayTopNCards
+            data={playTopNMediaList}
+            channelId={config.CHANNEL}
+            navigation={props.navigation}
+          />
+        </View>
+        <View style={styles.currentArea}>
+          <Text style={styles.mainTitle}>최신 업로드</Text>
+          <HorizontalScrollCards
+            data={currentUploadedMediaList}
+            channelId={config.CHANNEL}
+            navigation={props.navigation}
+          />
+        </View>
+        <View style={styles.tagListArea}>
+          {tagList.map((tagName, tagIdx) => {
+            return (
+              <View key={tagIdx} style={styles.byTagArea}>
+                <Text style={styles.mainTitle}>#{tagName}</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    props.navigation.navigate('MediaList', {
+                      categorized: 'tag',
+                      categorizedId: tagName,
+                      headerTitle: '#' + tagName,
+                    });
+                  }}>
+                  <Text style={styles.viewMoreText}>더보기</Text>
+                </TouchableOpacity>
+                <MediaCards
+                  categorized="tag"
+                  categorizedId={tagName}
+                  navigation={props.navigation}
+                />
+              </View>
+            );
+          })}
+        </View>
+      </ScrollView>
+      {/* // contents : vertical scroll */}
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#000000',
+  },
+  headerArea: {
+    width: '100%',
+    height: 100,
+  },
+  contentsArea: {
+    width: '100%',
+    flex: 1,
+  },
+  playTopNArea: {
+    width: '100%',
+    height: ((Dimensions.get('window').width - 30) * 9) / 16 + 60 + 80,
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  currentArea: {
+    width: '100%',
+    height: ((Dimensions.get('window').width - 30) * 9) / 16 + 60 + 80,
+    marginBottom: 10,
+    marginTop: 10,
+  },
+  tagListArea: {
+    width: '100%',
+    flex: 1,
+  },
+  byTagArea: {
+    width: '100%',
+    height: 175,
+    marginBottom: 20,
+  },
+  mainTitle: {
+    color: '#ffffff',
+    marginLeft: 10,
+    width: '100%',
+    fontSize: 25,
+    textAlign: 'left',
+    textAlignVertical: 'center',
+  },
+  subTitle: {
+    color: '#ffffff',
+    marginLeft: 10,
+    marginBottom: 5,
+    width: '100%',
+    fontSize: 20,
+    textAlign: 'left',
+  },
+  viewMoreText: {
+    fontSize: 18,
+    color: '#898989',
+    textAlign: 'right',
+    marginRight: 10,
+  },
+});
+
+export default Home;
