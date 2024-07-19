@@ -31,7 +31,6 @@ const Search = props => {
     console.log('>> getAllTags');
 
     console.log(config.CHANNEL);
-    // 수정해야함
     try {
       const response = await authAxios.get(`/v2/channel/${config.CHANNEL}/tag`);
 
@@ -77,7 +76,6 @@ const Search = props => {
       `${config.MIDIBUS_API}/v2/channel/${config.CHANNEL}/tag?keyword=${_searchKeyword}`,
     );
 
-    // 수정해야함
     try {
       const tagResponse = await authAxios.get(
         `/v2/channel/${config.CHANNEL}/tag?keyword=${_searchKeyword}`,
@@ -171,21 +169,17 @@ const Search = props => {
         <ScrollView style={styles.contentsArea}>
           {/* 태그 */}
           <View style={styles.classificationArea}>
-            <View style={styles.classificationHeaderArea}>
-              <View style={styles.classificationTitleArea}>
-                <Text style={styles.classificationTitle}>태그</Text>
-              </View>
-              <View style={styles.viewAllBtnArea}>
-                <TouchableOpacity
-                  onPress={() => {
-                    props.navigation.navigate('TagList', {
-                      headerTitle: '태그',
-                      data: tagList,
-                    });
-                  }}>
-                  <Text style={styles.viewAllBtn}>모두보기</Text>
-                </TouchableOpacity>
-              </View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.mainTitle}>태그</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  props.navigation.navigate('TagList', {
+                    headerTitle: '태그',
+                    data: tagList,
+                  });
+                }}>
+                <Text style={styles.viewMoreText}>모두보기</Text>
+              </TouchableOpacity>
             </View>
             <ClassificationCards
               dataType={'tag'}
@@ -196,21 +190,17 @@ const Search = props => {
           {/* // 태그 */}
           {/* 인기 태그 */}
           <View style={styles.classificationArea}>
-            <View style={styles.classificationHeaderArea}>
-              <View style={styles.classificationTitleArea}>
-                <Text style={styles.classificationTitle}>인기 태그</Text>
-              </View>
-              <View style={styles.viewAllBtnArea}>
-                <TouchableOpacity
-                  onPress={() => {
-                    props.navigation.push('TagList', {
-                      headerTitle: '태그',
-                      data: tagList,
-                    });
-                  }}>
-                  <Text style={styles.viewAllBtn}>모두보기</Text>
-                </TouchableOpacity>
-              </View>
+            <View style={styles.titleContainer}>
+              <Text style={styles.mainTitle}>인기태그</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  props.navigation.push('TagList', {
+                    headerTitle: '태그',
+                    data: tagList,
+                  });
+                }}>
+                <Text style={styles.viewMoreText}>모두보기</Text>
+              </TouchableOpacity>
             </View>
             <ClassificationCards
               dataType={'tag'}
@@ -359,33 +349,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 220,
   },
-  classificationHeaderArea: {
-    width: '100%',
-    height: 50,
-  },
-  classificationTitleArea: {
-    marginTop: 10,
-    width: 100,
-    alignSelf: 'flex-start',
-    marginLeft: 30,
-  },
-  classificationTitle: {
-    color: '#ffffff',
-    fontSize: 25,
-    textAlign: 'left',
-  },
-  viewAllBtnArea: {
-    marginTop: -20,
-    width: 80,
-    alignSelf: 'flex-end',
-    marginRight: 30,
-  },
-  viewAllBtn: {
-    color: '#ffffff',
-    textAlign: 'right',
-    fontSize: 18,
-    color: '#898989',
-  },
   channelTagBox: {
     width: '100%',
     height: 70,
@@ -465,6 +428,28 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     textAlign: 'left',
     marginLeft: 10,
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 18,
+    marginBottom: 8,
+  },
+  mainTitle: {
+    color: '#ffffff',
+    marginLeft: 10,
+    fontWeight: '800',
+    fontSize: 28,
+    textAlign: 'left',
+    textAlignVertical: 'center',
+  },
+  viewMoreText: {
+    fontSize: 18,
+    color: '#898989',
+    textAlign: 'right',
+    marginRight: 10,
   },
 });
 

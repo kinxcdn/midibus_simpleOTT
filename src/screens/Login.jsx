@@ -169,7 +169,7 @@ const Login = ({navigation}) => {
             buttonStyle={{
               backgroundColor: '#3acbc1',
               height: 50,
-              marginTop: 13,
+              marginTop: 5,
             }}
             onPressOut={_onPressOut}>
             로그인

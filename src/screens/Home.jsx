@@ -192,17 +192,19 @@ const Home = props => {
           {tagList.map((tagName, tagIdx) => {
             return (
               <View key={tagIdx} style={styles.byTagArea}>
-                <Text style={styles.mainTitle}>#{tagName}</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    props.navigation.navigate('MediaList', {
-                      categorized: 'tag',
-                      categorizedId: tagName,
-                      headerTitle: '#' + tagName,
-                    });
-                  }}>
-                  <Text style={styles.viewMoreText}>더보기</Text>
-                </TouchableOpacity>
+                <View style={styles.titleContainer}>
+                  <Text style={styles.mainTitle}>#{tagName}</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      props.navigation.navigate('MediaList', {
+                        categorized: 'tag',
+                        categorizedId: tagName,
+                        headerTitle: '#' + tagName,
+                      });
+                    }}>
+                    <Text style={styles.viewMoreText}>더보기</Text>
+                  </TouchableOpacity>
+                </View>
                 <MediaCards
                   categorized="tag"
                   categorizedId={tagName}
@@ -256,17 +258,24 @@ const styles = StyleSheet.create({
   mainTitle: {
     color: '#ffffff',
     marginLeft: 10,
-    width: '100%',
-    fontSize: 25,
+    fontWeight: '800',
+    fontSize: 28,
     textAlign: 'left',
     textAlignVertical: 'center',
+  },
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 10,
+    marginBottom: 8,
   },
   subTitle: {
     color: '#ffffff',
     marginLeft: 10,
     marginBottom: 5,
-    width: '100%',
-    fontSize: 20,
+    fontSize: 18,
     textAlign: 'left',
   },
   viewMoreText: {
