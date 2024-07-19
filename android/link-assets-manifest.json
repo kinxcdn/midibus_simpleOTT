@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/images/logo_midibus.png",
+      "sha1": "b7580130e7aeec3b2048d044431111d1ed7ccbda"
+    },
+    {
+      "path": "src/assets/images/logo_midibus_small.png",
+      "sha1": "a73be7cd46082856ac433582eddb7739045c66e0"
+    },
+    {
+      "path": "src/assets/properties.js",
+      "sha1": "c535ff11d44dc26f40176be77b119a2d06ae9d64"
+    }
+  ]
+}
