@@ -11,9 +11,8 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import Orientation from 'react-native-orientation-locker';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
-import * as config from '../assets/properties';
-import {authAxios} from '../utils/axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as config from '../constants/properties';
+import {authAxios} from '../api/axios';
 import axios from 'axios';
 
 import PlayTopNCards from '../components/PlayTopNCards';
@@ -53,13 +52,13 @@ const Home = props => {
     let _7daysBefore =
       _7daysBeforeObj.getFullYear() +
       '' +
-      (_7daysBeforeObj.getMonth() * 1 + 1 < 10
-        ? '0' + (_7daysBeforeObj.getMonth() * 1 + 1)
-        : '' + (_7daysBeforeObj.getMonth() * 1 + 1)) +
+      (_7daysBeforeObj.getMonth() + 1 < 10
+        ? '0' + (_7daysBeforeObj.getMonth() + 1)
+        : '' + (_7daysBeforeObj.getMonth() + 1)) +
       '' +
-      (_7daysBeforeObj.getDate() * 1 + 1 < 10
-        ? '0' + (_7daysBeforeObj.getDate() * 1 + 1)
-        : '' + (_7daysBeforeObj.getDate() * 1 + 1));
+      (_7daysBeforeObj.getDate() < 10
+        ? '0' + _7daysBeforeObj.getDate()
+        : '' + _7daysBeforeObj.getDate());
 
     try {
       const response = await axios.get(
@@ -74,15 +73,16 @@ const Home = props => {
         objectList.length > 0
       ) {
         for (let o = 0; o < objectList.length; o++) {
-          // 수정해야함
+          const objectId = objectList[o].objectId;
+
           try {
             const response = await authAxios.get(
-              `${config.MIDIBUS_API}/v2/channel/${config.CHANNEL}/${objectList[o].objectId}`,
+              `${config.MIDIBUS_API}/v2/channel/${config.CHANNEL}/${objectId}`,
             );
 
             const objectInfo = response.data;
 
-            if (objectInfo.length !== 0) {
+            if (objectInfo && objectInfo.length !== 0) {
               _playTopNMediaList.push(objectInfo);
             }
           } catch (error) {
@@ -163,9 +163,9 @@ const Home = props => {
       <View style={styles.headerArea}>
         <Image
           source={require('../assets/images/logo_midibus.png')}
-          style={{marginTop: 20, marginLeft: 30}}
+          style={styles.logoImage}
         />
-        <View style={{alignItems: 'flex-end', marginRight: 30, marginTop: -30}}>
+        <View style={styles.iconContainer}>
           <Icon name="person-circle-outline" size={35} color={'#ffffff'} />
         </View>
       </View>
@@ -181,7 +181,7 @@ const Home = props => {
           />
         </View>
         <View style={styles.currentArea}>
-          <Text style={styles.mainTitle}>최신 업로드</Text>
+          <Text style={styles.sectionTitle}>최신 업로드</Text>
           <HorizontalScrollCards
             data={currentUploadedMediaList}
             channelId={config.CHANNEL}
@@ -189,30 +189,28 @@ const Home = props => {
           />
         </View>
         <View style={styles.tagListArea}>
-          {tagList.map((tagName, tagIdx) => {
-            return (
-              <View key={tagIdx} style={styles.byTagArea}>
-                <View style={styles.titleContainer}>
-                  <Text style={styles.mainTitle}>#{tagName}</Text>
-                  <TouchableOpacity
-                    onPress={() => {
-                      props.navigation.navigate('MediaList', {
-                        categorized: 'tag',
-                        categorizedId: tagName,
-                        headerTitle: '#' + tagName,
-                      });
-                    }}>
-                    <Text style={styles.viewMoreText}>더보기</Text>
-                  </TouchableOpacity>
-                </View>
-                <MediaCards
-                  categorized="tag"
-                  categorizedId={tagName}
-                  navigation={props.navigation}
-                />
+          {tagList.map((tagName, tagIdx) => (
+            <View key={tagIdx} style={styles.byTagArea}>
+              <View style={styles.titleContainer}>
+                <Text style={styles.sectionTitle}># {tagName}</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    props.navigation.navigate('MediaList', {
+                      categorized: 'tag',
+                      categorizedId: tagName,
+                      headerTitle: '#' + tagName,
+                    });
+                  }}>
+                  <Text style={styles.viewMoreText}>더보기</Text>
+                </TouchableOpacity>
               </View>
-            );
-          })}
+              <MediaCards
+                categorized="tag"
+                categorizedId={tagName}
+                navigation={props.navigation}
+              />
+            </View>
+          ))}
         </View>
       </ScrollView>
       {/* // contents : vertical scroll */}
@@ -228,7 +226,16 @@ const styles = StyleSheet.create({
   },
   headerArea: {
     width: '100%',
-    height: 100,
+    height: 70,
+  },
+  logoImage: {
+    marginTop: 20,
+    marginLeft: 15,
+  },
+  iconContainer: {
+    alignItems: 'flex-end',
+    marginRight: 20,
+    marginTop: -30,
   },
   contentsArea: {
     width: '100%',
@@ -243,7 +250,6 @@ const styles = StyleSheet.create({
   currentArea: {
     width: '100%',
     height: ((Dimensions.get('window').width - 30) * 9) / 16 + 60 + 80,
-    marginBottom: 10,
     marginTop: 10,
   },
   tagListArea: {
@@ -255,14 +261,6 @@ const styles = StyleSheet.create({
     height: 175,
     marginBottom: 20,
   },
-  mainTitle: {
-    color: '#ffffff',
-    marginLeft: 10,
-    fontWeight: '800',
-    fontSize: 28,
-    textAlign: 'left',
-    textAlignVertical: 'center',
-  },
   titleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -271,15 +269,31 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 8,
   },
-  subTitle: {
+  mainTitle: {
     color: '#ffffff',
     marginLeft: 10,
-    marginBottom: 5,
+    fontWeight: '800',
+    fontSize: 32,
+    textAlign: 'left',
+    textAlignVertical: 'center',
+  },
+  subTitle: {
+    color: '#B3B3B3',
+    marginLeft: 10,
     fontSize: 18,
     textAlign: 'left',
+    fontWeight: '600',
+  },
+  sectionTitle: {
+    color: '#ffffff',
+    marginLeft: 10,
+    fontWeight: '800',
+    fontSize: 26,
+    textAlign: 'left',
+    textAlignVertical: 'center',
   },
   viewMoreText: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#898989',
     textAlign: 'right',
     marginRight: 10,

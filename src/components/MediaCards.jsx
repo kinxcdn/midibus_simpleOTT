@@ -8,9 +8,9 @@ import {
   ImageBackground,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {authAxios} from '../utils/axios';
+import {authAxios} from '../api/axios';
 
-import * as config from '../assets/properties';
+import * as config from '../constants/properties';
 
 const MediaCards = props => {
   const categorized = props.categorized;

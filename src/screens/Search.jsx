@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Image,
   TextInput,
   TouchableOpacity,
   Dimensions,
@@ -11,11 +12,11 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import * as config from '../assets/properties';
+import * as config from '../constants/properties';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import ClassificationCards from '../components/ClassificationCards';
 import Orientation from 'react-native-orientation-locker';
-import {authAxios} from '../utils/axios';
+import {authAxios} from '../api/axios';
 
 const Search = props => {
   const [tagList, setTagList] = useState([]);
@@ -23,6 +24,10 @@ const Search = props => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchResultList, setSearchResultList] = useState([]);
+
+  const removeFileExtension = fileName => {
+    return fileName.replace(/\.(mp4|avi|mov|mkv|flv|wmv|webm)$/i, '');
+  };
 
   /*
    * 전체 태그 리스트
@@ -132,7 +137,11 @@ const Search = props => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerArea}>
-        <View style={{alignItems: 'flex-end', marginRight: 30, marginTop: 20}}>
+        <Image
+          source={require('../assets/images/logo_midibus.png')}
+          style={{marginTop: 20, marginLeft: 15}}
+        />
+        <View style={{alignItems: 'flex-end', marginRight: 20, marginTop: -30}}>
           <Icon name="person-circle-outline" size={35} color={'#ffffff'} />
         </View>
       </View>
@@ -150,9 +159,7 @@ const Search = props => {
             onFocus={_onFocus}
             onChange={_onChange}
             value={searchKeyword}></TextInput>
-        </View>
-        {inputSearchKeyword === false ? null : (
-          <View style={styles.keywordSearchCancelBtnArea}>
+          {inputSearchKeyword === false ? null : (
             <TouchableOpacity
               onPress={() => {
                 Keyboard.dismiss();
@@ -160,10 +167,12 @@ const Search = props => {
                 setInputSearchKeyword(false);
                 setSearchResultList([]);
               }}>
-              <Text style={styles.keywordSearchCancelBtn}>취소</Text>
+              <View style={styles.keywordSearchCancelBtnArea}>
+                <Text style={styles.keywordSearchCancelBtn}>취소</Text>
+              </View>
             </TouchableOpacity>
-          </View>
-        )}
+          )}
+        </View>
       </View>
       {inputSearchKeyword === false ? (
         <ScrollView style={styles.contentsArea}>
@@ -251,7 +260,7 @@ const Search = props => {
                     <View style={styles.mediaTextArea}>
                       <View style={{flex: 1}}>
                         <Text style={styles.mediaMainText}>
-                          {searchResult.media_name}
+                          {removeFileExtension(searchResult.media_name)}
                         </Text>
                       </View>
                       <View style={{flex: 1}}>
@@ -296,7 +305,7 @@ const styles = StyleSheet.create({
   },
   headerArea: {
     width: '100%',
-    height: 80,
+    height: 70,
   },
   keywordInputArea: {
     width: '100%',
@@ -305,41 +314,48 @@ const styles = StyleSheet.create({
     flextDirection: 'row',
   },
   searchKeywordInputArea: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     width: Dimensions.get('window').width - 80,
     height: 40,
     alignSelf: 'flex-start',
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingLeft: 15,
+    paddingRight: 20,
   },
   searchKeywordInputAreaWithCancelBtn: {
     width: Dimensions.get('window').width,
     height: 40,
     alignSelf: 'flex-start',
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   searchKeywordInput: {
     width: '100%',
-    height: 40,
+    height: 50,
     borderColor: '#2e2e2e',
     borderWidth: 1,
     backgroundColor: '#2e2e2e',
     borderRadius: 5,
     color: '#ffffff',
-    paddingLeft: 10,
+    paddingLeft: 15,
     paddingRight: 10,
   },
   keywordSearchCancelBtnArea: {
+    display: 'flex',
+    justifyContent: 'center',
     width: 80,
-    height: 40,
-    alignSelf: 'flex-end',
-    marginTop: -40,
-    paddingRight: 30,
+    height: 50,
+    margin: 5,
+    backgroundColor: '#DB202C',
+    borderWidth: 1,
+    borderRadius: 5,
   },
   keywordSearchCancelBtn: {
+    textAlign: 'center',
+    fontWeight: '600',
     fontSize: 18,
     color: '#ffffff',
-    marginTop: 7,
   },
   contentsArea: {
     width: '100%',
@@ -369,15 +385,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   channelTagMainText: {
-    // fontWeight: 600,
-    fontSize: 15,
+    fontWeight: '600',
+    fontSize: 16,
     color: '#ffffff',
     textAlign: 'left',
     marginLeft: 10,
   },
   channelTagSubText: {
-    fontSize: 13,
-    color: '#ffffff',
+    fontSize: 12,
+    color: '#9D9FA0',
     textAlign: 'left',
     marginLeft: 10,
   },
@@ -416,8 +432,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   mediaMainText: {
-    // fontWeight: 600,
-    fontSize: 15,
+    fontWeight: '600',
+    fontSize: 16,
     color: '#ffffff',
     textAlign: 'left',
     marginTop: 18,
@@ -434,19 +450,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    paddingHorizontal: 18,
+    paddingHorizontal: 8,
     marginBottom: 8,
   },
   mainTitle: {
     color: '#ffffff',
-    marginLeft: 10,
+    marginLeft: 12,
     fontWeight: '800',
-    fontSize: 28,
+    fontSize: 24,
     textAlign: 'left',
     textAlignVertical: 'center',
   },
   viewMoreText: {
-    fontSize: 18,
+    fontSize: 16,
+    fontWeight: '500',
     color: '#898989',
     textAlign: 'right',
     marginRight: 10,

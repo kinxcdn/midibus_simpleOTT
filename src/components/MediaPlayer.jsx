@@ -1,7 +1,7 @@
 import React from 'react';
 import {Platform} from 'react-native';
 import Orientation from 'react-native-orientation-locker';
-import * as propConfig from '../assets/properties';
+import * as propConfig from '../constants/properties';
 
 const MediaPlayer = props => {
   const mediaInfo = props.mediaInfo;

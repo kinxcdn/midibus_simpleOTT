@@ -10,13 +10,11 @@ import {
 import Orientation from 'react-native-orientation-locker';
 import Swiper from 'react-native-swiper';
 import Video from 'react-native-video';
-import * as config from '../assets/properties';
+import * as config from '../constants/properties';
 
 const PlayTopNCards = props => {
   const channelId = props.channelId;
   const mediaList = props.data;
-
-  console.log(mediaList);
 
   const [previewIndex, setPreviewIndex] = useState(0);
   Orientation.lockToPortrait();
@@ -24,6 +22,10 @@ const PlayTopNCards = props => {
   useEffect(() => {
     console.log('previewIndex : ' + previewIndex);
   }, [previewIndex]);
+
+  const removeFileExtension = fileName => {
+    return fileName.replace(/\.(mp4|avi|mov|mkv|flv|wmv|webm)$/i, '');
+  };
 
   return (
     <Swiper
@@ -88,7 +90,7 @@ const PlayTopNCards = props => {
                 media.poster_url === null ? (
                   <View style={styles.mediaThumbnailEmptyArea}>
                     <Text style={styles.mediaThumbnailEmptyText}>
-                      {media.media_name}
+                      {removeFileExtension(media.media_name)}
                     </Text>
                   </View>
                 ) : (
@@ -100,13 +102,8 @@ const PlayTopNCards = props => {
               </View>
             )}
             <View style={styles.mediaNameArea}>
-              <Text
-                style={{
-                  color: '#fff',
-                  fontSize: 15,
-                }}
-                numberOfLines={2}>
-                {media.media_name}
+              <Text style={styles.mediaText} numberOfLines={2}>
+                {removeFileExtension(media.media_name)}
               </Text>
             </View>
           </TouchableOpacity>
@@ -143,6 +140,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#898989',
     marginRight: 10,
     marginTop: 10,
+  },
+  mediaText: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: '600',
   },
   mediaNameArea: {
     width: getScreenWidthSize(),

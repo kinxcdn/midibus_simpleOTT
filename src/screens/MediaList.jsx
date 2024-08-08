@@ -11,14 +11,19 @@ import {
 import {ScrollView} from 'react-native-gesture-handler';
 import Orientation from 'react-native-orientation-locker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as config from '../assets/properties';
-import {authAxios} from '../utils/axios';
+import * as config from '../constants/properties';
+import {authAxios} from '../api/axios';
+import Icon from 'react-native-vector-icons/dist/Ionicons';
 
 const MediaList = props => {
   const categorized = props.route.params.categorized;
   const categorizedId = props.route.params.categorizedId;
 
   const [mediaList, setMediaList] = useState([]);
+
+  const removeFileExtension = fileName => {
+    return fileName.replace(/\.(mp4|avi|mov|mkv|flv|wmv|webm)$/i, '');
+  };
 
   /*
    * 태그로 조회한 미디어 리스트
@@ -80,55 +85,69 @@ const MediaList = props => {
       <ScrollView style={styles.scrollArea}>
         {mediaList.map((media, mediaIdx) => {
           return (
-            <TouchableOpacity
-              key={mediaIdx}
-              onPress={() => {
-                // 미디어 상세
-                props.navigation.push('MediaDetail', {
-                  channelId: config.CHANNEL,
-                  media: media,
-                });
-              }}>
-              <View style={styles.mediaBox}>
-                <View style={styles.mediaThumbnailArea}>
-                  {media.poster_url === null ? (
-                    <View style={styles.mediaThumbnailEmptyArea}>
-                      <Text style={styles.mediaThumbnailEmptyText}>
-                        {media.media_name}
+            <>
+              <TouchableOpacity
+                key={mediaIdx}
+                onPress={() => {
+                  // 미디어 상세
+                  props.navigation.push('MediaDetail', {
+                    channelId: config.CHANNEL,
+                    media: media,
+                  });
+                }}>
+                <View style={styles.mediaBox}>
+                  <View style={styles.mediaThumbnailArea}>
+                    {media.poster_url === null ? (
+                      <View style={styles.mediaThumbnailEmptyArea}>
+                        <Text style={styles.mediaThumbnailEmptyText}>
+                          {removeFileExtension(media.media_name)}
+                        </Text>
+                      </View>
+                    ) : (
+                      <ImageBackground
+                        source={{uri: 'https://' + media.poster_url}}
+                        resizeMode="cover"
+                        style={styles.mediaThumbnail}
+                        imageStyle={{borderRadius: 7}}></ImageBackground>
+                    )}
+                  </View>
+                  <View style={styles.mediaTextArea}>
+                    <View style={{flex: 1, marginRight: 30}}>
+                      <Text style={styles.mediaMainText} numberOfLines={1}>
+                        {removeFileExtension(media.media_name)}
                       </Text>
                     </View>
-                  ) : (
-                    <ImageBackground
-                      source={{uri: 'https://' + media.poster_url}}
-                      resizeMode="cover"
-                      style={styles.mediaThumbnail}
-                      imageStyle={{borderRadius: 7}}></ImageBackground>
-                  )}
-                </View>
-                <View style={styles.mediaTextArea}>
-                  <View style={{flex: 1, marginRight: 30}}>
-                    <Text style={styles.mediaMainText} numberOfLines={1}>
-                      {media.media_name}
-                    </Text>
+                    <View style={{flex: 1}}>
+                      <Text style={styles.mediaSubText}>
+                        {media.created.substring(0, 4) +
+                          '-' +
+                          media.created.substring(4, 6) +
+                          '-' +
+                          media.created.substring(6, 8) +
+                          ' ' +
+                          media.created.substring(8, 10) +
+                          ':' +
+                          media.created.substring(10, 12) +
+                          ':' +
+                          media.created.substring(12, 14)}
+                      </Text>
+                    </View>
                   </View>
-                  <View style={{flex: 1}}>
-                    <Text style={styles.mediaSubText}>
-                      {media.created.substring(0, 4) +
-                        '-' +
-                        media.created.substring(4, 6) +
-                        '-' +
-                        media.created.substring(6, 8) +
-                        ' ' +
-                        media.created.substring(8, 10) +
-                        ':' +
-                        media.created.substring(10, 12) +
-                        ':' +
-                        media.created.substring(12, 14)}
-                    </Text>
+                  <View
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}>
+                    <Icon
+                      name="chevron-forward-outline"
+                      size={20}
+                      color={'#ffffff'}
+                    />
                   </View>
                 </View>
-              </View>
-            </TouchableOpacity>
+              </TouchableOpacity>
+              <View style={styles.horizontalDivider} />
+            </>
           );
         })}
       </ScrollView>
@@ -147,7 +166,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   mediaBox: {
-    width: '100%',
+    width: '95%',
     height: Dimensions.get('window').height / 10,
     flex: 1,
     flexDirection: 'row',
@@ -179,7 +198,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   mediaMainText: {
-    // fontWeight: 600,
+    fontWeight: '600',
     fontSize: 15,
     color: '#ffffff',
     textAlign: 'left',
@@ -191,6 +210,12 @@ const styles = StyleSheet.create({
     color: '#898989',
     textAlign: 'left',
     marginLeft: 10,
+  },
+  horizontalDivider: {
+    height: 1.2,
+    backgroundColor: '#404247',
+    marginVertical: 15,
+    marginHorizontal: 30,
   },
 });
 

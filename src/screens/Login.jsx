@@ -6,12 +6,13 @@ import {
   Image,
   Dimensions,
   Alert,
+  Text,
 } from 'react-native';
 import {Button, Input} from '@rneui/themed';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import base64 from 'base-64';
-import * as config from '../assets/properties';
+import * as config from '../constants/properties';
 import Orientation from 'react-native-orientation-locker';
 import axios from 'axios';
 
@@ -72,6 +73,8 @@ const Login = ({navigation}) => {
       });
 
       const tokenInfo = response.data;
+
+      console.log(tokenInfo);
 
       if (tokenInfo && tokenInfo.token) {
         await AsyncStorage.setItem('authKey', tokenInfo.token);
@@ -167,12 +170,12 @@ const Login = ({navigation}) => {
           }}>
           <Button
             buttonStyle={{
-              backgroundColor: '#3acbc1',
+              backgroundColor: '#58C3BB',
               height: 50,
               marginTop: 5,
             }}
             onPressOut={_onPressOut}>
-            로그인
+            <Text style={styles.LoginText}>로그인</Text>
           </Button>
         </View>
       </View>
@@ -190,6 +193,11 @@ const styles = StyleSheet.create({
   text: {
     color: 'blue',
     backgroundColor: 'red',
+  },
+  LoginText: {
+    fontWeight: '800',
+    color: '#fff',
+    fontSize: 14,
   },
   searchKeywordInputArea: {
     width: Dimensions.get('window').width - 80,

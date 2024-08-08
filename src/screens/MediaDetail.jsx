@@ -10,8 +10,8 @@ import {ScrollView} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Orientation from 'react-native-orientation-locker';
 import JWPlayer from '@jwplayer/jwplayer-react-native';
-import * as config from '../assets/properties';
-import {authAxios} from '../utils/axios';
+import * as config from '../constants/properties';
+import {authAxios} from '../api/axios';
 import axios from 'axios';
 
 const MediaDetail = props => {
@@ -50,9 +50,10 @@ const MediaDetail = props => {
       android: config.JW_ANDROID_API_KEY,
     }),
     enableLockScreenControls: false,
-    pipEnabled: true,
+    pipEnabled: false,
     autostart: true,
     controls: true,
+    backgroundAudioEnabled: false,
     playlist: [
       {
         mediaId: objectId,
@@ -69,6 +70,10 @@ const MediaDetail = props => {
     portraitOnExitFullScreen: false,
     exitFullScreenOnPortrait: false,
     nativeFullScreen: false,
+  };
+
+  const removeFileExtension = fileName => {
+    return fileName.replace(/\.(mp4|avi|mov|mkv|flv|wmv|webm)$/i, '');
   };
 
   /*
@@ -177,7 +182,9 @@ const MediaDetail = props => {
         {mediaObj && (
           <>
             <View style={styles.mediaTitleArea}>
-              <Text style={styles.mediaTitleText}>{mediaObj.media_name}</Text>
+              <Text style={styles.mediaTitleText}>
+                {removeFileExtension(mediaObj.media_name)}
+              </Text>
             </View>
             <View style={styles.mediaDetailArea}>
               <Text style={styles.mediaDetailTextWithWhtieFont}>

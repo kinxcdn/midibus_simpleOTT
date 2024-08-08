@@ -52,7 +52,7 @@ const ClassificationCards = props => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    marginLeft: 30,
+    marginLeft: 20,
     marginTop: 5,
   },
   firstClassificationCard: {

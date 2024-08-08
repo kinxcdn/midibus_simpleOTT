@@ -16,6 +16,10 @@ const HorizontalScrollCards = props => {
 
   Orientation.lockToPortrait();
 
+  const removeFileExtension = fileName => {
+    return fileName.replace(/\.(mp4|avi|mov|mkv|flv|wmv|webm)$/i, '');
+  };
+
   return (
     <ScrollView horizontal={true} style={{marginLeft: 0}}>
       {mediaList.map((media, mediaIdx) => {
@@ -33,7 +37,7 @@ const HorizontalScrollCards = props => {
               media.poster_url === null ? (
                 <View style={styles.mediaThumbnailEmptyArea}>
                   <Text style={styles.mediaThumbnailEmptyText}>
-                    {media.media_name}
+                    {removeFileExtension(media.media_name)}
                   </Text>
                 </View>
               ) : (
@@ -46,13 +50,8 @@ const HorizontalScrollCards = props => {
             </View>
 
             <View style={styles.mediaNameArea}>
-              <Text
-                style={{
-                  color: '#fff',
-                  fontSize: 15,
-                }}
-                numberOfLines={2}>
-                {media.media_name}
+              <Text style={styles.mediaText} numberOfLines={2}>
+                {removeFileExtension(media.media_name)}
               </Text>
             </View>
           </TouchableOpacity>
@@ -82,6 +81,11 @@ const styles = StyleSheet.create({
     height: 60,
     paddingLeft: 20,
     paddingRight: 20,
+  },
+  mediaText: {
+    fontSize: 16,
+    color: '#fff',
+    fontWeight: '600',
   },
   mediaThumbnail: {
     flex: 1,

@@ -8,16 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* kinxSimpleottTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* kinxSimpleottTests.m */; };
-		0A3444AD0BF34522AD496EF6 /* logo_midibus_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 054784503AAC44959744C8EE /* logo_midibus_small.png */; };
 		0C80B921A6F3F58F76C31292 /* libPods-kinxSimpleott.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-kinxSimpleott.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-kinxSimpleott-kinxSimpleottTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-kinxSimpleott-kinxSimpleottTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		A58B541CCD664A3A91649EDD /* properties.js in Resources */ = {isa = PBXBuildFile; fileRef = D21B4CF2BE404649821CABDF /* properties.js */; };
 		CF83249BB3B2329F1C79F47F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9F60D8EBEC2E007F40AB4C1D /* PrivacyInfo.xcprivacy */; };
-		FD75DED91B1A4077845062D3 /* logo_midibus.png in Resources */ = {isa = PBXBuildFile; fileRef = A3A260A13E40435B96EB3C2E /* logo_midibus.png */; };
+		FAE254E0A08240AAAEA658A6 /* NotoSansKR-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C765CA619B764E19BE19CDD5 /* NotoSansKR-Black.ttf */; };
+		42C0F8E31E354237A65E8C6A /* NotoSansKR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9300D5ADDCA2464A8A6949E1 /* NotoSansKR-Bold.ttf */; };
+		DE6B1F0851EC4BCE93C13497 /* NotoSansKR-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45679C0DF53F48F393B19B00 /* NotoSansKR-ExtraBold.ttf */; };
+		8544E8B7B050467681869515 /* NotoSansKR-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F90AD5273254D6FBDBDEF06 /* NotoSansKR-ExtraLight.ttf */; };
+		7345B28C465F4265AA380BFA /* NotoSansKR-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 976E75006A364AD9A7D83C4A /* NotoSansKR-Light.ttf */; };
+		655CFB8CD8684DF7A5BEF577 /* NotoSansKR-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A29A4D8297CE41369238CAAE /* NotoSansKR-Medium.ttf */; };
+		78D3579B28E24E889535098A /* NotoSansKR-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 54F8EBEC59304A5095A0A554 /* NotoSansKR-Regular.ttf */; };
+		111886C8D44C48EAAF6C75C3 /* NotoSansKR-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04C4A774B3874724852E2CD5 /* NotoSansKR-SemiBold.ttf */; };
+		531F007EC80C4D88ACADB4F4 /* NotoSansKR-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 70377E18DAF847A288689072 /* NotoSansKR-Thin.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,7 +40,6 @@
 		00E356EE1AD99517003FC87E /* kinxSimpleottTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = kinxSimpleottTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* kinxSimpleottTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = kinxSimpleottTests.m; sourceTree = "<group>"; };
-		054784503AAC44959744C8EE /* logo_midibus_small.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = logo_midibus_small.png; path = ../src/assets/images/logo_midibus_small.png; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* kinxSimpleott.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kinxSimpleott.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = kinxSimpleott/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = kinxSimpleott/AppDelegate.mm; sourceTree = "<group>"; };
@@ -50,9 +55,16 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = kinxSimpleott/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-kinxSimpleott-kinxSimpleottTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-kinxSimpleott-kinxSimpleottTests.release.xcconfig"; path = "Target Support Files/Pods-kinxSimpleott-kinxSimpleottTests/Pods-kinxSimpleott-kinxSimpleottTests.release.xcconfig"; sourceTree = "<group>"; };
 		9F60D8EBEC2E007F40AB4C1D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = kinxSimpleott/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		A3A260A13E40435B96EB3C2E /* logo_midibus.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = logo_midibus.png; path = ../src/assets/images/logo_midibus.png; sourceTree = "<group>"; };
-		D21B4CF2BE404649821CABDF /* properties.js */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = properties.js; path = ../src/assets/properties.js; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		C765CA619B764E19BE19CDD5 /* NotoSansKR-Black.ttf */ = {isa = PBXFileReference; name = "NotoSansKR-Black.ttf"; path = "../src/assets/fonts/NotoSansKR-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9300D5ADDCA2464A8A6949E1 /* NotoSansKR-Bold.ttf */ = {isa = PBXFileReference; name = "NotoSansKR-Bold.ttf"; path = "../src/assets/fonts/NotoSansKR-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		45679C0DF53F48F393B19B00 /* NotoSansKR-ExtraBold.ttf */ = {isa = PBXFileReference; name = "NotoSansKR-ExtraBold.ttf"; path = "../src/assets/fonts/NotoSansKR-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7F90AD5273254D6FBDBDEF06 /* NotoSansKR-ExtraLight.ttf */ = {isa = PBXFileReference; name = "NotoSansKR-ExtraLight.ttf"; path = "../src/assets/fonts/NotoSansKR-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		976E75006A364AD9A7D83C4A /* NotoSansKR-Light.ttf */ = {isa = PBXFileReference; name = "NotoSansKR-Light.ttf"; path = "../src/assets/fonts/NotoSansKR-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A29A4D8297CE41369238CAAE /* NotoSansKR-Medium.ttf */ = {isa = PBXFileReference; name = "NotoSansKR-Medium.ttf"; path = "../src/assets/fonts/NotoSansKR-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		54F8EBEC59304A5095A0A554 /* NotoSansKR-Regular.ttf */ = {isa = PBXFileReference; name = "NotoSansKR-Regular.ttf"; path = "../src/assets/fonts/NotoSansKR-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		04C4A774B3874724852E2CD5 /* NotoSansKR-SemiBold.ttf */ = {isa = PBXFileReference; name = "NotoSansKR-SemiBold.ttf"; path = "../src/assets/fonts/NotoSansKR-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		70377E18DAF847A288689072 /* NotoSansKR-Thin.ttf */ = {isa = PBXFileReference; name = "NotoSansKR-Thin.ttf"; path = "../src/assets/fonts/NotoSansKR-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,9 +90,15 @@
 		006EF80E73364A6781835D05 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A3A260A13E40435B96EB3C2E /* logo_midibus.png */,
-				054784503AAC44959744C8EE /* logo_midibus_small.png */,
-				D21B4CF2BE404649821CABDF /* properties.js */,
+				C765CA619B764E19BE19CDD5 /* NotoSansKR-Black.ttf */,
+				9300D5ADDCA2464A8A6949E1 /* NotoSansKR-Bold.ttf */,
+				45679C0DF53F48F393B19B00 /* NotoSansKR-ExtraBold.ttf */,
+				7F90AD5273254D6FBDBDEF06 /* NotoSansKR-ExtraLight.ttf */,
+				976E75006A364AD9A7D83C4A /* NotoSansKR-Light.ttf */,
+				A29A4D8297CE41369238CAAE /* NotoSansKR-Medium.ttf */,
+				54F8EBEC59304A5095A0A554 /* NotoSansKR-Regular.ttf */,
+				04C4A774B3874724852E2CD5 /* NotoSansKR-SemiBold.ttf */,
+				70377E18DAF847A288689072 /* NotoSansKR-Thin.ttf */,
 			);
 			name = Resources;
 			path = "";
@@ -266,10 +284,16 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				FD75DED91B1A4077845062D3 /* logo_midibus.png in Resources */,
-				0A3444AD0BF34522AD496EF6 /* logo_midibus_small.png in Resources */,
-				A58B541CCD664A3A91649EDD /* properties.js in Resources */,
 				CF83249BB3B2329F1C79F47F /* PrivacyInfo.xcprivacy in Resources */,
+				FAE254E0A08240AAAEA658A6 /* NotoSansKR-Black.ttf in Resources */,
+				42C0F8E31E354237A65E8C6A /* NotoSansKR-Bold.ttf in Resources */,
+				DE6B1F0851EC4BCE93C13497 /* NotoSansKR-ExtraBold.ttf in Resources */,
+				8544E8B7B050467681869515 /* NotoSansKR-ExtraLight.ttf in Resources */,
+				7345B28C465F4265AA380BFA /* NotoSansKR-Light.ttf in Resources */,
+				655CFB8CD8684DF7A5BEF577 /* NotoSansKR-Medium.ttf in Resources */,
+				78D3579B28E24E889535098A /* NotoSansKR-Regular.ttf in Resources */,
+				111886C8D44C48EAAF6C75C3 /* NotoSansKR-SemiBold.ttf in Resources */,
+				531F007EC80C4D88ACADB4F4 /* NotoSansKR-Thin.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -73,17 +73,19 @@ const styles = StyleSheet.create({
     paddingBottom: 80,
   },
   tagBox: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: (Dimensions.get('window').width - 30 - 20 - 30) / 2,
     height: (Dimensions.get('window').width - 30 - 20 - 30) / 2,
     margin: 10,
     borderRadius: 7,
   },
   tagNameText: {
-    fontSize: 18,
+    fontSize: 25,
+    textAlign: 'center',
     color: '#ffffff',
-    // fontWeight: 600,
-    marginTop: 5,
-    marginLeft: 7,
+    fontWeight: '600',
   },
 });
 
