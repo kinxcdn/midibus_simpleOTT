@@ -9,16 +9,13 @@ import {
   Text,
 } from 'react-native';
 import Orientation from 'react-native-orientation-locker';
+import {removeFileExtension} from '../constants/removeFileExtension';
 
 const HorizontalScrollCards = props => {
   const channelId = props.channelId;
   const mediaList = props.data;
 
   Orientation.lockToPortrait();
-
-  const removeFileExtension = fileName => {
-    return fileName.replace(/\.(mp4|avi|mov|mkv|flv|wmv|webm)$/i, '');
-  };
 
   return (
     <ScrollView horizontal={true} style={{marginLeft: 0}}>

@@ -14,16 +14,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as config from '../constants/properties';
 import {authAxios} from '../api/axios';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
+import {removeFileExtension} from '../constants/removeFileExtension';
 
 const MediaList = props => {
   const categorized = props.route.params.categorized;
   const categorizedId = props.route.params.categorizedId;
 
   const [mediaList, setMediaList] = useState([]);
-
-  const removeFileExtension = fileName => {
-    return fileName.replace(/\.(mp4|avi|mov|mkv|flv|wmv|webm)$/i, '');
-  };
 
   /*
    * 태그로 조회한 미디어 리스트

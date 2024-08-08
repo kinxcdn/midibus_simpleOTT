@@ -10,7 +10,7 @@ import {
 import Orientation from 'react-native-orientation-locker';
 import Swiper from 'react-native-swiper';
 import Video from 'react-native-video';
-import * as config from '../constants/properties';
+import {removeFileExtension} from '../constants/removeFileExtension';
 
 const PlayTopNCards = props => {
   const channelId = props.channelId;
@@ -22,10 +22,6 @@ const PlayTopNCards = props => {
   useEffect(() => {
     console.log('previewIndex : ' + previewIndex);
   }, [previewIndex]);
-
-  const removeFileExtension = fileName => {
-    return fileName.replace(/\.(mp4|avi|mov|mkv|flv|wmv|webm)$/i, '');
-  };
 
   return (
     <Swiper

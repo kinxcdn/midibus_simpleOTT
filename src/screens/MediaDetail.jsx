@@ -13,6 +13,7 @@ import JWPlayer from '@jwplayer/jwplayer-react-native';
 import * as config from '../constants/properties';
 import {authAxios} from '../api/axios';
 import axios from 'axios';
+import {removeFileExtension} from '../constants/removeFileExtension';
 
 const MediaDetail = props => {
   const [channelId, setChannelId] = useState(null);
@@ -70,10 +71,6 @@ const MediaDetail = props => {
     portraitOnExitFullScreen: false,
     exitFullScreenOnPortrait: false,
     nativeFullScreen: false,
-  };
-
-  const removeFileExtension = fileName => {
-    return fileName.replace(/\.(mp4|avi|mov|mkv|flv|wmv|webm)$/i, '');
   };
 
   /*

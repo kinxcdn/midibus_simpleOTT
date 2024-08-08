@@ -12,10 +12,11 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import * as config from '../constants/properties';
+import * as config from '../assets/properties';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import ClassificationCards from '../components/ClassificationCards';
 import Orientation from 'react-native-orientation-locker';
+import {removeFileExtension} from '../constants/removeFileExtension';
 import {authAxios} from '../api/axios';
 
 const Search = props => {
@@ -24,10 +25,6 @@ const Search = props => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [searchResultList, setSearchResultList] = useState([]);
-
-  const removeFileExtension = fileName => {
-    return fileName.replace(/\.(mp4|avi|mov|mkv|flv|wmv|webm)$/i, '');
-  };
 
   /*
    * 전체 태그 리스트
