@@ -1,11 +1,11 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import TabNavigation from './TabNavigator';
-import Start from '../screens/Start';
-import Login from '../screens/Login';
-import TagList from '../screens/TagList';
-import MediaList from '../screens/MediaList';
-import MediaDetail from '../screens/MediaDetail';
+import Splash from '../screens/SplashScreen';
+import Login from '../screens/LoginScreen';
+import TagList from '../screens/TagListScreen';
+import MediaList from '../screens/MediaListScreen';
+import MediaDetail from '../screens/MediaDetailScreen';
 
 const Stack = createStackNavigator();
 
@@ -23,11 +23,11 @@ const defaultHeaderOptions = {
 const StackNavigation = () => {
   return (
     <Stack.Navigator
-      initialRouteName="Start"
+      initialRouteName="Splash"
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name="Start" component={Start} />
+      <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen
         name="TagList"

@@ -1,18 +1,19 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
-
-import Home from '../screens/Home';
-import Search from '../screens/Search';
-import Settings from '../screens/Settings';
+import Home from '../screens/HomeScreen';
+import Search from '../screens/SearchScreen';
+import Settings from '../screens/SettingScreen';
 
 const Tab = createBottomTabNavigator();
 
+// 기본적으로 이름만 변경할 수 있도록 정의하여 재사용 가능하게 정의
 const tabBarIcon =
   name =>
   ({color}) =>
     <Icon name={name} size={25} color={color} />;
 
+// 공통 설정을 변수로 정의하여 알아보기 쉽게 설계
 const tabBarOptions = {
   tabBarStyle: {
     backgroundColor: '#000000',

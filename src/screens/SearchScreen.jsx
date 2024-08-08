@@ -12,7 +12,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import * as config from '../assets/properties';
+import * as config from '../constants/properties';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import ClassificationCards from '../components/ClassificationCards';
 import Orientation from 'react-native-orientation-locker';
