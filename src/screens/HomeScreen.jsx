@@ -278,6 +278,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   subTitle: {
+    // fontFamily: 'NotoSansKR-Black',
     color: '#B3B3B3',
     marginLeft: 10,
     fontSize: 18,

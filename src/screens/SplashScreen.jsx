@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {Image, StyleSheet, SafeAreaView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import Orientation from 'react-native-orientation-locker';
 
 const Splash = ({navigation}) => {
