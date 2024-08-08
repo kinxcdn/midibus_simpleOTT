@@ -8,7 +8,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {authAxios} from '../api/axios';
+import {authAxios} from '../apis/axios';
 
 import * as config from '../constants/properties';
 

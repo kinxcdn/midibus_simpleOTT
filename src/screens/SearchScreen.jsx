@@ -17,7 +17,7 @@ import Icon from 'react-native-vector-icons/dist/Ionicons';
 import ClassificationCards from '../components/ClassificationCards';
 import Orientation from 'react-native-orientation-locker';
 import {removeFileExtension} from '../constants/removeFileExtension';
-import {authAxios} from '../api/axios';
+import {authAxios} from '../apis/axios';
 
 const Search = props => {
   const [tagList, setTagList] = useState([]);

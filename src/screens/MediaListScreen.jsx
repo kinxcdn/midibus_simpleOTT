@@ -12,7 +12,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Orientation from 'react-native-orientation-locker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as config from '../constants/properties';
-import {authAxios} from '../api/axios';
+import {authAxios} from '../apis/axios';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import {removeFileExtension} from '../constants/removeFileExtension';
 

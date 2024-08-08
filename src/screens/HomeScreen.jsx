@@ -12,7 +12,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Orientation from 'react-native-orientation-locker';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import * as config from '../constants/properties';
-import {authAxios} from '../api/axios';
+import {authAxios} from '../apis/axios';
 import axios from 'axios';
 
 import PlayTopNCards from '../components/PlayTopNCards';

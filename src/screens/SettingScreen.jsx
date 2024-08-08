@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Icon from 'react-native-vector-icons/dist/Ionicons';
 import RNFS from 'react-native-fs';
 import Orientation from 'react-native-orientation-locker';
 

@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Orientation from 'react-native-orientation-locker';
 import JWPlayer from '@jwplayer/jwplayer-react-native';
 import * as config from '../constants/properties';
-import {authAxios} from '../api/axios';
+import {authAxios} from '../apis/axios';
 import axios from 'axios';
 import {removeFileExtension} from '../constants/removeFileExtension';
 
