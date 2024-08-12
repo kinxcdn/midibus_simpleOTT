@@ -10,7 +10,8 @@ import {
   Platform,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
+import {storage} from '../constants/storage';
 import RNFS from 'react-native-fs';
 import Orientation from 'react-native-orientation-locker';
 
@@ -268,7 +269,7 @@ const Settings = ({navigation}) => {
                   text: '로그아웃',
                   onPress: () => {
                     console.log('로그아웃');
-                    AsyncStorage.clear();
+                    storage.clearAll();
                     navigation.navigate('Login');
                   },
                 },

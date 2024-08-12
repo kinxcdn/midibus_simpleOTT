@@ -14,7 +14,6 @@ import Icon from 'react-native-vector-icons/dist/Ionicons';
 import * as config from '../constants/properties';
 import {authAxios} from '../apis/axios';
 import axios from 'axios';
-
 import PlayTopNCards from '../components/PlayTopNCards';
 import HorizontalScrollCards from '../components/HorizontalScrollCards';
 import MediaCards from '../components/MediaCards';

@@ -22,7 +22,7 @@ const HorizontalScrollCards = props => {
       {mediaList.map((media, mediaIdx) => {
         return (
           <TouchableOpacity
-            key={mediaIdx}
+            key={'h' + mediaIdx}
             onPress={() => {
               props.navigation.navigate('MediaDetail', {
                 channelId: channelId,

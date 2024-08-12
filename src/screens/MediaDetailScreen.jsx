@@ -7,7 +7,6 @@ import {
   SafeAreaView,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Orientation from 'react-native-orientation-locker';
 import JWPlayer from '@jwplayer/jwplayer-react-native';
 import * as config from '../constants/properties';
@@ -113,7 +112,7 @@ const MediaDetail = props => {
   };
 
   const onPlaylistItem = evt => {
-    //console.log('>>>>> onPlaylistItem');
+    //('>>>>> onPlaylistItem');
     //console.log(evt);
   };
   const onBuffer = () => {

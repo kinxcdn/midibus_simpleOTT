@@ -55,16 +55,14 @@ const MediaList = props => {
   };
 
   useEffect(() => {
-    console.log('[VIEW] MediaList');
+    try {
+      const authKey = storage.getString('authKey');
 
-    Orientation.lockToPortrait();
+      console.log(
+        '[VIEW] Media List By ' + categorized + ' [' + categorizedId + ']',
+      );
 
-    AsyncStorage.getItem('authKey', (getAuthKeyError, authKey) => {
-      if (typeof getAuthKeyError === 'undefined' || getAuthKeyError === null) {
-        console.log(
-          '[VIEW] Media List By ' + categorized + ' [' + categorizedId + ']',
-        );
-
+      if (authKey !== null && authKey !== undefined) {
         if (categorized === 'tag') {
           // 태그로 조회한 미디어 리스트
           getMediaListByTag();
@@ -72,9 +70,11 @@ const MediaList = props => {
           setMediaList([]);
         }
       } else {
-        console.log('[ERROR] getAuthKey');
+        console.log('[ERROR] authKey not found');
       }
-    });
+    } catch (error) {
+      console.error('[ERROR] retrieving authKey', error);
+    }
   }, [categorizedId]);
 
   return (

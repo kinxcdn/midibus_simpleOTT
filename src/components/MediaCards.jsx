@@ -7,7 +7,7 @@ import {
   StyleSheet,
   ImageBackground,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {storage} from '../constants/storage';
 import {authAxios} from '../apis/axios';
 
 import * as config from '../constants/properties';
@@ -51,15 +51,19 @@ const MediaCards = props => {
         categorizedId,
     );
 
-    AsyncStorage.getItem('authKey', (getAuthKeyError, authKey) => {
-      if (typeof getAuthKeyError === 'undefined' || getAuthKeyError === null) {
+    try {
+      const authKey = storage.getString('authKey');
+
+      if (authKey !== null && authKey !== undefined) {
         // 태그별 미디어 리스트 가져오기
         getObjectListByTag(authKey);
       } else {
-        console.log('[ERROR] getAuthKey');
+        console.log('[ERROR] authKey not found');
       }
-    });
-  }, []);
+    } catch (error) {
+      console.error('[ERROR] retrieving authKey', error);
+    }
+  }, [categorized, categorizedId, getObjectListByTag]);
 
   return (
     <ScrollView

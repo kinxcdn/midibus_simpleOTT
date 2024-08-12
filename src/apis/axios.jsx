@@ -1,8 +1,9 @@
 import axios from 'axios';
+import {storage} from '../constants/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export async function getAuthToken() {
-  const value = await AsyncStorage.getItem('authKey');
+  const value = await storage.getString('authKey');
   return value;
 }
 

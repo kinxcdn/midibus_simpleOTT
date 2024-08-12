@@ -14,6 +14,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import base64 from 'base-64';
 import * as config from '../constants/properties';
 import Orientation from 'react-native-orientation-locker';
+import {storage} from '../constants/storage';
+
 import axios from 'axios';
 
 const Login = ({navigation}) => {
@@ -77,12 +79,12 @@ const Login = ({navigation}) => {
       console.log(tokenInfo);
 
       if (tokenInfo && tokenInfo.token) {
-        await AsyncStorage.setItem('authKey', tokenInfo.token);
-        await AsyncStorage.setItem('channelId', config.CHANNEL);
+        await storage.set('authKey', tokenInfo.token);
+        await storage.set('channelId', config.CHANNEL);
 
         navigation.navigate('BottomTabs');
       } else {
-        await AsyncStorage.clear();
+        await storage.clearAll();
 
         Alert.alert(
           tokenInfo.msg || 'Error',
