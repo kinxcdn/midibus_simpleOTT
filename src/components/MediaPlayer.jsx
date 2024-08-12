@@ -1,20 +1,20 @@
-import React from 'react';
-import {Platform} from 'react-native';
-import Orientation from 'react-native-orientation-locker';
-import * as propConfig from '../constants/properties';
+import React from "react";
+import { Platform } from "react-native";
+import Orientation from "react-native-orientation-locker";
+import * as propConfig from "../constants/properties";
 
-const MediaPlayer = props => {
+const MediaPlayer = (props) => {
   const mediaInfo = props.mediaInfo;
 
-  const onPlaylistItem = evt => {
+  const onPlaylistItem = (evt) => {
     //console.log('>>>>> onPlaylistItem');
     //console.log(evt);
   };
   const onBuffer = () => {
     //console.log('>>>>> onBuffer');
   };
-  const onPlayerError = evt => {
-    console.log('>>>>> onPlayerError');
+  const onPlayerError = (evt) => {
+    console.log(">>>>> onPlayerError");
     console.log(evt.nativeEvent);
   };
 
@@ -28,26 +28,26 @@ const MediaPlayer = props => {
     // console.log('>>>>> onPause');
   };
 
-  const onSetupPlayerError = evt => {
-    console.log('>>>>> onSetupPlayerError');
+  const onSetupPlayerError = (evt) => {
+    console.log(">>>>> onSetupPlayerError");
     console.log(evt);
   };
 
-  const onTime = evt => {
+  const onTime = (evt) => {
     //  console.log('>>>>> onTime');
   };
   const onFullScreen = () => {
-    console.log('>>>>> onFullScreen');
+    console.log(">>>>> onFullScreen");
     Orientation.lockToLandscapeLeft();
     props.changePlayerState(100);
   };
   const onFullScreenExitRequested = () => {
-    console.log('>>>>> onFullScreenExitRequested');
+    console.log(">>>>> onFullScreenExitRequested");
     //Orientation.lockToLandscapeLeft();
     props.changePlayerState(-100);
   };
   const onFullScreenExit = () => {
-    console.log('>>>>> onFullScreenExit');
+    console.log(">>>>> onFullScreenExit");
     //Orientation.lockToLandscapeLeft();
     props.changePlayerState(-100);
   };

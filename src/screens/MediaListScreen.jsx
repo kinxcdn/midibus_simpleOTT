@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,16 +7,15 @@ import {
   Dimensions,
   ImageBackground,
   SafeAreaView,
-} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import Orientation from 'react-native-orientation-locker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as config from '../constants/properties';
-import {authAxios} from '../apis/axios';
-import Icon from 'react-native-vector-icons/dist/Ionicons';
-import {removeFileExtension} from '../constants/removeFileExtension';
+} from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import * as config from "../constants/properties";
+import { authAxios } from "../apis/axios";
+import Icon from "react-native-vector-icons/dist/Ionicons";
+import { removeFileExtension } from "../constants/removeFileExtension";
+import { storage } from "../constants/storage";
 
-const MediaList = props => {
+const MediaList = (props) => {
   const categorized = props.route.params.categorized;
   const categorizedId = props.route.params.categorizedId;
 
@@ -26,11 +25,11 @@ const MediaList = props => {
    * 태그로 조회한 미디어 리스트
    */
   const getMediaListByTag = async () => {
-    console.log('>> getMediaListByTag');
+    console.log(">> getMediaListByTag");
 
     try {
       const response = await authAxios.get(
-        `/v2/channel/${config.CHANNEL}?tag=${categorizedId}`,
+        `/v2/channel/${config.CHANNEL}?tag=${categorizedId}`
       );
 
       const _mediaList = response.data;
@@ -49,31 +48,31 @@ const MediaList = props => {
         }
       }
     } catch (error) {
-      console.error('Error fetching media list by tag:', error);
+      console.error("Error fetching media list by tag:", error);
       // 필요한 경우 추가 에러 처리 로직
     }
   };
 
   useEffect(() => {
     try {
-      const authKey = storage.getString('authKey');
+      const authKey = storage.getString("authKey");
 
       console.log(
-        '[VIEW] Media List By ' + categorized + ' [' + categorizedId + ']',
+        "[VIEW] Media List By " + categorized + " [" + categorizedId + "]"
       );
 
       if (authKey !== null && authKey !== undefined) {
-        if (categorized === 'tag') {
+        if (categorized === "tag") {
           // 태그로 조회한 미디어 리스트
           getMediaListByTag();
         } else {
           setMediaList([]);
         }
       } else {
-        console.log('[ERROR] authKey not found');
+        console.log("[ERROR] authKey not found");
       }
     } catch (error) {
-      console.error('[ERROR] retrieving authKey', error);
+      console.error("[ERROR] retrieving authKey", error);
     }
   }, [categorizedId]);
 
@@ -87,11 +86,12 @@ const MediaList = props => {
                 key={mediaIdx}
                 onPress={() => {
                   // 미디어 상세
-                  props.navigation.push('MediaDetail', {
+                  props.navigation.push("MediaDetail", {
                     channelId: config.CHANNEL,
                     media: media,
                   });
-                }}>
+                }}
+              >
                 <View style={styles.mediaBox}>
                   <View style={styles.mediaThumbnailArea}>
                     {media.poster_url === null ? (
@@ -102,43 +102,45 @@ const MediaList = props => {
                       </View>
                     ) : (
                       <ImageBackground
-                        source={{uri: 'https://' + media.poster_url}}
+                        source={{ uri: "https://" + media.poster_url }}
                         resizeMode="cover"
                         style={styles.mediaThumbnail}
-                        imageStyle={{borderRadius: 7}}></ImageBackground>
+                        imageStyle={{ borderRadius: 7 }}
+                      ></ImageBackground>
                     )}
                   </View>
                   <View style={styles.mediaTextArea}>
-                    <View style={{flex: 1, marginRight: 30}}>
+                    <View style={{ flex: 1, marginRight: 30 }}>
                       <Text style={styles.mediaMainText} numberOfLines={1}>
                         {removeFileExtension(media.media_name)}
                       </Text>
                     </View>
-                    <View style={{flex: 1}}>
+                    <View style={{ flex: 1 }}>
                       <Text style={styles.mediaSubText}>
                         {media.created.substring(0, 4) +
-                          '-' +
+                          "-" +
                           media.created.substring(4, 6) +
-                          '-' +
+                          "-" +
                           media.created.substring(6, 8) +
-                          ' ' +
+                          " " +
                           media.created.substring(8, 10) +
-                          ':' +
+                          ":" +
                           media.created.substring(10, 12) +
-                          ':' +
+                          ":" +
                           media.created.substring(12, 14)}
                       </Text>
                     </View>
                   </View>
                   <View
                     style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                    }}>
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
                     <Icon
                       name="chevron-forward-outline"
                       size={20}
-                      color={'#ffffff'}
+                      color={"#ffffff"}
                     />
                   </View>
                 </View>
@@ -155,18 +157,18 @@ const MediaList = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: "#000000",
   },
   scrollArea: {
-    width: '100%',
+    width: "100%",
     flex: 1,
     paddingTop: 20,
   },
   mediaBox: {
-    width: '95%',
-    height: Dimensions.get('window').height / 10,
+    width: "95%",
+    height: Dimensions.get("window").height / 10,
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     borderBottomWidth: 2,
   },
   mediaThumbnailArea: {
@@ -175,42 +177,42 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   mediaThumbnailEmptyArea: {
-    backgroundColor: '#28292c',
-    height: '100%',
+    backgroundColor: "#28292c",
+    height: "100%",
     borderRadius: 7,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   mediaThumbnailEmptyText: {
     fontSize: 15,
-    color: '#fff',
-    textAlign: 'center',
+    color: "#fff",
+    textAlign: "center",
     marginTop: -10,
   },
   mediaThumbnail: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   mediaTextArea: {
     flex: 2,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   mediaMainText: {
-    fontWeight: '600',
+    fontWeight: "600",
     fontSize: 15,
-    color: '#ffffff',
-    textAlign: 'left',
+    color: "#ffffff",
+    textAlign: "left",
     marginTop: 18,
     marginLeft: 10,
   },
   mediaSubText: {
     fontSize: 13,
-    color: '#898989',
-    textAlign: 'left',
+    color: "#898989",
+    textAlign: "left",
     marginLeft: 10,
   },
   horizontalDivider: {
     height: 1.2,
-    backgroundColor: '#404247',
+    backgroundColor: "#404247",
     marginVertical: 15,
     marginHorizontal: 30,
   },

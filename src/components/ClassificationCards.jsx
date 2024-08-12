@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
   StyleSheet,
-} from 'react-native';
+} from "react-native";
 
-const ClassificationCards = props => {
+const ClassificationCards = (props) => {
   const classificationType = props.dataType;
   const classificationList = props.data;
 
@@ -16,7 +16,7 @@ const ClassificationCards = props => {
   const generateRandomColor = () => {
     const randomColor = Math.floor(Math.random() * 16777215)
       .toString(16)
-      .padStart(6, '0');
+      .padStart(6, "0");
     return `#${randomColor}`;
   };
 
@@ -26,21 +26,23 @@ const ClassificationCards = props => {
         let paramsForMediaList = {
           categorized: classificationType,
           categorizedId: tagName,
-          headerTitle: '#' + tagName,
+          headerTitle: "#" + tagName,
         };
 
         return (
           <TouchableOpacity
             key={tagIdx}
             onPress={() => {
-              props.navigation.navigate('MediaList', paramsForMediaList);
-            }}>
+              props.navigation.navigate("MediaList", paramsForMediaList);
+            }}
+          >
             <View
               style={[
                 styles.classificationCard,
-                {backgroundColor: generateRandomColor()},
+                { backgroundColor: generateRandomColor() },
                 tagIdx === 0 && styles.firstClassificationCard,
-              ]}>
+              ]}
+            >
               <Text style={styles.classificationNameText}>{tagName}</Text>
             </View>
           </TouchableOpacity>
@@ -63,13 +65,13 @@ const styles = StyleSheet.create({
     height: 150,
     margin: 5,
     borderRadius: 7,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   classificationNameText: {
     fontSize: 20,
-    color: '#ffffff',
-    fontWeight: '500',
+    color: "#ffffff",
+    fontWeight: "500",
   },
 });
 

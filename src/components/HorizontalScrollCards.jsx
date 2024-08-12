@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   ScrollView,
   ImageBackground,
@@ -7,30 +7,31 @@ import {
   StyleSheet,
   Dimensions,
   Text,
-} from 'react-native';
-import Orientation from 'react-native-orientation-locker';
-import {removeFileExtension} from '../constants/removeFileExtension';
+} from "react-native";
+import Orientation from "react-native-orientation-locker";
+import { removeFileExtension } from "../constants/removeFileExtension";
 
-const HorizontalScrollCards = props => {
+const HorizontalScrollCards = (props) => {
   const channelId = props.channelId;
   const mediaList = props.data;
 
   Orientation.lockToPortrait();
 
   return (
-    <ScrollView horizontal={true} style={{marginLeft: 0}}>
+    <ScrollView horizontal={true} style={{ marginLeft: 0 }}>
       {mediaList.map((media, mediaIdx) => {
         return (
           <TouchableOpacity
-            key={'h' + mediaIdx}
+            key={"h" + mediaIdx}
             onPress={() => {
-              props.navigation.navigate('MediaDetail', {
+              props.navigation.navigate("MediaDetail", {
                 channelId: channelId,
                 media: media,
               });
-            }}>
+            }}
+          >
             <View style={styles.mediaCard}>
-              {typeof media.poster_url === 'undefined' ||
+              {typeof media.poster_url === "undefined" ||
               media.poster_url === null ? (
                 <View style={styles.mediaThumbnailEmptyArea}>
                   <Text style={styles.mediaThumbnailEmptyText}>
@@ -39,10 +40,11 @@ const HorizontalScrollCards = props => {
                 </View>
               ) : (
                 <ImageBackground
-                  source={{uri: 'https://' + media.poster_url}}
+                  source={{ uri: "https://" + media.poster_url }}
                   resizeMode="cover"
                   style={styles.mediaThumbnail}
-                  imageStyle={{borderRadius: 7}}></ImageBackground>
+                  imageStyle={{ borderRadius: 7 }}
+                ></ImageBackground>
               )}
             </View>
 
@@ -59,8 +61,8 @@ const HorizontalScrollCards = props => {
 };
 
 const getScreenWidthSize = () => {
-  const screenSize1 = Dimensions.get('screen').width;
-  const screenSize2 = Dimensions.get('screen').height;
+  const screenSize1 = Dimensions.get("screen").width;
+  const screenSize2 = Dimensions.get("screen").height;
 
   return screenSize1 < screenSize2 ? screenSize1 : screenSize2;
 };
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
   mediaCard: {
     width: getScreenWidthSize() - 20 - 30,
     height: ((getScreenWidthSize() - 20) * 9) / 16,
-    backgroundColor: '#898989',
+    backgroundColor: "#898989",
     margin: 10,
     borderRadius: 7,
   },
@@ -81,23 +83,23 @@ const styles = StyleSheet.create({
   },
   mediaText: {
     fontSize: 16,
-    color: '#fff',
-    fontWeight: '600',
+    color: "#fff",
+    fontWeight: "600",
   },
   mediaThumbnail: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   mediaThumbnailEmptyArea: {
-    backgroundColor: '#28292c',
-    height: '100%',
+    backgroundColor: "#28292c",
+    height: "100%",
     borderRadius: 7,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   mediaThumbnailEmptyText: {
     fontSize: 15,
-    color: '#fff',
-    textAlign: 'center',
+    color: "#fff",
+    textAlign: "center",
     marginTop: -10,
   },
 });

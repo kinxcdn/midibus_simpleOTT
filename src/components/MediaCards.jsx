@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import {
   ScrollView,
   Text,
@@ -6,13 +6,13 @@ import {
   TouchableOpacity,
   StyleSheet,
   ImageBackground,
-} from 'react-native';
-import {storage} from '../constants/storage';
-import {authAxios} from '../apis/axios';
+} from "react-native";
+import { storage } from "../constants/storage";
+import { authAxios } from "../apis/axios";
 
-import * as config from '../constants/properties';
+import * as config from "../constants/properties";
 
-const MediaCards = props => {
+const MediaCards = (props) => {
   const categorized = props.categorized;
   const categorizedId = props.categorizedId;
   const [mediaListByTag, setMediaListByTag] = useState([]);
@@ -20,12 +20,12 @@ const MediaCards = props => {
   /*
    * 태그별 미디어 리스트 가져오기
    */
-  const getObjectListByTag = async _authKey => {
-    console.log('>> getObjectListByTag');
+  const getObjectListByTag = async (_authKey) => {
+    console.log(">> getObjectListByTag");
 
     try {
       const response = await authAxios.get(
-        `/v2/channel/${config.CHANNEL}?limit=5&tag=${categorizedId}`,
+        `/v2/channel/${config.CHANNEL}?limit=5&tag=${categorizedId}`
       );
 
       const _objectByTagList = response.data;
@@ -38,50 +38,53 @@ const MediaCards = props => {
         setMediaListByTag(_objectByTagList.object_list);
       }
     } catch (error) {
-      console.error('Error fetching object list by tag:', error);
+      console.error("Error fetching object list by tag:", error);
       // 필요한 경우 추가 에러 처리 로직
     }
   };
 
   useEffect(() => {
     console.log(
-      '[VIEW] MediaCards ---> categorized: ' +
+      "[VIEW] MediaCards ---> categorized: " +
         categorized +
-        ' / categorizedId: ' +
-        categorizedId,
+        " / categorizedId: " +
+        categorizedId
     );
 
     try {
-      const authKey = storage.getString('authKey');
+      const authKey = storage.getString("authKey");
 
       if (authKey !== null && authKey !== undefined) {
         // 태그별 미디어 리스트 가져오기
         getObjectListByTag(authKey);
       } else {
-        console.log('[ERROR] authKey not found');
+        console.log("[ERROR] authKey not found");
       }
     } catch (error) {
-      console.error('[ERROR] retrieving authKey', error);
+      console.error("[ERROR] retrieving authKey", error);
     }
-  }, [categorized, categorizedId, getObjectListByTag]);
+  }, [categorized, categorizedId]);
 
   return (
     <ScrollView
       horizontal
-      style={{marginLeft: 10, marginTop: 5, marginRight: 0}}>
+      style={{ marginLeft: 10, marginTop: 5, marginRight: 0 }}
+    >
       {mediaListByTag.map((media, mediaIdx) => {
         return (
           <TouchableOpacity
             key={mediaIdx}
             onPress={() => {
-              props.navigation.push('MediaDetail', {
+              props.navigation.push("MediaDetail", {
                 channelId: config.CHANNEL,
                 media: media,
               });
-            }}>
+            }}
+          >
             <View
-              style={mediaIdx === 0 ? styles.firstMediaCard : styles.mediaCard}>
-              {typeof media.poster_url === 'undefined' ||
+              style={mediaIdx === 0 ? styles.firstMediaCard : styles.mediaCard}
+            >
+              {typeof media.poster_url === "undefined" ||
               media.poster_url === null ? (
                 <View style={styles.mediaThumbnailEmptyArea}>
                   <Text style={styles.mediaThumbnailEmptyText}>
@@ -90,10 +93,11 @@ const MediaCards = props => {
                 </View>
               ) : (
                 <ImageBackground
-                  source={{uri: 'https://' + media.poster_url}}
+                  source={{ uri: "https://" + media.poster_url }}
                   resizeMode="cover"
                   style={styles.mediaThumbnail}
-                  imageStyle={{borderRadius: 7}}></ImageBackground>
+                  imageStyle={{ borderRadius: 7 }}
+                ></ImageBackground>
               )}
             </View>
           </TouchableOpacity>
@@ -107,30 +111,30 @@ const styles = StyleSheet.create({
   firstMediaCard: {
     width: 192,
     height: 108,
-    backgroundColor: '#28292c',
+    backgroundColor: "#28292c",
     margin: 5,
     marginLeft: 0,
   },
   mediaCard: {
     width: 192,
     height: 108,
-    backgroundColor: '#28292c',
+    backgroundColor: "#28292c",
     margin: 5,
   },
   mediaThumbnail: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   mediaThumbnailEmptyArea: {
-    backgroundColor: '#28292c',
-    height: '100%',
+    backgroundColor: "#28292c",
+    height: "100%",
     borderRadius: 7,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   mediaThumbnailEmptyText: {
     fontSize: 15,
-    color: '#fff',
-    textAlign: 'center',
+    color: "#fff",
+    textAlign: "center",
     marginTop: -10,
   },
 });

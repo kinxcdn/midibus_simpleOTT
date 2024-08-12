@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import {
   ImageBackground,
   View,
@@ -6,13 +6,13 @@ import {
   StyleSheet,
   Dimensions,
   Text,
-} from 'react-native';
-import Orientation from 'react-native-orientation-locker';
-import Swiper from 'react-native-swiper';
-import Video from 'react-native-video';
-import {removeFileExtension} from '../constants/removeFileExtension';
+} from "react-native";
+import Orientation from "react-native-orientation-locker";
+import Swiper from "react-native-swiper";
+import Video from "react-native-video";
+import { removeFileExtension } from "../constants/removeFileExtension";
 
-const PlayTopNCards = props => {
+const PlayTopNCards = (props) => {
   const channelId = props.channelId;
   const mediaList = props.data;
 
@@ -20,7 +20,7 @@ const PlayTopNCards = props => {
   Orientation.lockToPortrait();
 
   useEffect(() => {
-    console.log('previewIndex : ' + previewIndex);
+    console.log("previewIndex : " + previewIndex);
   }, [previewIndex]);
 
   return (
@@ -28,25 +28,27 @@ const PlayTopNCards = props => {
       showsButtons={false}
       loop={false}
       showsPagination={false}
-      onMomentumScrollEnd={evt => {
+      onMomentumScrollEnd={(evt) => {
         const previewVideoIndex = Math.floor(
-          (evt.nativeEvent.contentOffset.x * 1) / getScreenWidthSize(),
+          (evt.nativeEvent.contentOffset.x * 1) / getScreenWidthSize()
         );
         setPreviewIndex(previewVideoIndex);
-      }}>
+      }}
+    >
       {mediaList.map((media, mediaIdx) => {
         return (
           <TouchableOpacity
             key={mediaIdx}
             onPress={() => {
-              props.navigation.navigate('MediaDetail', {
+              props.navigation.navigate("MediaDetail", {
                 channelId: channelId,
                 media: media,
               });
-            }}>
+            }}
+          >
             {mediaIdx === previewIndex ? (
               <View style={styles.mediaCard}>
-                {typeof media.poster_url === 'undefined' ||
+                {typeof media.poster_url === "undefined" ||
                 media.poster_url === null ? (
                   <View style={styles.mediaThumbnailEmptyArea}>
                     <Video
@@ -57,15 +59,16 @@ const PlayTopNCards = props => {
                       fullscreen={false}
                       muted={true}
                       repeat={true}
-                      resizeMode={'cover'}
+                      resizeMode={"cover"}
                       controls={false}
                     />
                   </View>
                 ) : (
                   <ImageBackground
-                    source={{uri: 'https://' + media.poster_url}}
+                    source={{ uri: "https://" + media.poster_url }}
                     resizeMode="cover"
-                    style={styles.mediaThumbnail}>
+                    style={styles.mediaThumbnail}
+                  >
                     <Video
                       source={{
                         uri: `https://hls.midibus.dev-kinxcdn.com/hls/${channelId}/${media.object_id}/v/playlist.m3u8`,
@@ -74,7 +77,7 @@ const PlayTopNCards = props => {
                       fullscreen={false}
                       muted={true}
                       repeat={true}
-                      resizeMode={'cover'}
+                      resizeMode={"cover"}
                       controls={false}
                     />
                   </ImageBackground>
@@ -82,7 +85,7 @@ const PlayTopNCards = props => {
               </View>
             ) : (
               <View style={styles.mediaCard}>
-                {typeof media.poster_url === 'undefined' ||
+                {typeof media.poster_url === "undefined" ||
                 media.poster_url === null ? (
                   <View style={styles.mediaThumbnailEmptyArea}>
                     <Text style={styles.mediaThumbnailEmptyText}>
@@ -91,9 +94,10 @@ const PlayTopNCards = props => {
                   </View>
                 ) : (
                   <ImageBackground
-                    source={{uri: 'https://' + media.poster_url}}
+                    source={{ uri: "https://" + media.poster_url }}
                     resizeMode="cover"
-                    style={styles.mediaThumbnail}></ImageBackground>
+                    style={styles.mediaThumbnail}
+                  ></ImageBackground>
                 )}
               </View>
             )}
@@ -110,8 +114,8 @@ const PlayTopNCards = props => {
 };
 
 const getScreenWidthSize = () => {
-  const screenSize1 = Dimensions.get('screen').width;
-  const screenSize2 = Dimensions.get('screen').height;
+  const screenSize1 = Dimensions.get("screen").width;
+  const screenSize2 = Dimensions.get("screen").height;
 
   return screenSize1 < screenSize2 ? screenSize1 : screenSize2;
 };
@@ -119,12 +123,12 @@ const getScreenWidthSize = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
   },
   backgroundVideo: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
@@ -133,14 +137,14 @@ const styles = StyleSheet.create({
   mediaCard: {
     width: getScreenWidthSize(),
     height: ((getScreenWidthSize() - 20) * 9) / 16,
-    backgroundColor: '#898989',
+    backgroundColor: "#898989",
     marginRight: 10,
     marginTop: 10,
   },
   mediaText: {
     fontSize: 16,
-    color: '#fff',
-    fontWeight: '600',
+    color: "#fff",
+    fontWeight: "600",
   },
   mediaNameArea: {
     width: getScreenWidthSize(),
@@ -151,19 +155,19 @@ const styles = StyleSheet.create({
   },
   mediaThumbnail: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
   },
   mediaThumbnailEmptyArea: {
-    backgroundColor: '#28292c',
-    height: '100%',
-    justifyContent: 'center',
+    backgroundColor: "#28292c",
+    height: "100%",
+    justifyContent: "center",
   },
   mediaThumbnailEmptyText: {
     fontSize: 15,
-    color: '#fff',
-    textAlign: 'center',
+    color: "#fff",
+    textAlign: "center",
     marginTop: -10,
   },
 });

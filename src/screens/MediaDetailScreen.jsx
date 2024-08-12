@@ -1,20 +1,20 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   SafeAreaView,
-} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import Orientation from 'react-native-orientation-locker';
-import JWPlayer from '@jwplayer/jwplayer-react-native';
-import * as config from '../constants/properties';
-import {authAxios} from '../apis/axios';
-import axios from 'axios';
-import {removeFileExtension} from '../constants/removeFileExtension';
+} from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import Orientation from "react-native-orientation-locker";
+import JWPlayer from "@jwplayer/jwplayer-react-native";
+import * as config from "../constants/properties";
+import { authAxios } from "../apis/axios";
+import axios from "axios";
+import { removeFileExtension } from "../constants/removeFileExtension";
 
-const MediaDetail = props => {
+const MediaDetail = (props) => {
   const [channelId, setChannelId] = useState(null);
   const [mediaObj, setMediaObj] = useState(null);
   const [objectId, setObjectId] = useState(null);
@@ -24,8 +24,8 @@ const MediaDetail = props => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log('[VIEW] MediaDetail');
-      const {channelId, media} = props.route.params;
+      console.log("[VIEW] MediaDetail");
+      const { channelId, media } = props.route.params;
 
       setChannelId(channelId);
       setMediaObj(media);
@@ -58,11 +58,11 @@ const MediaDetail = props => {
       {
         mediaId: objectId,
         file: `https://hls.midibus.dev-kinxcdn.com/hls/${channelId}/${objectId}/v/playlist.m3u8`,
-        image: mediaObj ? 'https://' + mediaObj.poster_url : null,
+        image: mediaObj ? "https://" + mediaObj.poster_url : null,
         title: null,
         autostart: true,
         backgroundAudioEnabled: false,
-        stretching: 'uniform',
+        stretching: "uniform",
       },
     ],
     fullScreenOnLandscape: false,
@@ -78,25 +78,25 @@ const MediaDetail = props => {
   const getTagListByObject = async (channelId, objectId) => {
     try {
       const response = await authAxios.get(
-        `/v2/channel/${channelId}/${objectId}/tag`,
+        `/v2/channel/${channelId}/${objectId}/tag`
       );
       const _tagList = response.data;
       if (_tagList && _tagList.tag_list && _tagList.tag_list.length > 0) {
         setTags(_tagList.tag_list);
       }
     } catch (error) {
-      console.error('Error fetching tag list:', error);
+      console.error("Error fetching tag list:", error);
     }
   };
 
   /*
    * 해당 미디어의 재생 수 가져오기
    */
-  const getObjectPlayCount = async objectId => {
+  const getObjectPlayCount = async (objectId) => {
     try {
       const response = await axios.get(
         // `/v2/channel/${channelId}/${objectId}/count`,
-        `${config.MIDIBUS_PLAY_API}/play/count/${objectId}`,
+        `${config.MIDIBUS_PLAY_API}/play/count/${objectId}`
       );
       const playCount = response.data;
       if (
@@ -107,19 +107,19 @@ const MediaDetail = props => {
         setPlayCount(playCount.totalCount);
       }
     } catch (error) {
-      console.error('Error fetching play count:', error);
+      console.error("Error fetching play count:", error);
     }
   };
 
-  const onPlaylistItem = evt => {
+  const onPlaylistItem = (evt) => {
     //('>>>>> onPlaylistItem');
     //console.log(evt);
   };
   const onBuffer = () => {
     //console.log('>>>>> onBuffer');
   };
-  const onPlayerError = evt => {
-    console.log('>>>>> onPlayerError');
+  const onPlayerError = (evt) => {
+    console.log(">>>>> onPlayerError");
     console.log(evt.nativeEvent);
   };
 
@@ -133,12 +133,12 @@ const MediaDetail = props => {
     // console.log('>>>>> onPause');
   };
 
-  const onSetupPlayerError = evt => {
-    console.log('>>>>> onSetupPlayerError');
+  const onSetupPlayerError = (evt) => {
+    console.log(">>>>> onSetupPlayerError");
     console.log(evt);
   };
 
-  const onTime = evt => {
+  const onTime = (evt) => {
     //  console.log('>>>>> onTime');
   };
   const onFullScreen = () => {
@@ -159,19 +159,20 @@ const MediaDetail = props => {
       {mediaObj && (
         <View style={styles.playerArea}>
           <JWPlayer
-            style={{flex: 1}}
-            ref={p => (this.JWPlayer = p)}
+            style={{ flex: 1 }}
+            ref={(p) => (this.JWPlayer = p)}
             config={playerConfigs}
             onPlay={() => onPlay()}
             onPause={() => onPause()}
-            onPlaylistItem={event => onPlaylistItem(event)}
-            onSetupPlayerError={event => onSetupPlayerError(event)}
-            onPlayerError={event => onPlayerError(event)}
+            onPlaylistItem={(event) => onPlaylistItem(event)}
+            onSetupPlayerError={(event) => onSetupPlayerError(event)}
+            onPlayerError={(event) => onPlayerError(event)}
             onBuffer={() => onBuffer()}
-            onTime={event => onTime(event)}
+            onTime={(event) => onTime(event)}
             onFullScreen={() => onFullScreen()}
             onFullScreenExitRequested={() => onFullScreenExitRequested()}
-            onFullScreenExit={() => onFullScreenExit()}></JWPlayer>
+            onFullScreenExit={() => onFullScreenExit()}
+          ></JWPlayer>
         </View>
       )}
       <ScrollView>
@@ -193,31 +194,32 @@ const MediaDetail = props => {
             <View style={styles.mediaDetailArea}>
               <Text style={styles.mediaDetailText}>
                 {mediaObj.created.substring(0, 4) +
-                  '-' +
+                  "-" +
                   mediaObj.created.substring(4, 6) +
-                  '-' +
+                  "-" +
                   mediaObj.created.substring(6, 8) +
-                  ' ' +
+                  " " +
                   mediaObj.created.substring(8, 10) +
-                  ':' +
+                  ":" +
                   mediaObj.created.substring(10, 12) +
-                  ':' +
+                  ":" +
                   mediaObj.created.substring(12, 14)}
               </Text>
             </View>
             <View style={[styles.channelTagArea]}>
               {tags.map((tag, tagIdx) => (
                 <TouchableOpacity
-                  style={{marginRight: 10}}
+                  style={{ marginRight: 10 }}
                   key={tagIdx}
                   onPress={() =>
-                    props.navigation.navigate('MediaList', {
-                      categorized: 'tag',
+                    props.navigation.navigate("MediaList", {
+                      categorized: "tag",
                       categorizedId: tag,
-                      headerTitle: '#' + tag,
+                      headerTitle: "#" + tag,
                     })
-                  }>
-                  <Text style={{fontSize: 16, color: '#3acbc1'}}>#{tag}</Text>
+                  }
+                >
+                  <Text style={{ fontSize: 16, color: "#3acbc1" }}>#{tag}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -231,60 +233,60 @@ const MediaDetail = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: "#000000",
   },
   playerArea: {
-    width: '100%',
+    width: "100%",
     height: 300,
     marginTop: 20,
     marginBottom: 20,
-    backgroundColor: 'grey',
+    backgroundColor: "grey",
   },
   mediaTitleArea: {
-    width: '100%',
+    width: "100%",
     paddingLeft: 30,
     paddingRight: 30,
     paddingBottom: 5,
   },
   mediaTitleText: {
     fontSize: 22,
-    color: '#ffffff',
-    textAlign: 'left',
-    fontWeight: 'bold',
+    color: "#ffffff",
+    textAlign: "left",
+    fontWeight: "bold",
   },
   mediaDetailArea: {
-    width: '100%',
+    width: "100%",
     paddingLeft: 30,
     paddingRight: 30,
     paddingBottom: 3,
   },
   mediaDetailTextWithWhtieFont: {
     fontSize: 16,
-    color: '#ffffff',
-    textAlign: 'left',
+    color: "#ffffff",
+    textAlign: "left",
   },
   mediaDetailText: {
     fontSize: 16,
-    color: '#898989',
-    textAlign: 'left',
+    color: "#898989",
+    textAlign: "left",
   },
   channelTagArea: {
-    width: '100%',
+    width: "100%",
     paddingLeft: 30,
     paddingRight: 30,
     paddingBottom: 3,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   mediaDescriptionArea: {
-    width: '100%',
+    width: "100%",
     paddingLeft: 30,
     paddingRight: 30,
     paddingTop: 10,
   },
   mediaDescriptionText: {
     fontSize: 18,
-    color: '#eeeeee',
-    textAlign: 'left',
+    color: "#eeeeee",
+    textAlign: "left",
   },
 });
 
