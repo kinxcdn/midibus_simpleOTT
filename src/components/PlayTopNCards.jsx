@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   mediaText: {
+    fontFamily: "Pretendard-SemiBold",
     fontSize: 16,
     color: "#fff",
     fontWeight: "600",

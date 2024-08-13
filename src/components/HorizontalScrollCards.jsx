@@ -82,9 +82,9 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   mediaText: {
+    fontFamily: "Pretendard-SemiBold",
     fontSize: 16,
     color: "#fff",
-    fontWeight: "600",
   },
   mediaThumbnail: {
     flex: 1,
