@@ -2,40 +2,40 @@
   "migIndex": 1,
   "data": [
     {
-      "path": "src/assets/fonts/NotoSansKR-Black.ttf",
-      "sha1": "2d18c106a455edbcb9dada71387511376f548b74"
+      "path": "src/assets/fonts/Pretendard-Black.ttf",
+      "sha1": "efdd3af40aad863d177cecb58698dee4d96e5dd2"
     },
     {
-      "path": "src/assets/fonts/NotoSansKR-Bold.ttf",
-      "sha1": "ef48946255ea40691bfccc5c20c13c8fe97f908c"
+      "path": "src/assets/fonts/Pretendard-Bold.ttf",
+      "sha1": "5014ee949529efb25dc8d2555fb8d4586f43e058"
     },
     {
-      "path": "src/assets/fonts/NotoSansKR-ExtraBold.ttf",
-      "sha1": "2a7d7a5d11e96fa8a40b396976a3ff1ff56d7a78"
+      "path": "src/assets/fonts/Pretendard-ExtraBold.ttf",
+      "sha1": "7fa8f67e3a7a377341c8028468121212050eb681"
     },
     {
-      "path": "src/assets/fonts/NotoSansKR-ExtraLight.ttf",
-      "sha1": "69416fd667b1d700eaf28fb29de630c0a31e471d"
+      "path": "src/assets/fonts/Pretendard-ExtraLight.ttf",
+      "sha1": "e6f5c192eb5472551669e177f55b0ebae6e03dd1"
     },
     {
-      "path": "src/assets/fonts/NotoSansKR-Light.ttf",
-      "sha1": "137d0733c5aeaa79769cb07b40afdd7a54e0340b"
+      "path": "src/assets/fonts/Pretendard-Light.ttf",
+      "sha1": "1714361a51ce1fd7f0700b16a735022946f5cd27"
     },
     {
-      "path": "src/assets/fonts/NotoSansKR-Medium.ttf",
-      "sha1": "b1042e018ccfc4ccd9e3929297ca0a9dbfbf1bd9"
+      "path": "src/assets/fonts/Pretendard-Medium.ttf",
+      "sha1": "68efbed10e1229e9c9ed49d8c620a8fef87cda07"
     },
     {
-      "path": "src/assets/fonts/NotoSansKR-Regular.ttf",
-      "sha1": "83d3c03dc1fc16f2a5b8bbf929d4cc21a078282c"
+      "path": "src/assets/fonts/Pretendard-Regular.ttf",
+      "sha1": "f5e25d12ff08ff058acd8a64d5f9b5f9c92b9d17"
     },
     {
-      "path": "src/assets/fonts/NotoSansKR-SemiBold.ttf",
-      "sha1": "69a4002611558a5321769c43d9d2b0126e9ec11e"
+      "path": "src/assets/fonts/Pretendard-SemiBold.ttf",
+      "sha1": "e247ab351a1797b1a81f7a5e945c416de9f7fd91"
     },
     {
-      "path": "src/assets/fonts/NotoSansKR-Thin.ttf",
-      "sha1": "73b8f0bf8a839f3ac8d74dbf8d69e9836b78697c"
+      "path": "src/assets/fonts/Pretendard-Thin.ttf",
+      "sha1": "cadc88516dbaaf19e0009f2d0c1e36329fe25c7f"
     }
   ]
 }
