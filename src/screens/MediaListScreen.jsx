@@ -14,6 +14,7 @@ import * as config from "../constants/properties";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
+import LottieView from "lottie-react-native";
 
 const MediaList = (props) => {
   const categorizedId = props.route.params.categorizedId;
@@ -30,8 +31,16 @@ const MediaList = (props) => {
 
   if (isLoading) {
     return (
-      <View>
-        <ActivityIndicator size="large" color="#0000ff" />
+      <View style={styles.loaderContainer}>
+        <LottieView
+          style={{
+            width: "30%",
+            height: "30%",
+          }}
+          source={require("../assets/images/loading.json")}
+          autoPlay
+          loop={true}
+        />
       </View>
     );
   }
@@ -183,6 +192,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#404247",
     marginVertical: 15,
     marginHorizontal: 30,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000000",
   },
 });
 

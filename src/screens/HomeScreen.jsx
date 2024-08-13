@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Dimensions,
   SafeAreaView,
-  ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/dist/Ionicons";
@@ -20,6 +19,7 @@ import { useGetLatestUploadsMediaList } from "../apis/media/Queries/useGetLatest
 import Orientation from "react-native-orientation-locker";
 import { useGetMostWeeklyPlayedMediaList } from "../apis/media/Queries/useGetMostWeeklyPlayedMediaList";
 import { useGetPlayTopNMediaList } from "../apis/media/Queries/useGetPlayTopNMediaList";
+import LottieView from "lottie-react-native";
 
 const Home = (props) => {
   const {
@@ -56,7 +56,15 @@ const Home = (props) => {
   if (tagsLoading || uploadsLoading || weeklyLoading || playTopNLoading) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <LottieView
+          style={{
+            width: "30%",
+            height: "30%",
+          }}
+          source={require("../assets/images/loading.json")}
+          autoPlay
+          loop={true}
+        />
       </View>
     );
   }

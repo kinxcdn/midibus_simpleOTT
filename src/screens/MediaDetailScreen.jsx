@@ -14,6 +14,7 @@ import * as config from "../constants/properties";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetTagListByObject } from "../apis/tags/Queries/useGetTagListByObject";
 import { useGetObjectPlayCount } from "../apis/media/Queries/useGetObjectPlayCount";
+import LottieView from "lottie-react-native";
 
 const MediaDetail = (props) => {
   const { channelId, media } = props.route.params;
@@ -115,7 +116,15 @@ const MediaDetail = (props) => {
   if (tagsLoading || playCountLoading) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <LottieView
+          style={{
+            width: "30%",
+            height: "30%",
+          }}
+          source={require("../assets/images/loading.json")}
+          autoPlay
+          loop={true}
+        />
       </View>
     );
   }
@@ -261,6 +270,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#eeeeee",
     textAlign: "left",
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000000",
   },
 });
 

@@ -20,6 +20,7 @@ import Orientation from "react-native-orientation-locker";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetAllTags } from "../apis/tags/Queries/useGetAllTags";
 import { useKeywordSearch } from "../apis/search/Queries/useKeywordSearch";
+import LottieView from "lottie-react-native";
 
 const Search = (props) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
@@ -56,7 +57,15 @@ const Search = (props) => {
   if (tagsLoading) {
     return (
       <View style={styles.loaderContainer}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <LottieView
+          style={{
+            width: "30%",
+            height: "30%",
+          }}
+          source={require("../assets/images/loading.json")}
+          autoPlay
+          loop={true}
+        />
       </View>
     );
   }
@@ -412,6 +421,12 @@ const styles = StyleSheet.create({
     color: "#898989",
     textAlign: "right",
     marginRight: 10,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000000",
   },
 });
 
