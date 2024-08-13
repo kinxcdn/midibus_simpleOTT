@@ -7,7 +7,6 @@ import {
   Dimensions,
   ImageBackground,
   SafeAreaView,
-  ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import * as config from "../constants/properties";
@@ -174,14 +173,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   mediaMainText: {
-    fontWeight: "600",
-    fontSize: 15,
+    fontFamily: "Pretendard-SemiBold",
+    fontSize: 16,
     color: "#ffffff",
     textAlign: "left",
     marginTop: 18,
     marginLeft: 10,
   },
   mediaSubText: {
+    fontFamily: "Pretendard-Regular",
     fontSize: 13,
     color: "#898989",
     textAlign: "left",

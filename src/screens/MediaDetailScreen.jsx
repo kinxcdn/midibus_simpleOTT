@@ -5,9 +5,8 @@ import {
   View,
   TouchableOpacity,
   SafeAreaView,
-  ActivityIndicator,
+  ScrollView,
 } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
 import Orientation from "react-native-orientation-locker";
 import JWPlayer from "@jwplayer/jwplayer-react-native";
 import * as config from "../constants/properties";
@@ -26,6 +25,8 @@ const MediaDetail = (props) => {
     isLoading: tagsLoading,
     isError: tagsError,
   } = useGetTagListByObject(channelId, objectId);
+
+  // console.log(tags);
 
   const {
     data: playCount = 0,
@@ -70,46 +71,27 @@ const MediaDetail = (props) => {
     nativeFullScreen: false,
   };
 
-  const onPlaylistItem = (evt) => {
-    //('>>>>> onPlaylistItem');
-    //console.log(evt);
-  };
-  const onBuffer = () => {
-    //console.log('>>>>> onBuffer');
-  };
+  const onPlaylistItem = (evt) => {};
+  const onBuffer = () => {};
   const onPlayerError = (evt) => {
     console.log(">>>>> onPlayerError");
     console.log(evt.nativeEvent);
   };
-
-  const onBeforePlay = () => {
-    // console.log('>>>>> onBeforePlay');
-  };
-  const onPlay = () => {
-    // console.log('>>>>> onPlay');
-  };
-  const onPause = () => {
-    // console.log('>>>>> onPause');
-  };
-
+  const onBeforePlay = () => {};
+  const onPlay = () => {};
+  const onPause = () => {};
   const onSetupPlayerError = (evt) => {
     console.log(">>>>> onSetupPlayerError");
     console.log(evt);
   };
-
-  const onTime = (evt) => {
-    //  console.log('>>>>> onTime');
-  };
+  const onTime = (evt) => {};
   const onFullScreen = () => {
-    //console.log('>>>>> onFullScreen');
     Orientation.lockToLandscapeLeft();
   };
   const onFullScreenExitRequested = () => {
-    //console.log('>>>>> onFullScreenExitRequested');
     Orientation.lockToPortrait();
   };
   const onFullScreenExit = () => {
-    //console.log('>>>>> onFullScreenExit');
     Orientation.lockToPortrait();
   };
 
@@ -117,10 +99,7 @@ const MediaDetail = (props) => {
     return (
       <View style={styles.loaderContainer}>
         <LottieView
-          style={{
-            width: "30%",
-            height: "30%",
-          }}
+          style={styles.lottieView}
           source={require("../assets/images/loading.json")}
           autoPlay
           loop={true}
@@ -142,7 +121,7 @@ const MediaDetail = (props) => {
       {media && (
         <View style={styles.playerArea}>
           <JWPlayer
-            style={{ flex: 1 }}
+            style={styles.jwPlayer}
             ref={(p) => (this.JWPlayer = p)}
             config={playerConfigs}
             onPlay={() => onPlay()}
@@ -155,7 +134,7 @@ const MediaDetail = (props) => {
             onFullScreen={() => onFullScreen()}
             onFullScreenExitRequested={() => onFullScreenExitRequested()}
             onFullScreenExit={() => onFullScreenExit()}
-          ></JWPlayer>
+          />
         </View>
       )}
       <ScrollView>
@@ -189,10 +168,10 @@ const MediaDetail = (props) => {
                   media.created.substring(12, 14)}
               </Text>
             </View>
-            <View style={[styles.channelTagArea]}>
+            <View style={styles.channelTagArea}>
               {tags.map((tag, tagIdx) => (
                 <TouchableOpacity
-                  style={{ marginRight: 10 }}
+                  style={styles.tagTouchable}
                   key={tagIdx}
                   onPress={() =>
                     props.navigation.navigate("MediaList", {
@@ -202,7 +181,7 @@ const MediaDetail = (props) => {
                     })
                   }
                 >
-                  <Text style={{ fontSize: 16, color: "#3acbc1" }}>#{tag}</Text>
+                  <Text style={styles.tagText}>#{tag}</Text>
                 </TouchableOpacity>
               ))}
             </View>
@@ -225,6 +204,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     backgroundColor: "grey",
   },
+  jwPlayer: {
+    flex: 1,
+  },
   mediaTitleArea: {
     width: "100%",
     paddingLeft: 30,
@@ -232,10 +214,10 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
   },
   mediaTitleText: {
-    fontSize: 22,
+    fontFamily: "Pretendard-Bold",
+    fontSize: 26,
     color: "#ffffff",
     textAlign: "left",
-    fontWeight: "bold",
   },
   mediaDetailArea: {
     width: "100%",
@@ -244,11 +226,13 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
   },
   mediaDetailTextWithWhtieFont: {
+    fontFamily: "Pretendard-Regular",
     fontSize: 16,
     color: "#ffffff",
     textAlign: "left",
   },
   mediaDetailText: {
+    fontFamily: "Pretendard-Regular",
     fontSize: 16,
     color: "#898989",
     textAlign: "left",
@@ -259,6 +243,13 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     paddingBottom: 3,
     flexDirection: "row",
+  },
+  tagTouchable: {
+    marginRight: 10,
+  },
+  tagText: {
+    fontSize: 16,
+    color: "#3acbc1",
   },
   mediaDescriptionArea: {
     width: "100%",
@@ -276,6 +267,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#000000",
+  },
+  lottieView: {
+    width: "30%",
+    height: "30%",
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000000",
+  },
+  errorText: {
+    fontSize: 18,
+    color: "red",
   },
 });
 

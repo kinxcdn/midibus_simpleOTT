@@ -17,12 +17,13 @@ const getAllTags = async (channelId) => {
 /*
  * 선택된 미디어(오브젝트)의 태그 리스트 가져오기
  */
-const getTagListByObject = async (channelId, categorizedId) => {
+const getTagListByObject = async (channelId, objectId) => {
   try {
     const response = await instance.get(
-      `/v2/channel/${channelId}?limit=5&tag=${categorizedId}`
+      `/v2/channel/${channelId}/${objectId}/tag`
     );
-    const tagList = response.data?.object_list;
+    const tagList = response.data?.tag_list;
+    console.log(tagList);
 
     return Array.isArray(tagList) && tagList.length > 0 ? tagList : [];
   } catch (error) {
