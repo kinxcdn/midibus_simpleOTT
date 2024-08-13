@@ -285,6 +285,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
   },
   searchKeywordInput: {
+    fontFamily: "Pretendard-SemiBold",
     width: "100%",
     height: 50,
     borderColor: "#2e2e2e",
@@ -306,8 +307,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   keywordSearchCancelBtn: {
+    fontFamily: "Pretendard-Bold",
     textAlign: "center",
-    fontWeight: "600",
     fontSize: 18,
     color: "#ffffff",
   },
@@ -339,13 +340,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   channelTagMainText: {
-    fontWeight: "600",
+    fontFamily: "Pretendard-Bold",
     fontSize: 16,
     color: "#ffffff",
     textAlign: "left",
     marginLeft: 10,
   },
   channelTagSubText: {
+    fontFamily: "Pretendard-Regular",
     fontSize: 12,
     color: "#9D9FA0",
     textAlign: "left",
@@ -386,7 +388,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   mediaMainText: {
-    fontWeight: "600",
+    fontFamily: "Pretendard-Bold",
     fontSize: 16,
     color: "#ffffff",
     textAlign: "left",
@@ -394,6 +396,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   mediaSubText: {
+    fontFamily: "Pretendard-Regular",
     fontSize: 13,
     color: "#ffffff",
     textAlign: "left",
@@ -416,8 +419,8 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   viewMoreText: {
+    fontFamily: "Pretendard-Medium",
     fontSize: 16,
-    fontWeight: "500",
     color: "#898989",
     textAlign: "right",
     marginRight: 10,

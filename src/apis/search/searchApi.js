@@ -9,8 +9,6 @@ const getTagsByKeyword = async (keyword) => {
     `/v2/channel/${config.CHANNEL}/tag?keyword=${keyword}`
   );
 
-  console.log(response);
-
   return response.data?.tag_list || [];
 };
 

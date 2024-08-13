@@ -69,9 +69,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   classificationNameText: {
-    fontSize: 20,
+    fontFamily: "Pretendard-Bold",
+    fontSize: 24,
     color: "#ffffff",
-    fontWeight: "500",
   },
 });
 
