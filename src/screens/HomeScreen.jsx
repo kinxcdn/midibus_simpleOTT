@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,155 +7,68 @@ import {
   TouchableOpacity,
   Dimensions,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import Orientation from "react-native-orientation-locker";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import * as config from "../constants/properties";
-import { authAxios } from "../apis/axios";
-import axios from "axios";
 import PlayTopNCards from "../components/PlayTopNCards";
 import HorizontalScrollCards from "../components/HorizontalScrollCards";
 import MediaCards from "../components/MediaCards";
+import { useGetAllTags } from "../apis/tags/Queries/useGetAllTags";
+import { useGetLatestUploadsMediaList } from "../apis/media/Queries/useGetLatestUploadsMediaList";
+import Orientation from "react-native-orientation-locker";
+import { useGetMostWeeklyPlayedMediaList } from "../apis/media/Queries/useGetMostWeeklyPlayedMediaList";
+import { useGetPlayTopNMediaList } from "../apis/media/Queries/useGetPlayTopNMediaList";
 
 const Home = (props) => {
-  const [playTopNMediaList, setPlayTopNMediaList] = useState([]);
-  const [currentUploadedMediaList, setCurrentUploadedMediaList] = useState([]);
-  const [tagList, setTagList] = useState([]);
+  const {
+    data: tagList,
+    isLoading: tagsLoading,
+    isError: tagsError,
+  } = useGetAllTags(config.CHANNEL);
+
+  const {
+    data: currentUploadedMediaList,
+    isLoading: uploadsLoading,
+    isError: uploadsError,
+  } = useGetLatestUploadsMediaList(config.CHANNEL, 5);
+
+  const {
+    data: objectList,
+    isLoading: weeklyLoading,
+    isError: weeklyError,
+  } = useGetMostWeeklyPlayedMediaList(config.CHANNEL);
+
+  const {
+    data: playTopNMediaList,
+    isLoading: playTopNLoading,
+    isError: playTopNError,
+  } = useGetPlayTopNMediaList(objectList, config.CHANNEL);
 
   useEffect(() => {
     console.log("[VIEW] Home");
 
     Orientation.lockToPortrait();
-
-    // 최근 일주일 동안 가장 많이 재생된 비디오
-    getPlayTopNMedia();
-
-    // 최신 업로드 미디어 리스트
-    getCurrentUploadedMedia();
-
-    // 전체 태그 리스트
-    getAllTags();
   }, []);
 
-  /*
-   * 최근 일주일동안 가장 많이 재생된 비디오
-   */
-  const getPlayTopNMedia = async () => {
-    console.log(">> getPlayTopNMedia");
-
-    let _playTopNMediaList = [];
-    let _7daysBeforeObj = new Date(
-      new Date().getTime() - 7 * 24 * 60 * 60 * 1000
+  // 모든 쿼리가 로딩 중이면 로딩 스피너를 표시
+  if (tagsLoading || uploadsLoading || weeklyLoading || playTopNLoading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
     );
-    let _7daysBefore =
-      _7daysBeforeObj.getFullYear() +
-      "" +
-      (_7daysBeforeObj.getMonth() + 1 < 10
-        ? "0" + (_7daysBeforeObj.getMonth() + 1)
-        : "" + (_7daysBeforeObj.getMonth() + 1)) +
-      "" +
-      (_7daysBeforeObj.getDate() < 10
-        ? "0" + _7daysBeforeObj.getDate()
-        : "" + _7daysBeforeObj.getDate());
+  }
 
-    try {
-      const response = await axios.get(
-        `${config.MIDIBUS_PLAY_API}/play/log/object?contentIds=${config.CHANNEL}&from=${_7daysBefore}000000&to=20500331235959&amount=5&dataIndex=0`
-      );
-
-      const objectList = response.data;
-
-      if (
-        typeof objectList !== "undefined" &&
-        objectList !== null &&
-        objectList.length > 0
-      ) {
-        for (let o = 0; o < objectList.length; o++) {
-          const objectId = objectList[o].objectId;
-
-          try {
-            const response = await authAxios.get(
-              `${config.MIDIBUS_API}/v2/channel/${config.CHANNEL}/${objectId}`
-            );
-
-            const objectInfo = response.data;
-
-            if (objectInfo && objectInfo.length !== 0) {
-              _playTopNMediaList.push(objectInfo);
-            }
-          } catch (error) {
-            console.error("Error fetching object info:", error);
-            // 필요한 경우 추가 에러 처리 로직
-          }
-        }
-
-        setPlayTopNMediaList(_playTopNMediaList);
-      }
-    } catch (error) {
-      console.error("Error fetching play log:", error);
-      // 필요한 경우 추가 에러 처리 로직
-    }
-  };
-
-  /*
-   * 최신 업로드 미디어 리스트
-   */
-  const getCurrentUploadedMedia = async () => {
-    console.log(">> getCurrentUploadedMedia");
-
-    try {
-      const response = await authAxios.get(
-        `/v2/channel/${config.CHANNEL}?limit=5`
-      );
-
-      const _objectList = response.data;
-
-      if (
-        _objectList &&
-        _objectList.object_list &&
-        _objectList.object_list.length > 0
-      ) {
-        setCurrentUploadedMediaList(_objectList.object_list);
-      } else {
-        // 필요한 경우 추가 처리 로직
-      }
-    } catch (error) {
-      console.error("Error fetching current uploaded media:", error);
-      // 필요한 경우 추가 에러 처리 로직
-    }
-  };
-
-  /*
-   * 전체 태그 리스트
-   */
-  const getAllTags = async () => {
-    console.log(">> getAllTags");
-    console.log(config.CHANNEL);
-
-    try {
-      const response = await authAxios.get(`/v2/channel/${config.CHANNEL}/tag`);
-
-      const _tagList = response.data;
-
-      if (typeof _tagList !== "undefined" && _tagList !== null) {
-        if (
-          typeof _tagList.tag_list !== "undefined" &&
-          _tagList.tag_list !== null &&
-          _tagList.tag_list.length > 0
-        ) {
-          setTagList(_tagList.tag_list);
-        } else {
-          //
-        }
-      } else {
-        //
-      }
-    } catch (error) {
-      console.error("Error fetching tag list:", error);
-      // 에러 처리 로직 추가 (필요 시)
-    }
-  };
+  // 에러 상태 처리
+  if (tagsError || uploadsError || weeklyError || playTopNError) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Error loading data.</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -298,6 +211,22 @@ const styles = StyleSheet.create({
     color: "#898989",
     textAlign: "right",
     marginRight: 10,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000000",
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000000",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 18,
   },
 });
 
