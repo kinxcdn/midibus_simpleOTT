@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 import * as config from "../constants/properties";
-import { useGetTagListByObject } from "../apis/tags/Queries/useGetTagListByObject";
+import { useGetLimitTagMediaList } from "../apis/media/Queries/useGetLimitTagMediaList";
 
 const MediaCards = (props) => {
   const categorizedId = props.categorizedId;
@@ -21,7 +21,7 @@ const MediaCards = (props) => {
     data: mediaListByTag,
     isLoading,
     isError,
-  } = useGetTagListByObject(config.CHANNEL, categorizedId);
+  } = useGetLimitTagMediaList(config.CHANNEL, categorizedId);
 
   // 로딩 중일 때 로딩 메시지 표시
   if (isLoading) {

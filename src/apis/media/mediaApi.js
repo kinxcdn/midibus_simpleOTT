@@ -80,11 +80,12 @@ const getTagMediaList = async (channelId, categorizedId) => {
 /*
  * 태그별 미디어 리스트 Limit 가져오기
  */
-const getLimitTagMediaList = async () => {
+const getLimitTagMediaList = async (channelId, categorizedId) => {
   try {
     const response = await instance.get(
-      `/v2/channel/${channelId}?limit=${limit}&tag=${tagId}`
+      `/v2/channel/${channelId}?limit=5&tag=${categorizedId}`
     );
+
     const objectList = response.data?.object_list;
 
     return Array.isArray(objectList) && objectList.length > 0 ? objectList : [];

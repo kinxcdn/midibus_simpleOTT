@@ -26,8 +26,6 @@ const MediaDetail = (props) => {
     isError: tagsError,
   } = useGetTagListByObject(channelId, objectId);
 
-  // console.log(tags);
-
   const {
     data: playCount = 0,
     isLoading: playCountLoading,
@@ -248,7 +246,8 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   tagText: {
-    fontSize: 16,
+    fontFamily: "Pretendard-SemiBold",
+    fontSize: 18,
     color: "#3acbc1",
   },
   mediaDescriptionArea: {
