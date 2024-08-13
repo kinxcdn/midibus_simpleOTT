@@ -10,6 +10,7 @@ import {
   Keyboard,
   ImageBackground,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import * as config from "../constants/properties";
@@ -17,119 +18,57 @@ import Icon from "react-native-vector-icons/dist/Ionicons";
 import ClassificationCards from "../components/ClassificationCards";
 import Orientation from "react-native-orientation-locker";
 import { removeFileExtension } from "../constants/removeFileExtension";
-import { authAxios } from "../apis/axios";
+import { useGetAllTags } from "../apis/tags/Queries/useGetAllTags";
+import { useKeywordSearch } from "../apis/search/Queries/useKeywordSearch";
 
 const Search = (props) => {
-  const [tagList, setTagList] = useState([]);
-
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [searchResultList, setSearchResultList] = useState([]);
 
-  /*
-   * 전체 태그 리스트
-   */
-  const getAllTags = async () => {
-    console.log(">> getAllTags");
+  const {
+    data: tagList,
+    isLoading: tagsLoading,
+    isError: tagsError,
+  } = useGetAllTags(config.CHANNEL);
 
-    console.log(config.CHANNEL);
-    try {
-      const response = await authAxios.get(`/v2/channel/${config.CHANNEL}/tag`);
-
-      const _tagList = response.data;
-
-      if (typeof _tagList !== "undefined" && _tagList !== null) {
-        if (
-          typeof _tagList.tag_list !== "undefined" &&
-          _tagList.tag_list !== null &&
-          _tagList.tag_list.length > 0
-        ) {
-          setTagList(_tagList.tag_list);
-        } else {
-          //
-        }
-      } else {
-        //
-      }
-    } catch (error) {
-      console.error("Error fetching tag list:", error);
-      // 에러 처리 로직 추가 (필요 시)
-    }
-  };
+  const {
+    data: searchResultList = [], // 기본값으로 빈 배열을 설정합니다.
+  } = useKeywordSearch(searchKeyword);
 
   /*
    검색어 입력창에 대한 이벤트 처리 & 검색 수행
   */
   const _onFocus = () => {
-    console.log(">>> onFocus [input]");
     setInputSearchKeyword(true);
   };
 
   const _onChange = (inputEvent) => {
-    console.log(">>> onChante [input]");
     setSearchKeyword(inputEvent.nativeEvent.text);
-    executeKeywordSearch(inputEvent.nativeEvent.text);
-  };
-
-  const executeKeywordSearch = async (_searchKeyword) => {
-    let _searchResultList = [];
-
-    console.log(
-      `${config.MIDIBUS_API}/v2/channel/${config.CHANNEL}/tag?keyword=${_searchKeyword}`
-    );
-
-    try {
-      const tagResponse = await authAxios.get(
-        `/v2/channel/${config.CHANNEL}/tag?keyword=${_searchKeyword}`
-      );
-
-      const _keywordSearchTagList = tagResponse.data;
-
-      if (_keywordSearchTagList && _keywordSearchTagList.tag_list) {
-        const searchResultTagList = _keywordSearchTagList.tag_list;
-
-        if (searchResultTagList.length > 0) {
-          for (const tag of searchResultTagList) {
-            _searchResultList.push({
-              tagName: tag,
-              resultType: "tag",
-            });
-          }
-        }
-      }
-
-      const objectResponse = await authAxios.get(
-        `/v2/channel/${config.CHANNEL}?keyword=${_searchKeyword}`
-      );
-
-      const _keywordSearchObjectList = objectResponse.data;
-
-      if (_keywordSearchObjectList && _keywordSearchObjectList.object_list) {
-        const searchResultObjectList = _keywordSearchObjectList.object_list;
-
-        if (searchResultObjectList.length > 0) {
-          for (const obj of searchResultObjectList) {
-            obj.resultType = "media";
-            _searchResultList.push(obj);
-          }
-        }
-      }
-
-      setSearchResultList(_searchResultList);
-    } catch (error) {
-      console.error("Error executing keyword search:", error);
-      // 필요한 경우 추가 에러 처리 로직
-    }
   };
 
   useEffect(() => {
     console.log("[VIEW] Search");
 
     Orientation.lockToPortrait();
-
-    // 전체 태그 리스트
-    getAllTags();
   }, []);
+
+  // 모든 쿼리가 로딩 중이면 로딩 스피너를 표시
+  if (tagsLoading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  // 에러 상태 처리
+  if (tagsError) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Error loading data.</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -166,7 +105,6 @@ const Search = (props) => {
                 Keyboard.dismiss();
                 setSearchKeyword("");
                 setInputSearchKeyword(false);
-                setSearchResultList([]);
               }}
             >
               <View style={styles.keywordSearchCancelBtnArea}>

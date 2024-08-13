@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -7,74 +7,42 @@ import {
   Dimensions,
   ImageBackground,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import * as config from "../constants/properties";
-import { authAxios } from "../apis/axios";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import { removeFileExtension } from "../constants/removeFileExtension";
-import { storage } from "../constants/storage";
+import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
 
 const MediaList = (props) => {
-  const categorized = props.route.params.categorized;
   const categorizedId = props.route.params.categorizedId;
-
-  const [mediaList, setMediaList] = useState([]);
 
   /*
    * 태그로 조회한 미디어 리스트
    */
-  const getMediaListByTag = async () => {
-    console.log(">> getMediaListByTag");
+  const {
+    data: mediaList,
+    isLoading,
+    isError,
+    error,
+  } = useGetTagMediaList(config.CHANNEL, categorizedId);
 
-    try {
-      const response = await authAxios.get(
-        `/v2/channel/${config.CHANNEL}?tag=${categorizedId}`
-      );
+  if (isLoading) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
-      const _mediaList = response.data;
-
-      if (_mediaList === undefined || _mediaList === null) {
-        setMediaList([]);
-      } else {
-        if (
-          _mediaList.object_list === undefined ||
-          _mediaList.object_list === null ||
-          _mediaList.object_list.length === 0
-        ) {
-          setMediaList([]);
-        } else {
-          setMediaList(_mediaList.object_list);
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching media list by tag:", error);
-      // 필요한 경우 추가 에러 처리 로직
-    }
-  };
-
-  useEffect(() => {
-    try {
-      const authKey = storage.getString("authKey");
-
-      console.log(
-        "[VIEW] Media List By " + categorized + " [" + categorizedId + "]"
-      );
-
-      if (authKey !== null && authKey !== undefined) {
-        if (categorized === "tag") {
-          // 태그로 조회한 미디어 리스트
-          getMediaListByTag();
-        } else {
-          setMediaList([]);
-        }
-      } else {
-        console.log("[ERROR] authKey not found");
-      }
-    } catch (error) {
-      console.error("[ERROR] retrieving authKey", error);
-    }
-  }, [categorizedId]);
+  if (isError) {
+    return (
+      <View>
+        <Text>Error: {error.message}</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -83,7 +51,7 @@ const MediaList = (props) => {
           return (
             <>
               <TouchableOpacity
-                key={mediaIdx}
+                key={"L" + mediaIdx}
                 onPress={() => {
                   // 미디어 상세
                   props.navigation.push("MediaDetail", {
