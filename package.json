@@ -18,6 +18,7 @@
     "@react-navigation/stack": "^6.4.0",
     "@rneui/base": "^4.0.0-rc.8",
     "@rneui/themed": "^4.0.0-rc.8",
+    "@tanstack/react-query": "^5.51.23",
     "axios": "^1.7.2",
     "base-64": "^1.0.0",
     "p-limit": "^6.1.0",
