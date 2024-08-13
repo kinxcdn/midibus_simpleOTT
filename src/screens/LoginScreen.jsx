@@ -71,75 +71,40 @@ const Login = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ flex: 2, backgroundColor: "black" }}></View>
-      <View style={{ flex: 4 }}>
-        <View
-          style={{ flex: 2, backgroundColor: "black", alignContent: "center" }}
-        >
+      <View style={styles.emptySpace} />
+      <View style={styles.mainContent}>
+        <View style={styles.logoContainer}>
           <Image
             source={require("../assets/images/logo_midibus_small.png")}
-            style={{
-              alignSelf: "center",
-              marginTop: 60,
-              height: 34,
-              width: 210,
-            }}
+            style={styles.logo}
           />
         </View>
-        <View
-          style={{
-            flex: 1,
-            paddingLeft: 40,
-            paddingRight: 40,
-            backgroundColor: "black",
-          }}
-        >
+        <View style={styles.inputContainer}>
           <Input
             placeholder="이메일"
             leftIcon={<Icon name="user" size={24} color="#fff" />}
-            inputStyle={{ color: "#fff", paddingLeft: 10 }}
+            inputStyle={styles.inputText}
             onChangeText={(text) => setUserEmail(text)}
             value={userEmail}
           />
         </View>
-        <View
-          style={{
-            flex: 1,
-            paddingLeft: 40,
-            paddingRight: 40,
-            backgroundColor: "black",
-          }}
-        >
+        <View style={styles.inputContainer}>
           <Input
             placeholder="API Key"
             secureTextEntry={true}
             leftIcon={<Icon name="key" size={24} color="#fff" />}
-            inputStyle={{ color: "#fff", paddingLeft: 10 }}
+            inputStyle={styles.inputText}
             onChangeText={(text) => setUserApiKey(text)}
             value={userApiKey}
           />
         </View>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: "black",
-            paddingLeft: 40,
-            paddingRight: 40,
-          }}
-        >
-          <Button
-            buttonStyle={{
-              backgroundColor: "#58C3BB",
-              height: 50,
-              marginTop: 5,
-            }}
-            onPressOut={handleLogin}
-          >
-            <Text style={styles.LoginText}>로그인</Text>
+        <View style={styles.buttonContainer}>
+          <Button buttonStyle={styles.loginButton} onPressOut={handleLogin}>
+            <Text style={styles.loginText}>로그인</Text>
           </Button>
         </View>
       </View>
-      <View style={{ flex: 2, backgroundColor: "black" }}></View>
+      <View style={styles.emptySpace} />
     </SafeAreaView>
   );
 };
@@ -150,14 +115,51 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "#000000",
   },
-  text: {
-    color: "blue",
-    backgroundColor: "red",
+  emptySpace: {
+    flex: 2,
+    backgroundColor: "black",
   },
-  LoginText: {
-    fontWeight: "800",
+  mainContent: {
+    flex: 4,
+  },
+  logoContainer: {
+    flex: 2,
+    backgroundColor: "black",
+    alignContent: "center",
+  },
+  logo: {
+    alignSelf: "center",
+    marginTop: 60,
+    height: 34,
+    width: 210,
+  },
+  inputContainer: {
+    flex: 1,
+    paddingLeft: 40,
+    paddingRight: 40,
+    backgroundColor: "black",
+  },
+  inputText: {
+    fontFamily: "Pretendard-Medium",
     color: "#fff",
-    fontSize: 14,
+    paddingLeft: 10,
+  },
+  buttonContainer: {
+    flex: 1,
+    backgroundColor: "black",
+    paddingLeft: 40,
+    paddingRight: 40,
+  },
+  loginButton: {
+    backgroundColor: "#58C3BB",
+    height: 50,
+    marginTop: 5,
+    borderRadius: 5,
+  },
+  loginText: {
+    fontFamily: "Pretendard-Bold",
+    color: "#fff",
+    fontSize: 16,
   },
   searchKeywordInputArea: {
     width: Dimensions.get("window").width - 80,
