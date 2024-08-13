@@ -14,111 +14,60 @@ import base64 from "base-64";
 import * as config from "../constants/properties";
 import Orientation from "react-native-orientation-locker";
 import { storage } from "../constants/storage";
-
-import axios from "axios";
+import { getLogin } from "../apis/user/userApi";
+import { useGetLogin } from "../apis/user/Queries/useGetLogin";
 
 const Login = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState("");
   const [userApiKey, setUserApiKey] = useState("");
+  const [authHeader, setAuthHeader] = useState(null);
+  const [currentDate, setCurrentDate] = useState(null);
 
-  const _onPressOut = () => {
-    console.log(">> Login");
-    console.log(userEmail + " // " + userApiKey);
-    if (userEmail.length === 0) {
-      Alert.alert(
-        "이메일을 입력해주세요.",
-        "",
-        [
-          {
-            text: "확인",
-            onPress: () => {},
-          },
-        ],
-        { cancelable: false }
-      );
-
-      return;
-    }
-    if (userApiKey.length === 0) {
-      Alert.alert(
-        "API Key를 입력해주세요.",
-        "",
-        [
-          {
-            text: "확인",
-            onPress: () => {},
-          },
-        ],
-        { cancelable: false }
-      );
-
-      return;
-    }
-
-    setAuthKey(userEmail, userApiKey);
-  };
-
-  const setAuthKey = async (email, apiKey) => {
-    const authHeader = "Basic " + base64.encode(email + ":" + apiKey);
-    const currentDate = Math.floor(
-      (new Date().getTime() + 60 * 60 * 1000) / 1000
-    );
-
-    const tokenUrl = `${config.MIDIBUS_API}/v2/token?expire=${currentDate}`;
-
-    try {
-      const response = await axios.get(tokenUrl, {
-        headers: {
-          Authorization: authHeader,
-        },
-      });
-
-      const tokenInfo = response.data;
-
-      console.log(tokenInfo);
-
-      if (tokenInfo && tokenInfo.token) {
-        await storage.set("authKey", tokenInfo.token);
-        await storage.set("channelId", config.CHANNEL);
-
-        navigation.navigate("BottomTabs");
-      } else {
-        await storage.clearAll();
-
-        Alert.alert(
-          tokenInfo.msg || "Error",
-          tokenInfo.code || "",
-          [
-            {
-              text: "확인",
-              onPress: () => {},
-            },
-          ],
-          { cancelable: false }
-        );
-      }
-    } catch (error) {
-      console.error("[ERROR] setAuthKey\n" + error.message);
-
-      Alert.alert(
-        error.message,
-        "",
-        [
-          {
-            text: "확인",
-            onPress: () => {},
-          },
-        ],
-        { cancelable: false }
-      );
-    }
-  };
+  const {
+    data: tokenInfo,
+    isError,
+    refetch,
+  } = useGetLogin(authHeader, currentDate);
 
   useEffect(() => {
-    console.log("[VIEW] Login");
-
     Orientation.lockToPortrait();
   }, []);
+
+  useEffect(() => {
+    if (tokenInfo && tokenInfo.token) {
+      storage.set("authKey", tokenInfo.token);
+      storage.set("channelId", config.CHANNEL);
+      navigation.navigate("BottomTabs");
+    } else if (isError) {
+      handleLoginError();
+    }
+  }, [tokenInfo, isError]);
+
+  const handleLoginError = () => {
+    storage.clearAll();
+    Alert.alert("로그인 실패", "잘못된 이메일 또는 API Key입니다.", [
+      { text: "확인" },
+    ]);
+  };
+
+  const handleLogin = () => {
+    if (!userEmail || !userApiKey) {
+      Alert.alert(
+        "입력 오류",
+        userEmail ? "API Key를 입력해주세요." : "이메일을 입력해주세요.",
+        [{ text: "확인" }]
+      );
+      return;
+    }
+
+    const header = `Basic ${base64.encode(`${userEmail}:${userApiKey}`)}`;
+    const date = Math.floor(Date.now() / 1000) + 3600;
+
+    setAuthHeader(header);
+    setCurrentDate(date);
+
+    refetch(); // refetch를 호출하여 쿼리를 강제로 재실행합니다.
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -184,7 +133,7 @@ const Login = ({ navigation }) => {
               height: 50,
               marginTop: 5,
             }}
-            onPressOut={_onPressOut}
+            onPressOut={handleLogin}
           >
             <Text style={styles.LoginText}>로그인</Text>
           </Button>
