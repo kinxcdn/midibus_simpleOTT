@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   ScrollView,
   Text,
@@ -7,63 +7,39 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
-import { storage } from "../constants/storage";
-import { authAxios } from "../apis/axios";
 
 import * as config from "../constants/properties";
+import { useGetTagListByObject } from "../apis/tags/Queries/useGetTagListByObject";
 
 const MediaCards = (props) => {
-  const categorized = props.categorized;
   const categorizedId = props.categorizedId;
-  const [mediaListByTag, setMediaListByTag] = useState([]);
 
   /*
    * 태그별 미디어 리스트 가져오기
    */
-  const getObjectListByTag = async (_authKey) => {
-    console.log(">> getObjectListByTag");
+  const {
+    data: mediaListByTag,
+    isLoading,
+    isError,
+  } = useGetTagListByObject(config.CHANNEL, categorizedId);
 
-    try {
-      const response = await authAxios.get(
-        `/v2/channel/${config.CHANNEL}?limit=5&tag=${categorizedId}`
-      );
-
-      const _objectByTagList = response.data;
-
-      if (
-        _objectByTagList &&
-        _objectByTagList.object_list &&
-        _objectByTagList.object_list.length > 0
-      ) {
-        setMediaListByTag(_objectByTagList.object_list);
-      }
-    } catch (error) {
-      console.error("Error fetching object list by tag:", error);
-      // 필요한 경우 추가 에러 처리 로직
-    }
-  };
-
-  useEffect(() => {
-    console.log(
-      "[VIEW] MediaCards ---> categorized: " +
-        categorized +
-        " / categorizedId: " +
-        categorizedId
+  // 로딩 중일 때 로딩 메시지 표시
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
     );
+  }
 
-    try {
-      const authKey = storage.getString("authKey");
-
-      if (authKey !== null && authKey !== undefined) {
-        // 태그별 미디어 리스트 가져오기
-        getObjectListByTag(authKey);
-      } else {
-        console.log("[ERROR] authKey not found");
-      }
-    } catch (error) {
-      console.error("[ERROR] retrieving authKey", error);
-    }
-  }, [categorized, categorizedId]);
+  // 에러가 발생했을 때 에러 메시지 표시
+  if (isError) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Error loading media.</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView
