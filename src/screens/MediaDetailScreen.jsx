@@ -1,48 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Orientation from "react-native-orientation-locker";
 import JWPlayer from "@jwplayer/jwplayer-react-native";
 import * as config from "../constants/properties";
-import { authAxios } from "../apis/axios";
-import axios from "axios";
 import { removeFileExtension } from "../constants/removeFileExtension";
+import { useGetTagListByObject } from "../apis/tags/Queries/useGetTagListByObject";
+import { useGetObjectPlayCount } from "../apis/media/Queries/useGetObjectPlayCount";
 
 const MediaDetail = (props) => {
-  const [channelId, setChannelId] = useState(null);
-  const [mediaObj, setMediaObj] = useState(null);
-  const [objectId, setObjectId] = useState(null);
-  const [tags, setTags] = useState([]);
-  const [playCount, setPlayCount] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const { channelId, media } = props.route.params;
+  const objectId = media.object_id;
+
+  // tag로 object리스트
+  const {
+    data: tags = [],
+    isLoading: tagsLoading,
+    isError: tagsError,
+  } = useGetTagListByObject(channelId, objectId);
+
+  const {
+    data: playCount = 0,
+    isLoading: playCountLoading,
+    isError: playCountError,
+  } = useGetObjectPlayCount(objectId);
 
   useEffect(() => {
     const fetchData = async () => {
       console.log("[VIEW] MediaDetail");
-      const { channelId, media } = props.route.params;
-
-      setChannelId(channelId);
-      setMediaObj(media);
-      setObjectId(media.object_id);
-
       Orientation.lockToPortrait();
-
-      // 선택된 미디어(오브젝트)의 태그 리스트 가져오기
-      await getTagListByObject(channelId, media.object_id);
-
-      // 해당 미디어의 재생 수 가져오기
-      await getObjectPlayCount(media.object_id);
-      setLoading(false);
     };
 
     fetchData();
-  }, [props.route.params]);
+  }, []);
 
   const playerConfigs = {
     license: Platform.select({
@@ -58,7 +55,7 @@ const MediaDetail = (props) => {
       {
         mediaId: objectId,
         file: `https://hls.midibus.dev-kinxcdn.com/hls/${channelId}/${objectId}/v/playlist.m3u8`,
-        image: mediaObj ? "https://" + mediaObj.poster_url : null,
+        image: media ? "https://" + media.poster_url : null,
         title: null,
         autostart: true,
         backgroundAudioEnabled: false,
@@ -70,45 +67,6 @@ const MediaDetail = (props) => {
     portraitOnExitFullScreen: false,
     exitFullScreenOnPortrait: false,
     nativeFullScreen: false,
-  };
-
-  /*
-   * 선택된 미디어(오브젝트)의 태그 리스트 가져오기
-   */
-  const getTagListByObject = async (channelId, objectId) => {
-    try {
-      const response = await authAxios.get(
-        `/v2/channel/${channelId}/${objectId}/tag`
-      );
-      const _tagList = response.data;
-      if (_tagList && _tagList.tag_list && _tagList.tag_list.length > 0) {
-        setTags(_tagList.tag_list);
-      }
-    } catch (error) {
-      console.error("Error fetching tag list:", error);
-    }
-  };
-
-  /*
-   * 해당 미디어의 재생 수 가져오기
-   */
-  const getObjectPlayCount = async (objectId) => {
-    try {
-      const response = await axios.get(
-        // `/v2/channel/${channelId}/${objectId}/count`,
-        `${config.MIDIBUS_PLAY_API}/play/count/${objectId}`
-      );
-      const playCount = response.data;
-      if (
-        playCount &&
-        playCount.totalCount !== undefined &&
-        playCount.totalCount !== null
-      ) {
-        setPlayCount(playCount.totalCount);
-      }
-    } catch (error) {
-      console.error("Error fetching play count:", error);
-    }
   };
 
   const onPlaylistItem = (evt) => {
@@ -154,9 +112,25 @@ const MediaDetail = (props) => {
     Orientation.lockToPortrait();
   };
 
+  if (tagsLoading || playCountLoading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  if (tagsError || playCountError) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Error loading media details.</Text>
+      </View>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      {mediaObj && (
+      {media && (
         <View style={styles.playerArea}>
           <JWPlayer
             style={{ flex: 1 }}
@@ -176,16 +150,16 @@ const MediaDetail = (props) => {
         </View>
       )}
       <ScrollView>
-        {mediaObj && (
+        {media && (
           <>
             <View style={styles.mediaTitleArea}>
               <Text style={styles.mediaTitleText}>
-                {removeFileExtension(mediaObj.media_name)}
+                {removeFileExtension(media.media_name)}
               </Text>
             </View>
             <View style={styles.mediaDetailArea}>
               <Text style={styles.mediaDetailTextWithWhtieFont}>
-                {mediaObj.duration}
+                {media.duration}
               </Text>
             </View>
             <View style={styles.mediaDetailArea}>
@@ -193,17 +167,17 @@ const MediaDetail = (props) => {
             </View>
             <View style={styles.mediaDetailArea}>
               <Text style={styles.mediaDetailText}>
-                {mediaObj.created.substring(0, 4) +
+                {media.created.substring(0, 4) +
                   "-" +
-                  mediaObj.created.substring(4, 6) +
+                  media.created.substring(4, 6) +
                   "-" +
-                  mediaObj.created.substring(6, 8) +
+                  media.created.substring(6, 8) +
                   " " +
-                  mediaObj.created.substring(8, 10) +
+                  media.created.substring(8, 10) +
                   ":" +
-                  mediaObj.created.substring(10, 12) +
+                  media.created.substring(10, 12) +
                   ":" +
-                  mediaObj.created.substring(12, 14)}
+                  media.created.substring(12, 14)}
               </Text>
             </View>
             <View style={[styles.channelTagArea]}>
