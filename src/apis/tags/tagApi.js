@@ -23,7 +23,6 @@ const getTagListByObject = async (channelId, objectId) => {
       `/v2/channel/${channelId}/${objectId}/tag`
     );
     const tagList = response.data?.tag_list;
-    console.log(tagList);
 
     return Array.isArray(tagList) && tagList.length > 0 ? tagList : [];
   } catch (error) {

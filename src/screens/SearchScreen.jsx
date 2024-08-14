@@ -20,7 +20,8 @@ import Orientation from "react-native-orientation-locker";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetAllTags } from "../apis/tags/Queries/useGetAllTags";
 import { useKeywordSearch } from "../apis/search/Queries/useKeywordSearch";
-import LottieView from "lottie-react-native";
+import Loading from "../components/common/loading";
+import Error from "../components/common/Error";
 
 const Search = (props) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
@@ -55,28 +56,12 @@ const Search = (props) => {
 
   // 모든 쿼리가 로딩 중이면 로딩 스피너를 표시
   if (tagsLoading) {
-    return (
-      <View style={styles.loaderContainer}>
-        <LottieView
-          style={{
-            width: "30%",
-            height: "30%",
-          }}
-          source={require("../assets/images/loading.json")}
-          autoPlay
-          loop={true}
-        />
-      </View>
-    );
+    return <Loading />;
   }
 
   // 에러 상태 처리
   if (tagsError) {
-    return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>Error loading data.</Text>
-      </View>
-    );
+    return <Error />;
   }
 
   return (

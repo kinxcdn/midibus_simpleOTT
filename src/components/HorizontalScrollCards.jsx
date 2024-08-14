@@ -10,12 +10,17 @@ import {
 } from "react-native";
 import Orientation from "react-native-orientation-locker";
 import { removeFileExtension } from "../constants/removeFileExtension";
+import Empty from "./common/Empty";
 
 const HorizontalScrollCards = (props) => {
   const channelId = props.channelId;
   const mediaList = props.data;
 
   Orientation.lockToPortrait();
+
+  if (!mediaList || mediaList.length === 0) {
+    return <Empty />;
+  }
 
   return (
     <ScrollView horizontal={true} style={{ marginLeft: 0 }}>

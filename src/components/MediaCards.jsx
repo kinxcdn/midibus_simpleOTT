@@ -10,6 +10,8 @@ import {
 
 import * as config from "../constants/properties";
 import { useGetLimitTagMediaList } from "../apis/media/Queries/useGetLimitTagMediaList";
+import Loading from "./common/loading";
+import Error from "./common/Error";
 
 const MediaCards = (props) => {
   const categorizedId = props.categorizedId;
@@ -25,27 +27,16 @@ const MediaCards = (props) => {
 
   // 로딩 중일 때 로딩 메시지 표시
   if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.loadingText}>Loading...</Text>
-      </View>
-    );
+    return <Loading />;
   }
 
   // 에러가 발생했을 때 에러 메시지 표시
   if (isError) {
-    return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>Error loading media.</Text>
-      </View>
-    );
+    return <Error />;
   }
 
   return (
-    <ScrollView
-      horizontal
-      style={{ marginLeft: 10, marginTop: 5, marginRight: 0 }}
-    >
+    <ScrollView horizontal style={styles.scrollView}>
       {mediaListByTag.map((media, mediaIdx) => {
         return (
           <TouchableOpacity
@@ -58,7 +49,10 @@ const MediaCards = (props) => {
             }}
           >
             <View
-              style={mediaIdx === 0 ? styles.firstMediaCard : styles.mediaCard}
+              style={[
+                styles.mediaCard,
+                mediaIdx === 0 && styles.firstMediaCard,
+              ]}
             >
               {typeof media.poster_url === "undefined" ||
               media.poster_url === null ? (
@@ -72,7 +66,7 @@ const MediaCards = (props) => {
                   source={{ uri: "https://" + media.poster_url }}
                   resizeMode="cover"
                   style={styles.mediaThumbnail}
-                  imageStyle={{ borderRadius: 7 }}
+                  imageStyle={styles.mediaThumbnailImage}
                 ></ImageBackground>
               )}
             </View>
@@ -84,11 +78,12 @@ const MediaCards = (props) => {
 };
 
 const styles = StyleSheet.create({
+  scrollView: {
+    marginLeft: 10,
+    marginTop: 5,
+    marginRight: 0,
+  },
   firstMediaCard: {
-    width: 192,
-    height: 108,
-    backgroundColor: "#28292c",
-    margin: 5,
     marginLeft: 0,
   },
   mediaCard: {
@@ -100,6 +95,9 @@ const styles = StyleSheet.create({
   mediaThumbnail: {
     flex: 1,
     justifyContent: "center",
+  },
+  mediaThumbnailImage: {
+    borderRadius: 7,
   },
   mediaThumbnailEmptyArea: {
     backgroundColor: "#28292c",

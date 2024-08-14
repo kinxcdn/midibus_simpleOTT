@@ -13,7 +13,8 @@ import * as config from "../constants/properties";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetTagListByObject } from "../apis/tags/Queries/useGetTagListByObject";
 import { useGetObjectPlayCount } from "../apis/media/Queries/useGetObjectPlayCount";
-import LottieView from "lottie-react-native";
+import Loading from "../components/common/loading";
+import Error from "../components/common/Error";
 
 const MediaDetail = (props) => {
   const { channelId, media } = props.route.params;
@@ -94,24 +95,11 @@ const MediaDetail = (props) => {
   };
 
   if (tagsLoading || playCountLoading) {
-    return (
-      <View style={styles.loaderContainer}>
-        <LottieView
-          style={styles.lottieView}
-          source={require("../assets/images/loading.json")}
-          autoPlay
-          loop={true}
-        />
-      </View>
-    );
+    return <Loading />;
   }
 
   if (tagsError || playCountError) {
-    return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>Error loading media details.</Text>
-      </View>
-    );
+    return <Error />;
   }
 
   return (

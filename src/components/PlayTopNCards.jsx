@@ -6,11 +6,13 @@ import {
   StyleSheet,
   Dimensions,
   Text,
+  Image,
 } from "react-native";
 import Orientation from "react-native-orientation-locker";
 import Swiper from "react-native-swiper";
 import Video from "react-native-video";
 import { removeFileExtension } from "../constants/removeFileExtension";
+import Empty from "./common/Empty";
 
 const PlayTopNCards = (props) => {
   const channelId = props.channelId;
@@ -22,6 +24,10 @@ const PlayTopNCards = (props) => {
   useEffect(() => {
     console.log("previewIndex : " + previewIndex);
   }, [previewIndex]);
+
+  if (!mediaList || mediaList.length === 0) {
+    return <Empty />;
+  }
 
   return (
     <Swiper
@@ -170,6 +176,22 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     marginTop: -10,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000",
+  },
+  emptyImage: {
+    height: "60%",
+    width: "60%",
+  },
+  emptySubText: {
+    fontFamily: "Pretendard-Regular",
+    color: "#898989",
+    fontSize: 20,
+    marginTop: 20,
   },
 });
 

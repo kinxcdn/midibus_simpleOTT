@@ -19,7 +19,8 @@ import { useGetLatestUploadsMediaList } from "../apis/media/Queries/useGetLatest
 import Orientation from "react-native-orientation-locker";
 import { useGetMostWeeklyPlayedMediaList } from "../apis/media/Queries/useGetMostWeeklyPlayedMediaList";
 import { useGetPlayTopNMediaList } from "../apis/media/Queries/useGetPlayTopNMediaList";
-import LottieView from "lottie-react-native";
+import Error from "../components/common/Error";
+import Loading from "../components/common/loading";
 
 const Home = (props) => {
   const {
@@ -54,28 +55,12 @@ const Home = (props) => {
 
   // 모든 쿼리가 로딩 중이면 로딩 스피너를 표시
   if (tagsLoading || uploadsLoading || weeklyLoading || playTopNLoading) {
-    return (
-      <View style={styles.loaderContainer}>
-        <LottieView
-          style={{
-            width: "30%",
-            height: "30%",
-          }}
-          source={require("../assets/images/loading.json")}
-          autoPlay
-          loop={true}
-        />
-      </View>
-    );
+    return <Loading />;
   }
 
   // 에러 상태 처리
   if (tagsError || uploadsError || weeklyError || playTopNError) {
-    return (
-      <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>Error loading data.</Text>
-      </View>
-    );
+    return <Error />;
   }
 
   return (
@@ -219,22 +204,6 @@ const styles = StyleSheet.create({
     color: "#898989",
     textAlign: "right",
     marginRight: 10,
-  },
-  loaderContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#000000",
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#000000",
-  },
-  errorText: {
-    color: "red",
-    fontSize: 18,
   },
 });
 

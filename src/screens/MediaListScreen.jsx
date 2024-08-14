@@ -13,7 +13,8 @@ import * as config from "../constants/properties";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
-import LottieView from "lottie-react-native";
+import Loading from "../components/common/loading";
+import Error from "../components/common/Error";
 
 const MediaList = (props) => {
   const categorizedId = props.route.params.categorizedId;
@@ -29,27 +30,11 @@ const MediaList = (props) => {
   } = useGetTagMediaList(config.CHANNEL, categorizedId);
 
   if (isLoading) {
-    return (
-      <View style={styles.loaderContainer}>
-        <LottieView
-          style={{
-            width: "30%",
-            height: "30%",
-          }}
-          source={require("../assets/images/loading.json")}
-          autoPlay
-          loop={true}
-        />
-      </View>
-    );
+    return <Loading />;
   }
 
   if (isError) {
-    return (
-      <View>
-        <Text>Error: {error.message}</Text>
-      </View>
-    );
+    return <Error />;
   }
 
   return (

@@ -14,7 +14,6 @@ import base64 from "base-64";
 import * as config from "../constants/properties";
 import Orientation from "react-native-orientation-locker";
 import { storage } from "../constants/storage";
-import { getLogin } from "../apis/user/userApi";
 import { useGetLogin } from "../apis/user/Queries/useGetLogin";
 
 const Login = ({ navigation }) => {
