@@ -10,7 +10,6 @@ import {
   Keyboard,
   ImageBackground,
   SafeAreaView,
-  ActivityIndicator,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import * as config from "../constants/properties";
@@ -68,12 +67,10 @@ const Search = (props) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.headerArea}>
         <Image
-          source={require("../assets/images/logo_midibus.png")}
-          style={{ marginTop: 20, marginLeft: 15 }}
+          source={require("../assets/images/logo_midibus_small.png")}
+          style={styles.logoImage}
         />
-        <View
-          style={{ alignItems: "flex-end", marginRight: 20, marginTop: -30 }}
-        >
+        <View style={styles.iconContainer}>
           <Icon name="person-circle-outline" size={35} color={"#ffffff"} />
         </View>
       </View>
@@ -243,8 +240,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
   },
   headerArea: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     width: "100%",
     height: 70,
+  },
+  logoImage: {
+    width: "40%",
+    objectFit: "contain",
+    marginLeft: 15,
+  },
+  iconContainer: {
+    alignItems: "flex-end",
+    marginRight: 20,
   },
   keywordInputArea: {
     width: "100%",

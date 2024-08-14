@@ -19,7 +19,7 @@ const HorizontalScrollCards = (props) => {
   Orientation.lockToPortrait();
 
   if (!mediaList || mediaList.length === 0) {
-    return <Empty />;
+    return <Empty message="최근에 업로드한 영상이 없습니다.." />;
   }
 
   return (

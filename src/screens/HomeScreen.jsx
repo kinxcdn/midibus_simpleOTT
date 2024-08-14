@@ -67,7 +67,7 @@ const Home = (props) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.headerArea}>
         <Image
-          source={require("../assets/images/logo_midibus.png")}
+          source={require("../assets/images/logo_midibus_small.png")}
           style={styles.logoImage}
         />
         <View style={styles.iconContainer}>
@@ -131,17 +131,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
   },
   headerArea: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     width: "100%",
     height: 70,
   },
   logoImage: {
-    marginTop: 20,
+    width: "40%",
+    objectFit: "contain",
     marginLeft: 15,
   },
   iconContainer: {
     alignItems: "flex-end",
     marginRight: 20,
-    marginTop: -30,
   },
   contentsArea: {
     width: "100%",
