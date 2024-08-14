@@ -44,7 +44,7 @@ const MediaList = (props) => {
           return (
             <>
               <TouchableOpacity
-                key={"L" + mediaIdx}
+                key={"list" + mediaIdx}
                 onPress={() => {
                   // 미디어 상세
                   props.navigation.push("MediaDetail", {

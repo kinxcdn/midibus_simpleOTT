@@ -11,7 +11,7 @@ import { ScrollView } from "react-native-gesture-handler";
 
 const TagList = (props) => {
   console.log("[VIEW] Tag List");
-  const tagList = props.route.params.data;
+  const tagList = props.route.params.tagList;
 
   const generateRandomColor = () => {
     const randomColor = Math.floor(Math.random() * 16777215)

@@ -22,7 +22,7 @@ import { useGetPlayTopNMediaList } from "../apis/media/Queries/useGetPlayTopNMed
 import Error from "../components/common/Error";
 import Loading from "../components/common/loading";
 
-const Home = (props) => {
+const Home = ({ navigation }) => {
   const {
     data: tagList,
     isLoading: tagsLoading,
@@ -53,7 +53,7 @@ const Home = (props) => {
     Orientation.lockToPortrait();
   }, []);
 
-  // 모든 쿼리가 로딩 중이면 로딩 스피너를 표시
+  // 모든 쿼리가 로딩 중이면 로딩 화면
   if (tagsLoading || uploadsLoading || weeklyLoading || playTopNLoading) {
     return <Loading />;
   }
@@ -80,17 +80,17 @@ const Home = (props) => {
           <Text style={styles.subTitle}>최근 일주일 동안</Text>
           <Text style={styles.mainTitle}>가장 많이 재생된 Top5</Text>
           <PlayTopNCards
-            data={playTopNMediaList}
+            mediaList={playTopNMediaList}
             channelId={config.CHANNEL}
-            navigation={props.navigation}
+            navigation={navigation}
           />
         </View>
         <View style={styles.currentArea}>
           <Text style={styles.sectionTitle}>최신 업로드</Text>
           <HorizontalScrollCards
-            data={currentUploadedMediaList}
+            mediaList={currentUploadedMediaList}
             channelId={config.CHANNEL}
-            navigation={props.navigation}
+            navigation={navigation}
           />
         </View>
         <View style={styles.tagListArea}>
@@ -100,7 +100,7 @@ const Home = (props) => {
                 <Text style={styles.sectionTitle}># {tagName}</Text>
                 <TouchableOpacity
                   onPress={() => {
-                    props.navigation.navigate("MediaList", {
+                    navigation.navigate("MediaList", {
                       categorized: "tag",
                       categorizedId: tagName,
                       headerTitle: "#" + tagName,
@@ -110,11 +110,7 @@ const Home = (props) => {
                   <Text style={styles.viewMoreText}>더보기</Text>
                 </TouchableOpacity>
               </View>
-              <MediaCards
-                categorized="tag"
-                categorizedId={tagName}
-                navigation={props.navigation}
-              />
+              <MediaCards categorizedId={tagName} navigation={navigation} />
             </View>
           ))}
         </View>

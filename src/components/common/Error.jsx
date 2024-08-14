@@ -6,7 +6,7 @@ const Error = () => {
   return (
     <View style={styles.errorContainer}>
       <LottieView
-        style={errorView}
+        style={styles.errorView}
         source={require("../../assets/images/error.json")}
         autoPlay
         loop={true}

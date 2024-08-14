@@ -12,10 +12,7 @@ import Orientation from "react-native-orientation-locker";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import Empty from "./common/Empty";
 
-const HorizontalScrollCards = (props) => {
-  const channelId = props.channelId;
-  const mediaList = props.data;
-
+const HorizontalScrollCards = ({ mediaList, channelId, navigation }) => {
   Orientation.lockToPortrait();
 
   if (!mediaList || mediaList.length === 0) {
@@ -27,11 +24,12 @@ const HorizontalScrollCards = (props) => {
       {mediaList.map((media, mediaIdx) => {
         return (
           <TouchableOpacity
-            key={"h" + mediaIdx}
+            key={"scroll" + mediaIdx}
             onPress={() => {
-              props.navigation.navigate("MediaDetail", {
+              navigation.navigate("MediaDetail", {
                 channelId: channelId,
                 media: media,
+                objectId: media.object_id,
               });
             }}
           >

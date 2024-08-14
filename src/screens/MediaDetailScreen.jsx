@@ -13,7 +13,6 @@ import * as config from "../constants/properties";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetTagListByObject } from "../apis/tags/Queries/useGetTagListByObject";
 import { useGetObjectPlayCount } from "../apis/media/Queries/useGetObjectPlayCount";
-import Loading from "../components/common/loading";
 import Error from "../components/common/Error";
 
 const MediaDetail = (props) => {
@@ -94,9 +93,9 @@ const MediaDetail = (props) => {
     Orientation.lockToPortrait();
   };
 
-  if (tagsLoading || playCountLoading) {
-    return <Loading />;
-  }
+  // if (tagsLoading || playCountLoading) {
+  //   return <Loading />;
+  // }
 
   if (tagsError || playCountError) {
     return <Error />;

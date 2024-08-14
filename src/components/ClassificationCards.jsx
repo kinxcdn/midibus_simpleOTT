@@ -7,10 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 
-const ClassificationCards = (props) => {
-  const classificationType = props.dataType;
-  const classificationList = props.data;
-
+const ClassificationCards = ({ classificationList, navigation }) => {
   const PRE_SHOW_COUNT = 5;
 
   const generateRandomColor = () => {
@@ -24,7 +21,6 @@ const ClassificationCards = (props) => {
     <ScrollView horizontal style={styles.scrollView}>
       {classificationList.slice(0, PRE_SHOW_COUNT).map((tagName, tagIdx) => {
         let paramsForMediaList = {
-          categorized: classificationType,
           categorizedId: tagName,
           headerTitle: "#" + tagName,
         };
@@ -33,7 +29,7 @@ const ClassificationCards = (props) => {
           <TouchableOpacity
             key={tagIdx}
             onPress={() => {
-              props.navigation.navigate("MediaList", paramsForMediaList);
+              navigation.navigate("MediaList", paramsForMediaList);
             }}
           >
             <View

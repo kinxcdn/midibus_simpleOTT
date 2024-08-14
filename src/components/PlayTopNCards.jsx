@@ -6,7 +6,6 @@ import {
   StyleSheet,
   Dimensions,
   Text,
-  Image,
 } from "react-native";
 import Orientation from "react-native-orientation-locker";
 import Swiper from "react-native-swiper";
@@ -14,10 +13,7 @@ import Video from "react-native-video";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import Empty from "./common/Empty";
 
-const PlayTopNCards = (props) => {
-  const channelId = props.channelId;
-  const mediaList = props.data;
-
+const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
   const [previewIndex, setPreviewIndex] = useState(0);
   Orientation.lockToPortrait();
 
@@ -26,7 +22,7 @@ const PlayTopNCards = (props) => {
   }, [previewIndex]);
 
   if (!mediaList || mediaList.length === 0) {
-    return <Empty />;
+    return <Empty message="최근에 재생한 영상이 없습니다..." />;
   }
 
   return (
@@ -44,11 +40,12 @@ const PlayTopNCards = (props) => {
       {mediaList.map((media, mediaIdx) => {
         return (
           <TouchableOpacity
-            key={mediaIdx}
+            key={"top" + mediaIdx}
             onPress={() => {
-              props.navigation.navigate("MediaDetail", {
+              navigation.navigate("MediaDetail", {
                 channelId: channelId,
                 media: media,
+                objectId: media.object_id,
               });
             }}
           >

@@ -22,7 +22,7 @@ import { useKeywordSearch } from "../apis/search/Queries/useKeywordSearch";
 import Loading from "../components/common/loading";
 import Error from "../components/common/Error";
 
-const Search = (props) => {
+const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
 
@@ -113,9 +113,9 @@ const Search = (props) => {
               <Text style={styles.mainTitle}>태그</Text>
               <TouchableOpacity
                 onPress={() => {
-                  props.navigation.navigate("TagList", {
+                  navigation.navigate("TagList", {
                     headerTitle: "태그",
-                    data: tagList,
+                    tagList: tagList,
                   });
                 }}
               >
@@ -123,9 +123,8 @@ const Search = (props) => {
               </TouchableOpacity>
             </View>
             <ClassificationCards
-              dataType={"tag"}
-              data={tagList}
-              navigation={props.navigation}
+              classificationList={tagList}
+              navigation={navigation}
             />
           </View>
           {/* // 태그 */}
@@ -135,9 +134,9 @@ const Search = (props) => {
               <Text style={styles.mainTitle}>인기태그</Text>
               <TouchableOpacity
                 onPress={() => {
-                  props.navigation.push("TagList", {
+                  navigation.push("TagList", {
                     headerTitle: "태그",
-                    data: tagList,
+                    tagList: tagList,
                   });
                 }}
               >
@@ -145,9 +144,8 @@ const Search = (props) => {
               </TouchableOpacity>
             </View>
             <ClassificationCards
-              dataType={"tag"}
-              data={tagList}
-              navigation={props.navigation}
+              classificationList={tagList}
+              navigation={navigation}
             />
           </View>
           {/* // 인기 태그 */}
@@ -160,12 +158,13 @@ const Search = (props) => {
                 key={searchResultIdx}
                 onPress={() => {
                   if (searchResult.resultType === "media") {
-                    props.navigation.navigate("MediaDetail", {
+                    navigation.navigate("MediaDetail", {
                       channelId: config.CHANNEL,
                       media: searchResult,
+                      objectId: searchResult.object_id,
                     });
                   } else {
-                    props.navigation.navigate("MediaList", {
+                    navigation.navigate("MediaList", {
                       categorized: "tag",
                       categorizedId: searchResult.tagName,
                       headerTitle: "#" + searchResult.tagName,

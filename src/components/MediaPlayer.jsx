@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 import Orientation from "react-native-orientation-locker";
 import * as propConfig from "../constants/properties";
 
-const MediaPlayer = (props) => {
+const MediaPlayer = ({ mediaInfo }) => {
   const mediaInfo = props.mediaInfo;
 
   const onPlaylistItem = (evt) => {
