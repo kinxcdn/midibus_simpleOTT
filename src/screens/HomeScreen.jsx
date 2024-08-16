@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -20,6 +20,7 @@ import Error from "../components/common/Error";
 import Loading from "../components/common/loading";
 import { SIZES } from "../styles/theme";
 import Header from "../components/common/Header";
+import TagRail from "../components/TagRail";
 
 const Home = ({ navigation }) => {
   const {
@@ -27,6 +28,16 @@ const Home = ({ navigation }) => {
     isLoading: tagsLoading,
     isError: tagsError,
   } = useGetAllTags(config.CHANNEL);
+
+  const [filteredTagList, setFilteredTagList] = useState([]);
+
+  const handleTagSelect = (selectedTag) => {
+    if (selectedTag === "전체") {
+      setFilteredTagList(tagList); // 전체 선택 시 모든 태그 표시
+    } else {
+      setFilteredTagList(tagList.filter((tag) => tag === selectedTag)); // 선택한 태그에 해당하는 항목만 필터링
+    }
+  };
 
   const {
     data: currentUploadedMediaList,
@@ -48,16 +59,13 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     console.log("[VIEW] Home");
-
     Orientation.lockToPortrait();
   }, []);
 
-  // 모든 쿼리가 로딩 중이면 로딩 화면
   if (tagsLoading || uploadsLoading || weeklyLoading || playTopNLoading) {
     return <Loading />;
   }
 
-  // 에러 상태 처리
   if (tagsError || uploadsError || weeklyError || playTopNError) {
     return <Error />;
   }
@@ -65,7 +73,6 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
-      {/* contents : vertical scroll */}
       <ScrollView style={styles.contentsArea}>
         <View style={styles.playTopNArea}>
           <Text style={styles.subTitle}>최근 일주일 동안</Text>
@@ -85,28 +92,30 @@ const Home = ({ navigation }) => {
           />
         </View>
         <View style={styles.tagListArea}>
-          {tagList.map((tagName, tagIdx) => (
-            <View key={tagIdx} style={styles.byTagArea}>
-              <View style={styles.titleContainer}>
-                <Text style={styles.sectionTitle}># {tagName}</Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate("MediaList", {
-                      categorized: "tag",
-                      categorizedId: tagName,
-                      headerTitle: "#" + tagName,
-                    });
-                  }}
-                >
-                  <Text style={styles.viewMoreText}>더보기</Text>
-                </TouchableOpacity>
+          <TagRail tagList={tagList} onTagSelect={handleTagSelect} />
+          {(filteredTagList.length > 0 ? filteredTagList : tagList).map(
+            (tagName, tagIdx) => (
+              <View key={tagIdx} style={styles.byTagArea}>
+                <View style={styles.titleContainer}>
+                  <Text style={styles.sectionTitle}># {tagName}</Text>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("MediaList", {
+                        categorized: "tag",
+                        categorizedId: tagName,
+                        headerTitle: "#" + tagName,
+                      });
+                    }}
+                  >
+                    <Text style={styles.viewMoreText}>더보기</Text>
+                  </TouchableOpacity>
+                </View>
+                <MediaCards categorizedId={tagName} navigation={navigation} />
               </View>
-              <MediaCards categorizedId={tagName} navigation={navigation} />
-            </View>
-          ))}
+            )
+          )}
         </View>
       </ScrollView>
-      {/* // contents : vertical scroll */}
     </SafeAreaView>
   );
 };
