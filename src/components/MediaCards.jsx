@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   ScrollView,
   Text,
@@ -14,7 +14,8 @@ import Loading from "./common/loading";
 import Error from "./common/Error";
 
 const MediaCards = (props) => {
-  const categorizedId = props.categorizedId;
+  const { categorizedId, navigation } = props;
+  const scrollViewRef = useRef(null);
 
   /*
    * 태그별 미디어 리스트 가져오기
@@ -24,6 +25,13 @@ const MediaCards = (props) => {
     isLoading,
     isError,
   } = useGetLimitTagMediaList(config.CHANNEL, categorizedId);
+
+  // 태그가 변경될 때마다 스크롤 위치 초기화
+  useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({ x: 0, animated: true });
+    }
+  }, [categorizedId]);
 
   // 로딩 중일 때 로딩 메시지 표시
   if (isLoading) {
@@ -36,43 +44,43 @@ const MediaCards = (props) => {
   }
 
   return (
-    <ScrollView horizontal style={styles.scrollView}>
-      {mediaListByTag.map((media, mediaIdx) => {
-        return (
-          <TouchableOpacity
-            key={mediaIdx}
-            onPress={() => {
-              props.navigation.push("MediaDetail", {
-                channelId: config.CHANNEL,
-                media: media,
-              });
-            }}
+    <ScrollView
+      horizontal
+      style={styles.scrollView}
+      ref={scrollViewRef}
+      showsHorizontalScrollIndicator={false} // 수평 스크롤바를 숨기기 위해 추가
+    >
+      {mediaListByTag.map((media, mediaIdx) => (
+        <TouchableOpacity
+          key={mediaIdx}
+          onPress={() => {
+            navigation.push("MediaDetail", {
+              channelId: config.CHANNEL,
+              media: media,
+            });
+          }}
+        >
+          <View
+            style={[styles.mediaCard, mediaIdx === 0 && styles.firstMediaCard]}
           >
-            <View
-              style={[
-                styles.mediaCard,
-                mediaIdx === 0 && styles.firstMediaCard,
-              ]}
-            >
-              {typeof media.poster_url === "undefined" ||
-              media.poster_url === null ? (
-                <View style={styles.mediaThumbnailEmptyArea}>
-                  <Text style={styles.mediaThumbnailEmptyText}>
-                    {media.media_name}
-                  </Text>
-                </View>
-              ) : (
-                <ImageBackground
-                  source={{ uri: "https://" + media.poster_url }}
-                  resizeMode="cover"
-                  style={styles.mediaThumbnail}
-                  imageStyle={styles.mediaThumbnailImage}
-                ></ImageBackground>
-              )}
-            </View>
-          </TouchableOpacity>
-        );
-      })}
+            {typeof media.poster_url === "undefined" ||
+            media.poster_url === null ? (
+              <View style={styles.mediaThumbnailEmptyArea}>
+                <Text style={styles.mediaThumbnailEmptyText}>
+                  {media.media_name}
+                </Text>
+              </View>
+            ) : (
+              <ImageBackground
+                source={{ uri: "https://" + media.poster_url }}
+                resizeMode="cover"
+                style={styles.mediaThumbnail}
+                imageStyle={styles.mediaThumbnailImage}
+              ></ImageBackground>
+            )}
+          </View>
+        </TouchableOpacity>
+      ))}
     </ScrollView>
   );
 };
