@@ -13,6 +13,7 @@ import { useGetTagListByObject } from "../apis/tags/Queries/useGetTagListByObjec
 import { useGetObjectPlayCount } from "../apis/media/Queries/useGetObjectPlayCount";
 import Error from "../components/common/Error";
 import MediaPlayer from "../components/MediaPlayer";
+import { dateFormatting } from "../constants/dateFormatting";
 
 const MediaDetail = (props) => {
   const { channelId, media } = props.route.params;
@@ -21,13 +22,13 @@ const MediaDetail = (props) => {
   // tag로 object리스트
   const {
     data: tags = [],
-    isLoading: tagsLoading,
+    // isLoading: tagsLoading,
     isError: tagsError,
   } = useGetTagListByObject(channelId, objectId);
 
   const {
     data: playCount = 0,
-    isLoading: playCountLoading,
+    // isLoading: playCountLoading,
     isError: playCountError,
   } = useGetObjectPlayCount(objectId);
 
@@ -54,7 +55,7 @@ const MediaDetail = (props) => {
               </Text>
             </View>
             <View style={styles.mediaDetailArea}>
-              <Text style={styles.mediaDetailTextWithWhtieFont}>
+              <Text style={styles.mediaDetailTextWithWhiteFont}>
                 {media.duration}
               </Text>
             </View>
@@ -63,17 +64,7 @@ const MediaDetail = (props) => {
             </View>
             <View style={styles.mediaDetailArea}>
               <Text style={styles.mediaDetailText}>
-                {media.created.substring(0, 4) +
-                  "-" +
-                  media.created.substring(4, 6) +
-                  "-" +
-                  media.created.substring(6, 8) +
-                  " " +
-                  media.created.substring(8, 10) +
-                  ":" +
-                  media.created.substring(10, 12) +
-                  ":" +
-                  media.created.substring(12, 14)}
+                {dateFormatting(media.created)}
               </Text>
             </View>
             <View style={styles.channelTagArea}>
@@ -123,7 +114,7 @@ const styles = StyleSheet.create({
     paddingRight: 30,
     paddingBottom: 3,
   },
-  mediaDetailTextWithWhtieFont: {
+  mediaDetailTextWithWhiteFont: {
     fontFamily: "Pretendard-Regular",
     fontSize: 16,
     color: "#ffffff",
@@ -149,17 +140,6 @@ const styles = StyleSheet.create({
     fontFamily: "Pretendard-SemiBold",
     fontSize: 18,
     color: "#3acbc1",
-  },
-  mediaDescriptionArea: {
-    width: "100%",
-    paddingLeft: 30,
-    paddingRight: 30,
-    paddingTop: 10,
-  },
-  mediaDescriptionText: {
-    fontSize: 18,
-    color: "#eeeeee",
-    textAlign: "left",
   },
 });
 

@@ -15,6 +15,7 @@ import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
 import Loading from "../components/common/loading";
 import Error from "../components/common/Error";
 import { SIZES } from "../styles/theme";
+import { dateFormatting } from "../constants/dateFormatting";
 
 const MediaList = (props) => {
   const categorizedId = props.route.params.categorizedId;
@@ -26,7 +27,6 @@ const MediaList = (props) => {
     data: mediaList,
     isLoading,
     isError,
-    error,
   } = useGetTagMediaList(config.CHANNEL, categorizedId);
 
   if (isLoading) {
@@ -77,17 +77,7 @@ const MediaList = (props) => {
                     </View>
                     <View style={styles.mediaTextWrapper}>
                       <Text style={styles.mediaSubText}>
-                        {media.created.substring(0, 4) +
-                          "-" +
-                          media.created.substring(4, 6) +
-                          "-" +
-                          media.created.substring(6, 8) +
-                          " " +
-                          media.created.substring(8, 10) +
-                          ":" +
-                          media.created.substring(10, 12) +
-                          ":" +
-                          media.created.substring(12, 14)}
+                        {dateFormatting(media.created)}
                       </Text>
                     </View>
                   </View>
@@ -124,7 +114,6 @@ const styles = StyleSheet.create({
     height: SIZES.height / 10,
     flex: 1,
     flexDirection: "row",
-    borderBottomWidth: 2,
   },
   mediaThumbnailArea: {
     flex: 1,
@@ -180,14 +169,7 @@ const styles = StyleSheet.create({
     marginVertical: 15,
     marginHorizontal: 30,
   },
-  loaderContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#000000",
-  },
   iconContainer: {
-    display: "flex",
     justifyContent: "center",
   },
 });
