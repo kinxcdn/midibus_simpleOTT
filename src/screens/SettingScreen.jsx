@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,29 +14,117 @@ import { storage } from "../constants/storage";
 import RNFS from "react-native-fs";
 import Orientation from "react-native-orientation-locker";
 
+// 유틸리티 함수로 분리할 수 있음
+const convertHumanbytes = (bytesValue, decimals = 2) => {
+  if (!bytesValue) return "0 bytes";
+  const k = 1024;
+  const sizes = ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+  const i = Math.floor(Math.log(bytesValue) / Math.log(k));
+  return `${parseFloat((bytesValue / Math.pow(k, i)).toFixed(decimals))} ${
+    sizes[i]
+  }`;
+};
+
 const Settings = ({ navigation }) => {
-  console.log("[VIEW] Settings");
+  useEffect(() => {
+    console.log("[VIEW] Settings");
+    Orientation.lockToPortrait();
+  }, []);
 
-  Orientation.lockToPortrait();
+  const showTermsAlert = () => {
+    const terms = [
+      {
+        text: "개인정보처리 방침",
+        url: "https://www.kinx.net/agreements/agreements-3/policy01/",
+      },
+      {
+        text: "KINX CDN(미디버스) 서비스 이용약관",
+        url: "https://www.kinx.net/agreements/agreements/agreement03/",
+      },
+    ];
 
-  const convertHumanbytes = (bytesValue, decimals) => {
-    let readableHumanBytes = "";
-    if (
-      typeof bytesValue === "undefined" ||
-      bytesValue === null ||
-      bytesValue === 0
-    )
-      return "0 bytes";
+    Alert.alert(
+      "약관 원문 보기",
+      null,
+      [
+        ...terms.map((term) => ({
+          text: term.text,
+          onPress: () => Linking.openURL(term.url),
+        })),
+        {
+          text: "취소",
+          style: "cancel",
+        },
+      ],
+      { cancelable: true }
+    );
+  };
 
-    const k = 1024,
-      dm = decimals || 2,
-      sizes = ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"],
-      i = Math.floor(Math.log(bytesValue) / Math.log(k));
+  const handleClearCache = () => {
+    RNFS.exists(RNFS.CachesDirectoryPath).then((exists) => {
+      if (!exists) {
+        return Alert.alert(
+          "저장된 캐시 데이터 삭제",
+          "캐시에 임시 저장된 데이터(0 bytes)를 삭제합니다.",
+          [{ text: "확인", style: "cancel" }],
+          { cancelable: false }
+        );
+      }
 
-    readableHumanBytes =
-      parseFloat((bytesValue / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+      RNFS.readDir(RNFS.CachesDirectoryPath).then((cacheFiles) => {
+        const cacheFileSize = cacheFiles.reduce(
+          (acc, file) => acc + file.size,
+          0
+        );
 
-    return readableHumanBytes;
+        const deleteFiles = () => {
+          cacheFiles.forEach((file) => {
+            RNFS.unlink(file.path).catch((err) =>
+              console.error("Failed to delete file", err)
+            );
+          });
+        };
+
+        Alert.alert(
+          "저장된 캐시 데이터 삭제",
+          `캐시에 임시 저장된 데이터(${convertHumanbytes(
+            cacheFileSize
+          )})를 삭제합니다.`,
+          [
+            {
+              text: "취소",
+              style: "cancel",
+            },
+            {
+              text: "삭제",
+              onPress: deleteFiles,
+            },
+          ],
+          { cancelable: false }
+        );
+      });
+    });
+  };
+
+  const handleLogout = () => {
+    Alert.alert(
+      "로그아웃",
+      "정말 로그아웃 하시겠어요?",
+      [
+        {
+          text: "취소",
+          style: "cancel",
+        },
+        {
+          text: "로그아웃",
+          onPress: () => {
+            storage.clearAll();
+            navigation.navigate("Login");
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   return (
@@ -44,229 +132,22 @@ const Settings = ({ navigation }) => {
       <View style={styles.headerArea}>
         <Text style={styles.headerText}>설정</Text>
       </View>
-      {/* contents : vertical scroll */}
       <ScrollView style={styles.contentsArea}>
         <View style={styles.settingsMenu}>
-          <View style={styles.versionInfoLeft}>
-            <Text style={styles.settingsMenuName}>버전정보</Text>
-          </View>
-          <View style={styles.versionInfoRight}>
-            <Text style={styles.version}>0.0.1</Text>
-          </View>
+          <Text style={styles.settingsMenuName}>버전정보</Text>
+          <Text style={styles.version}>0.0.1</Text>
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            if (Platform.OS === "android") {
-              Alert.alert(
-                "약관 원문 보기",
-                null,
-                [
-                  {
-                    text: "취소",
-                    onPress: () => {},
-                    style: "cancel",
-                  },
-                  {
-                    text: "개인정보처리 방침",
-                    onPress: () => {
-                      Linking.openURL(
-                        "https://www.kinx.net/agreements/agreements-3/policy01/"
-                      );
-                    },
-                    style: "default",
-                  },
-
-                  {
-                    text: "KINX CDN(미디버스) 서비스 이용약관",
-                    onPress: () => {
-                      Linking.openURL(
-                        "https://www.kinx.net/agreements/agreements/agreement03/"
-                      );
-                    },
-                    style: (() => {
-                      if (Platform.OS === "android") {
-                        return "plain-text";
-                      }
-                      return "default";
-                    })(),
-                  },
-                ],
-                { cancelable: true }
-              );
-            } else {
-              Alert.alert(
-                "약관 원문 보기",
-                null,
-                [
-                  {
-                    text: "KINX CDN(미디버스) 서비스 이용약관",
-                    onPress: () => {
-                      Linking.openURL(
-                        "https://www.kinx.net/agreements/agreements/agreement03/"
-                      );
-                    },
-                    style: (() => {
-                      if (Platform.OS === "android") {
-                        return "plain-text";
-                      }
-                      return "default";
-                    })(),
-                  },
-                  {
-                    text: "개인정보처리 방침",
-                    onPress: () => {
-                      Linking.openURL(
-                        "https://www.kinx.net/agreements/agreements-3/policy01/"
-                      );
-                    },
-                    style: "default",
-                  },
-                  {
-                    text: "취소",
-                    onPress: () => {},
-                    style: "cancel",
-                  },
-                ],
-                { cancelable: true }
-              );
-            }
-          }}
-        >
+        <TouchableOpacity onPress={showTermsAlert}>
           <View style={styles.settingsMenu}>
             <Text style={styles.settingsMenuName}>약관</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            RNFS.exists(RNFS.CachesDirectoryPath).then((exists) => {
-              if (exists) {
-                console.log("file exists");
-                RNFS.readDir(RNFS.CachesDirectoryPath).then((cacheFiles) => {
-                  if (
-                    typeof cacheFiles !== "undefined" &&
-                    cacheFiles !== null &&
-                    cacheFiles.length > 0
-                  ) {
-                    let cacheFileSize = 0;
-                    let deletedTargetFiles = [];
-
-                    for (let f = 0; f < cacheFiles.length; f++) {
-                      cacheFileSize += cacheFiles[f].size * 1;
-                      deletedTargetFiles.push(cacheFiles[f].path);
-                    }
-
-                    Alert.alert(
-                      "저장된 캐시 데이터 삭제",
-                      "캐시에 임시 저장된 데이터(" +
-                        convertHumanbytes(cacheFileSize) +
-                        ")를 삭제합니다.",
-                      [
-                        {
-                          text: "취소",
-                          onPress: () => console.log("캐시 삭제 취소"),
-                          style: "cancel",
-                        },
-                        {
-                          text: "삭제",
-                          onPress: () => {
-                            console.log("캐시 삭제 수행");
-
-                            for (
-                              let f = 0;
-                              f < deletedTargetFiles.length;
-                              f++
-                            ) {
-                              RNFS.unlink(deletedTargetFiles[f])
-                                .then(() => {
-                                  console.log(
-                                    deletedTargetFiles[f] + " DELETED"
-                                  );
-                                })
-                                .catch((err) => {
-                                  console.log(err.message);
-                                });
-                            }
-                          },
-                        },
-                      ],
-                      { cancelable: false }
-                    );
-                  } else {
-                    console.log("cache directory is empty");
-
-                    Alert.alert(
-                      "저장된 캐시 데이터 삭제",
-                      "캐시에 임시 저장된 데이터(0 bytes)를 삭제합니다.",
-                      [
-                        {
-                          text: "취소",
-                          onPress: () => console.log("캐시 삭제 취소"),
-                          style: "cancel",
-                        },
-                        {
-                          text: "삭제",
-                          onPress: () => {
-                            console.log("0 bytes 캐시 삭제 수행");
-                          },
-                        },
-                      ],
-                      { cancelable: false }
-                    );
-                  }
-                });
-              } else {
-                console.log("file doesnt exists");
-
-                Alert.alert(
-                  "저장된 캐시 데이터 삭제",
-                  "캐시에 임시 저장된 데이터(0 bytes)를 삭제합니다.",
-                  [
-                    {
-                      text: "취소",
-                      onPress: () => console.log("캐시 삭제 취소"),
-                      style: "cancel",
-                    },
-                    {
-                      text: "삭제",
-                      onPress: () => {
-                        console.log("0 bytes 캐시 삭제 수행");
-                      },
-                    },
-                  ],
-                  { cancelable: false }
-                );
-              }
-            });
-          }}
-        >
+        <TouchableOpacity onPress={handleClearCache}>
           <View style={styles.settingsMenu}>
             <Text style={styles.settingsMenuName}>저장된 캐시 데이터 삭제</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            Alert.alert(
-              "로그아웃",
-              "정말 로그아웃 하시겠어요?",
-              [
-                {
-                  text: "취소",
-                  onPress: () => console.log("로그아웃 취소"),
-                  style: "cancel",
-                },
-                {
-                  text: "로그아웃",
-                  onPress: () => {
-                    console.log("로그아웃");
-                    storage.clearAll();
-                    navigation.navigate("Login");
-                  },
-                },
-              ],
-              { cancelable: false }
-            );
-          }}
-        >
+        <TouchableOpacity onPress={handleLogout}>
           <View style={styles.settingsMenu}>
             <Text style={styles.settingsMenuName}>로그아웃</Text>
           </View>
@@ -278,19 +159,18 @@ const Settings = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
+    flex: 1,
     backgroundColor: "#000000",
   },
   headerArea: {
     width: "100%",
     height: 100,
+    justifyContent: "center",
+    paddingLeft: 30,
   },
   headerText: {
     fontSize: 30,
     color: "#fff",
-    marginTop: 30,
-    marginLeft: 30,
   },
   contentsArea: {
     width: "100%",
@@ -301,30 +181,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#2e2e2e",
     height: 40,
     marginBottom: 1,
-    flex: 1,
+    paddingHorizontal: 30,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   settingsMenuName: {
     color: "#fff",
     fontSize: 18,
-    lineHeight: Platform.OS === "android" ? 40 : 50,
-    paddingLeft: 30,
-    textAlign: "left",
   },
   version: {
     color: "#fff",
     fontSize: 16,
-    lineHeight: Platform.OS === "android" ? 40 : 50,
-    paddingRight: 30,
-    textAlign: "right",
-  },
-  versionInfoLeft: {
-    height: 40,
-    alignSelf: "flex-start",
-  },
-  versionInfoRight: {
-    height: 40,
-    alignSelf: "flex-end",
-    marginTop: -40,
   },
 });
 
