@@ -8,12 +8,11 @@ import {
   ScrollView,
 } from "react-native";
 import Orientation from "react-native-orientation-locker";
-import JWPlayer from "@jwplayer/jwplayer-react-native";
-import * as config from "../constants/properties";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetTagListByObject } from "../apis/tags/Queries/useGetTagListByObject";
 import { useGetObjectPlayCount } from "../apis/media/Queries/useGetObjectPlayCount";
 import Error from "../components/common/Error";
+import MediaPlayer from "../components/MediaPlayer";
 
 const MediaDetail = (props) => {
   const { channelId, media } = props.route.params;
@@ -33,69 +32,9 @@ const MediaDetail = (props) => {
   } = useGetObjectPlayCount(objectId);
 
   useEffect(() => {
-    const fetchData = async () => {
-      console.log("[VIEW] MediaDetail");
-      Orientation.lockToPortrait();
-    };
-
-    fetchData();
+    console.log("[VIEW] MediaDetail");
+    Orientation.lockToPortrait();
   }, []);
-
-  const playerConfigs = {
-    license: Platform.select({
-      ios: config.JW_IOS_API_KEY,
-      android: config.JW_ANDROID_API_KEY,
-    }),
-    enableLockScreenControls: false,
-    pipEnabled: false,
-    autostart: true,
-    controls: true,
-    backgroundAudioEnabled: false,
-    playlist: [
-      {
-        mediaId: objectId,
-        file: `https://hls.midibus.dev-kinxcdn.com/hls/${channelId}/${objectId}/v/playlist.m3u8`,
-        image: media ? "https://" + media.poster_url : null,
-        title: null,
-        autostart: true,
-        backgroundAudioEnabled: false,
-        stretching: "uniform",
-      },
-    ],
-    fullScreenOnLandscape: false,
-    landscapeOnFullScreen: false,
-    portraitOnExitFullScreen: false,
-    exitFullScreenOnPortrait: false,
-    nativeFullScreen: false,
-  };
-
-  const onPlaylistItem = (evt) => {};
-  const onBuffer = () => {};
-  const onPlayerError = (evt) => {
-    console.log(">>>>> onPlayerError");
-    console.log(evt.nativeEvent);
-  };
-  const onBeforePlay = () => {};
-  const onPlay = () => {};
-  const onPause = () => {};
-  const onSetupPlayerError = (evt) => {
-    console.log(">>>>> onSetupPlayerError");
-    console.log(evt);
-  };
-  const onTime = (evt) => {};
-  const onFullScreen = () => {
-    Orientation.lockToLandscapeLeft();
-  };
-  const onFullScreenExitRequested = () => {
-    Orientation.lockToPortrait();
-  };
-  const onFullScreenExit = () => {
-    Orientation.lockToPortrait();
-  };
-
-  // if (tagsLoading || playCountLoading) {
-  //   return <Loading />;
-  // }
 
   if (tagsError || playCountError) {
     return <Error />;
@@ -104,23 +43,7 @@ const MediaDetail = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       {media && (
-        <View style={styles.playerArea}>
-          <JWPlayer
-            style={styles.jwPlayer}
-            ref={(p) => (this.JWPlayer = p)}
-            config={playerConfigs}
-            onPlay={() => onPlay()}
-            onPause={() => onPause()}
-            onPlaylistItem={(event) => onPlaylistItem(event)}
-            onSetupPlayerError={(event) => onSetupPlayerError(event)}
-            onPlayerError={(event) => onPlayerError(event)}
-            onBuffer={() => onBuffer()}
-            onTime={(event) => onTime(event)}
-            onFullScreen={() => onFullScreen()}
-            onFullScreenExitRequested={() => onFullScreenExitRequested()}
-            onFullScreenExit={() => onFullScreenExit()}
-          />
-        </View>
+        <MediaPlayer channelId={channelId} media={media} objectId={objectId} />
       )}
       <ScrollView>
         {media && (
@@ -182,16 +105,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000000",
   },
-  playerArea: {
-    width: "100%",
-    height: 300,
-    marginTop: 20,
-    marginBottom: 20,
-    backgroundColor: "grey",
-  },
-  jwPlayer: {
-    flex: 1,
-  },
   mediaTitleArea: {
     width: "100%",
     paddingLeft: 30,
@@ -247,26 +160,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#eeeeee",
     textAlign: "left",
-  },
-  loaderContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#000000",
-  },
-  lottieView: {
-    width: "30%",
-    height: "30%",
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#000000",
-  },
-  errorText: {
-    fontSize: 18,
-    color: "red",
   },
 });
 

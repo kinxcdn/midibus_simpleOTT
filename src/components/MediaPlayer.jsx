@@ -1,67 +1,31 @@
 import React from "react";
-import { Platform } from "react-native";
+import { View, StyleSheet } from "react-native";
+import JWPlayer from "@jwplayer/jwplayer-react-native";
 import Orientation from "react-native-orientation-locker";
-import * as propConfig from "../constants/properties";
+import * as config from "../constants/properties";
 
-const MediaPlayer = ({ mediaInfo }) => {
-  const mediaInfo = props.mediaInfo;
-
-  const onPlaylistItem = (evt) => {
-    //console.log('>>>>> onPlaylistItem');
-    //console.log(evt);
-  };
-  const onBuffer = () => {
-    //console.log('>>>>> onBuffer');
-  };
-  const onPlayerError = (evt) => {
-    console.log(">>>>> onPlayerError");
-    console.log(evt.nativeEvent);
-  };
-
-  const onBeforePlay = () => {
-    // console.log('>>>>> onBeforePlay');
-  };
-  const onPlay = () => {
-    // console.log('>>>>> onPlay');
-  };
-  const onPause = () => {
-    // console.log('>>>>> onPause');
-  };
-
-  const onSetupPlayerError = (evt) => {
-    console.log(">>>>> onSetupPlayerError");
-    console.log(evt);
-  };
-
-  const onTime = (evt) => {
-    //  console.log('>>>>> onTime');
-  };
-  const onFullScreen = () => {
-    console.log(">>>>> onFullScreen");
-    Orientation.lockToLandscapeLeft();
-    props.changePlayerState(100);
-  };
-  const onFullScreenExitRequested = () => {
-    console.log(">>>>> onFullScreenExitRequested");
-    //Orientation.lockToLandscapeLeft();
-    props.changePlayerState(-100);
-  };
-  const onFullScreenExit = () => {
-    console.log(">>>>> onFullScreenExit");
-    //Orientation.lockToLandscapeLeft();
-    props.changePlayerState(-100);
-  };
-
-  const config = {
+const MediaPlayer = ({ channelId, media, objectId }) => {
+  const playerConfigs = {
     license: Platform.select({
-      ios: propConfig.JW_IOS_API_KEY,
-      android: propConfig.JW_ANDROID_API_KEY,
+      ios: config.JW_IOS_API_KEY,
+      android: config.JW_ANDROID_API_KEY,
     }),
     enableLockScreenControls: false,
-    pipEnabled: true,
+    pipEnabled: false,
     autostart: true,
     controls: true,
-    playlist: [mediaInfo],
+    backgroundAudioEnabled: false,
+    playlist: [
+      {
+        mediaId: objectId,
+        file: `https://hls.midibus.dev-kinxcdn.com/hls/${channelId}/${objectId}/v/playlist.m3u8`,
+        image: media ? "https://" + media.poster_url : null,
+        title: null,
+        autostart: true,
+        backgroundAudioEnabled: false,
+        stretching: "uniform",
+      },
+    ],
     fullScreenOnLandscape: false,
     landscapeOnFullScreen: false,
     portraitOnExitFullScreen: false,
@@ -69,23 +33,62 @@ const MediaPlayer = ({ mediaInfo }) => {
     nativeFullScreen: false,
   };
 
+  const onPlaylistItem = (evt) => {};
+  const onBuffer = () => {};
+  const onPlayerError = (evt) => {
+    console.log(">>>>> onPlayerError");
+    console.log(evt.nativeEvent);
+  };
+  const onBeforePlay = () => {};
+  const onPlay = () => {};
+  const onPause = () => {};
+  const onSetupPlayerError = (evt) => {
+    console.log(">>>>> onSetupPlayerError");
+    console.log(evt);
+  };
+  const onTime = (evt) => {};
+  const onFullScreen = () => {
+    Orientation.lockToLandscapeLeft();
+  };
+  const onFullScreenExitRequested = () => {
+    Orientation.lockToPortrait();
+  };
+  const onFullScreenExit = () => {
+    Orientation.lockToPortrait();
+  };
+
   return (
-    // <JWPlayer
-    //   style={}
-    //   ref={p => (this.JWPlayer = p)}
-    //   config={config}
-    //   onPlay={() => onPlay()}
-    //   onPause={() => onPause()}
-    //   onPlaylistItem={event => onPlaylistItem(event)}
-    //   onSetupPlayerError={event => onSetupPlayerError(event)}
-    //   onPlayerError={event => onPlayerError(event)}
-    //   onBuffer={() => onBuffer()}
-    //   onTime={event => onTime(event)}
-    //   onFullScreen={() => onFullScreen()}
-    //   onFullScreenExitRequested={() => onFullScreenExitRequested()}
-    //   onFullScreenExit={() => onFullScreenExit()}></JWPlayer>
-    <View>테스트</View>
+    <View style={styles.playerArea}>
+      <JWPlayer
+        style={styles.jwPlayer}
+        ref={(p) => (this.JWPlayer = p)}
+        config={playerConfigs}
+        onPlay={() => onPlay()}
+        onPause={() => onPause()}
+        onPlaylistItem={(event) => onPlaylistItem(event)}
+        onSetupPlayerError={(event) => onSetupPlayerError(event)}
+        onPlayerError={(event) => onPlayerError(event)}
+        onBuffer={() => onBuffer()}
+        onTime={(event) => onTime(event)}
+        onFullScreen={() => onFullScreen()}
+        onFullScreenExitRequested={() => onFullScreenExitRequested()}
+        onFullScreenExit={() => onFullScreenExit()}
+      />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  playerArea: {
+    width: "100%",
+    height: 300,
+    marginTop: 20,
+    marginBottom: 20,
+    backgroundColor: "grey",
+  },
+  jwPlayer: {
+    flex: 1,
+  },
+});
 
 export default MediaPlayer;
