@@ -5,13 +5,13 @@ const instance = axios.create({
   baseURL: `https://api-v2.midibus.dev-kinxcdn.com`,
 });
 
-export async function getAuthToken() {
-  const value = await storage.getString("authKey");
+export function getAuthToken() {
+  const value = storage.getString("authKey");
   return value;
 }
 
-instance.interceptors.request.use(async (config) => {
-  const _authKey = await getAuthToken();
+instance.interceptors.request.use((config) => {
+  const _authKey = getAuthToken();
   if (_authKey) {
     config.headers["X-Mbus-Token"] = _authKey;
   }
