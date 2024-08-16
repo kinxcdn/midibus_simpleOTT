@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import Icon from "react-native-vector-icons/Ionicons";
 
 const TagRail = ({ tagList, onTagSelect }) => {
   const [selectedTag, setSelectedTag] = useState("전체");
@@ -43,6 +44,7 @@ const TagRail = ({ tagList, onTagSelect }) => {
                 colors={["#9EC95B", "#33AE71"]} // Customize your gradient colors here
                 style={styles.gradientBackground}
               >
+                <Icon name="pricetags" size={18} color="#fff" />
                 <Text style={styles.selectedAllTagText}>{tag}</Text>
               </LinearGradient>
             ) : (
@@ -105,6 +107,9 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   gradientBackground: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 12,
@@ -115,6 +120,7 @@ const styles = StyleSheet.create({
     fontFamily: "Pretendard-Medium",
     fontSize: 20,
     textAlign: "center",
+    marginLeft: 10,
   },
 });
 
