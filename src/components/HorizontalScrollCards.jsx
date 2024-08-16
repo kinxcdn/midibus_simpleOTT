@@ -12,6 +12,7 @@ import Orientation from "react-native-orientation-locker";
 import Empty from "./common/Empty";
 import { SIZES } from "../styles/theme";
 import { removeFileExtension } from "../constants/removeFileExtension";
+import { uploadTimeAgo } from "../constants/uploadTimeAgo";
 
 const HorizontalScrollCards = ({ mediaList, channelId, navigation }) => {
   Orientation.lockToPortrait();
@@ -19,8 +20,6 @@ const HorizontalScrollCards = ({ mediaList, channelId, navigation }) => {
   if (!mediaList || mediaList.length === 0) {
     return <Empty message="최근에 업로드한 영상이 없습니다.." />;
   }
-
-  console.log(mediaList[0].created);
 
   return (
     <ScrollView horizontal={true} style={styles.scrollView}>
@@ -56,8 +55,7 @@ const HorizontalScrollCards = ({ mediaList, channelId, navigation }) => {
               {removeFileExtension(media.media_name)}
             </Text>
             <Text style={styles.mediaDateAgo}>
-              {/* {removeFileExtension(media.media_name)} */}
-              3일 전
+              {uploadTimeAgo(media.created)}
             </Text>
           </View>
         </TouchableOpacity>

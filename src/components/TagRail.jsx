@@ -39,14 +39,23 @@ const TagRail = ({ tagList, onTagSelect }) => {
             ]}
             onPress={() => handleTagPress(tag)}
           >
-            {tag === "전체" && selectedTag === tag ? (
-              <LinearGradient
-                colors={["#9EC95B", "#33AE71"]} // Customize your gradient colors here
-                style={styles.gradientBackground}
-              >
-                <Icon name="pricetags" size={18} color="#fff" />
-                <Text style={styles.selectedAllTagText}>{tag}</Text>
-              </LinearGradient>
+            {tag === "전체" ? (
+              <View style={styles.iconTextContainer}>
+                {selectedTag === tag ? (
+                  <LinearGradient
+                    colors={["#9EC95B", "#33AE71"]}
+                    style={styles.gradientBackground}
+                  >
+                    <Icon name="pricetags" size={18} color="#fff" />
+                    <Text style={styles.selectedAllTagText}>{tag}</Text>
+                  </LinearGradient>
+                ) : (
+                  <>
+                    <Icon name="pricetags" size={18} color="#fff" />
+                    <Text style={styles.allTagText}>{tag}</Text>
+                  </>
+                )}
+              </View>
             ) : (
               <Text
                 style={[
@@ -98,6 +107,10 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     paddingHorizontal: 0,
   },
+  iconTextContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   tagText: {
     fontFamily: "Pretendard-Medium",
     color: "#fff",
@@ -105,6 +118,13 @@ const styles = StyleSheet.create({
   },
   selectedTagText: {
     color: "#000",
+  },
+  allTagText: {
+    color: "#fff",
+    fontFamily: "Pretendard-Medium",
+    fontSize: 20,
+    textAlign: "center",
+    marginLeft: 10,
   },
   gradientBackground: {
     flexDirection: "row",
