@@ -50,7 +50,7 @@ const MediaDetail = (props) => {
         {media && (
           <>
             <View style={styles.mediaTitleArea}>
-              <Text style={styles.mediaTitleText}>
+              <Text style={styles.mediaTitleText} numberOfLines={0}>
                 {removeFileExtension(media.media_name)}
               </Text>
             </View>
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   tagText: {
     fontFamily: "Pretendard-SemiBold",
     fontSize: 18,
-    color: "#3acbc1",
+    color: "#2ED88F",
   },
 });
 

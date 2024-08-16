@@ -39,7 +39,6 @@ const MediaPlayer = ({ channelId, media, objectId }) => {
     console.log(">>>>> onPlayerError");
     console.log(evt.nativeEvent);
   };
-  const onBeforePlay = () => {};
   const onPlay = () => {};
   const onPause = () => {};
   const onSetupPlayerError = (evt) => {
