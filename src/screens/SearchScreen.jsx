@@ -21,6 +21,7 @@ import { useKeywordSearch } from "../apis/search/Queries/useKeywordSearch";
 import Loading from "../components/common/loading";
 import Error from "../components/common/Error";
 import { SIZES } from "../styles/theme";
+import Header from "../components/common/Header";
 
 const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
@@ -65,15 +66,7 @@ const Search = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.headerArea}>
-        <Image
-          source={require("../assets/images/logo_midibus_small.png")}
-          style={styles.logoImage}
-        />
-        <View style={styles.iconContainer}>
-          <Icon name="person-circle-outline" size={35} color={"#ffffff"} />
-        </View>
-      </View>
+      <Header />
       <View style={styles.keywordInputArea}>
         <View
           style={[

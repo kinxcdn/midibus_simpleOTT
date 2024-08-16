@@ -21,6 +21,7 @@ import { useGetPlayTopNMediaList } from "../apis/media/Queries/useGetPlayTopNMed
 import Error from "../components/common/Error";
 import Loading from "../components/common/loading";
 import { SIZES } from "../styles/theme";
+import Header from "../components/common/Header";
 
 const Home = ({ navigation }) => {
   const {
@@ -65,15 +66,7 @@ const Home = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.headerArea}>
-        <Image
-          source={require("../assets/images/logo_midibus_small.png")}
-          style={styles.logoImage}
-        />
-        <View style={styles.iconContainer}>
-          <Icon name="person-circle-outline" size={35} color={"#ffffff"} />
-        </View>
-      </View>
+      <Header />
       {/* contents : vertical scroll */}
       <ScrollView style={styles.contentsArea}>
         <View style={styles.playTopNArea}>
