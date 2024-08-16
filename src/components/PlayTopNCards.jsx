@@ -4,13 +4,13 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
   Text,
 } from "react-native";
 import Orientation from "react-native-orientation-locker";
 import Swiper from "react-native-swiper";
 import Video from "react-native-video";
 import { removeFileExtension } from "../constants/removeFileExtension";
+import { SIZES } from "../styles/theme";
 import Empty from "./common/Empty";
 
 const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
@@ -117,10 +117,10 @@ const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
 };
 
 const getScreenWidthSize = () => {
-  const screenSize1 = Dimensions.get("screen").width;
-  const screenSize2 = Dimensions.get("screen").height;
+  const width = SIZES.width;
+  const height = SIZES.height;
 
-  return screenSize1 < screenSize2 ? screenSize1 : screenSize2;
+  return width < height ? width : height;
 };
 
 const styles = StyleSheet.create({

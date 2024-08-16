@@ -5,12 +5,12 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
   Text,
 } from "react-native";
 import Orientation from "react-native-orientation-locker";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import Empty from "./common/Empty";
+import { SIZES } from "../styles/theme";
 
 const HorizontalScrollCards = ({ mediaList, channelId, navigation }) => {
   Orientation.lockToPortrait();
@@ -20,84 +20,89 @@ const HorizontalScrollCards = ({ mediaList, channelId, navigation }) => {
   }
 
   return (
-    <ScrollView horizontal={true} style={{ marginLeft: 0 }}>
-      {mediaList.map((media, mediaIdx) => {
-        return (
-          <TouchableOpacity
-            key={"scroll" + mediaIdx}
-            onPress={() => {
-              navigation.navigate("MediaDetail", {
-                channelId: channelId,
-                media: media,
-                objectId: media.object_id,
-              });
-            }}
-          >
-            <View style={styles.mediaCard}>
-              {typeof media.poster_url === "undefined" ||
-              media.poster_url === null ? (
-                <View style={styles.mediaThumbnailEmptyArea}>
-                  <Text style={styles.mediaThumbnailEmptyText}>
-                    {removeFileExtension(media.media_name)}
-                  </Text>
-                </View>
-              ) : (
-                <ImageBackground
-                  source={{ uri: "https://" + media.poster_url }}
-                  resizeMode="cover"
-                  style={styles.mediaThumbnail}
-                  imageStyle={{ borderRadius: 7 }}
-                ></ImageBackground>
-              )}
-            </View>
+    <ScrollView horizontal={true} style={styles.scrollView}>
+      {mediaList.map((media, mediaIdx) => (
+        <TouchableOpacity
+          key={"scroll" + mediaIdx}
+          onPress={() => {
+            navigation.navigate("MediaDetail", {
+              channelId: channelId,
+              media: media,
+              objectId: media.object_id,
+            });
+          }}
+          style={styles.touchable}
+        >
+          <View style={styles.mediaCard}>
+            {!media.poster_url ? (
+              <View style={styles.mediaThumbnailEmptyArea}>
+                <Text style={styles.mediaThumbnailEmptyText}>
+                  {removeFileExtension(media.media_name)}
+                </Text>
+              </View>
+            ) : (
+              <ImageBackground
+                source={{ uri: `https://${media.poster_url}` }}
+                resizeMode="cover"
+                style={styles.mediaThumbnail}
+                imageStyle={styles.mediaThumbnailImage}
+              />
+            )}
+          </View>
 
-            <View style={styles.mediaNameArea}>
-              <Text style={styles.mediaText} numberOfLines={2}>
-                {removeFileExtension(media.media_name)}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        );
-      })}
+          <View style={styles.mediaNameArea}>
+            <Text style={styles.mediaText} numberOfLines={2}>
+              {removeFileExtension(media.media_name)}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      ))}
     </ScrollView>
   );
 };
 
 const getScreenWidthSize = () => {
-  const screenSize1 = Dimensions.get("screen").width;
-  const screenSize2 = Dimensions.get("screen").height;
-
-  return screenSize1 < screenSize2 ? screenSize1 : screenSize2;
+  const width = SIZES.width;
+  const height = SIZES.height;
+  return Math.min(width, height);
 };
 
 const styles = StyleSheet.create({
-  mediaCard: {
-    width: getScreenWidthSize() - 20 - 30,
-    height: ((getScreenWidthSize() - 20) * 9) / 16,
-    backgroundColor: "#898989",
+  scrollView: {
+    marginLeft: 0,
+  },
+  touchable: {
     margin: 10,
+  },
+  mediaCard: {
+    width: getScreenWidthSize() - 50, // Adjusted for consistent spacing
+    height: ((getScreenWidthSize() - 50) * 9) / 16,
+    backgroundColor: "#898989",
+    borderRadius: 7,
+    overflow: "hidden", // Ensures the borderRadius is applied correctly
+  },
+  mediaThumbnail: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  mediaThumbnailImage: {
     borderRadius: 7,
   },
   mediaNameArea: {
-    width: getScreenWidthSize() - 30,
+    width: getScreenWidthSize() - 50,
     height: 60,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingHorizontal: 20,
   },
   mediaText: {
     fontFamily: "Pretendard-SemiBold",
     fontSize: 16,
     color: "#fff",
   },
-  mediaThumbnail: {
-    flex: 1,
-    justifyContent: "center",
-  },
   mediaThumbnailEmptyArea: {
     backgroundColor: "#28292c",
-    height: "100%",
-    borderRadius: 7,
+    flex: 1,
     justifyContent: "center",
+    alignItems: "center",
   },
   mediaThumbnailEmptyText: {
     fontSize: 15,

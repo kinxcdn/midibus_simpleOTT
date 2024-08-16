@@ -5,7 +5,6 @@ import {
   View,
   Image,
   TouchableOpacity,
-  Dimensions,
   SafeAreaView,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -21,6 +20,7 @@ import { useGetMostWeeklyPlayedMediaList } from "../apis/media/Queries/useGetMos
 import { useGetPlayTopNMediaList } from "../apis/media/Queries/useGetPlayTopNMediaList";
 import Error from "../components/common/Error";
 import Loading from "../components/common/loading";
+import { SIZES } from "../styles/theme";
 
 const Home = ({ navigation }) => {
   const {
@@ -148,13 +148,13 @@ const styles = StyleSheet.create({
   },
   playTopNArea: {
     width: "100%",
-    height: ((Dimensions.get("window").width - 30) * 9) / 16 + 60 + 80,
+    height: ((SIZES.width - 30) * 9) / 16 + 60 + 80,
     marginBottom: 10,
     marginTop: 10,
   },
   currentArea: {
     width: "100%",
-    height: ((Dimensions.get("window").width - 30) * 9) / 16 + 60 + 80,
+    height: ((SIZES.width - 30) * 9) / 16 + 60 + 80,
     marginTop: 10,
   },
   tagListArea: {

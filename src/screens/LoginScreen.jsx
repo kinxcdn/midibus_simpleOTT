@@ -4,7 +4,6 @@ import {
   View,
   SafeAreaView,
   Image,
-  Dimensions,
   Alert,
   Text,
 } from "react-native";
@@ -13,6 +12,7 @@ import Icon from "react-native-vector-icons/dist/FontAwesome";
 import base64 from "base-64";
 import * as config from "../constants/properties";
 import Orientation from "react-native-orientation-locker";
+import { SIZES } from "../styles/theme";
 import { storage } from "../constants/storage";
 import { useGetLogin } from "../apis/user/Queries/useGetLogin";
 
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   searchKeywordInputArea: {
-    width: Dimensions.get("window").width - 80,
+    width: SIZES.width - 80,
     height: 40,
     alignSelf: "flex-start",
     paddingLeft: 30,

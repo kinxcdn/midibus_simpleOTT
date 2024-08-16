@@ -42,30 +42,15 @@ const Settings = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headerArea}>
-        <Text
-          style={{ fontSize: 30, color: "#fff", marginTop: 30, marginLeft: 30 }}
-        >
-          설정
-        </Text>
+        <Text style={styles.headerText}>설정</Text>
       </View>
       {/* contents : vertical scroll */}
       <ScrollView style={styles.contentsArea}>
         <View style={styles.settingsMenu}>
-          <View
-            style={{
-              height: 40,
-              alignSelf: "flex-start",
-            }}
-          >
+          <View style={styles.versionInfoLeft}>
             <Text style={styles.settingsMenuName}>버전정보</Text>
           </View>
-          <View
-            style={{
-              height: 40,
-              alignSelf: "flex-end",
-              marginTop: -40,
-            }}
-          >
+          <View style={styles.versionInfoRight}>
             <Text style={styles.version}>0.0.1</Text>
           </View>
         </View>
@@ -301,6 +286,12 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 100,
   },
+  headerText: {
+    fontSize: 30,
+    color: "#fff",
+    marginTop: 30,
+    marginLeft: 30,
+  },
   contentsArea: {
     width: "100%",
     flex: 1,
@@ -325,6 +316,15 @@ const styles = StyleSheet.create({
     lineHeight: Platform.OS === "android" ? 40 : 50,
     paddingRight: 30,
     textAlign: "right",
+  },
+  versionInfoLeft: {
+    height: 40,
+    alignSelf: "flex-start",
+  },
+  versionInfoRight: {
+    height: 40,
+    alignSelf: "flex-end",
+    marginTop: -40,
   },
 });
 

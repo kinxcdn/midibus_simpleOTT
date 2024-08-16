@@ -4,10 +4,10 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Dimensions,
   SafeAreaView,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { SIZES } from "../styles/theme";
 
 const TagList = (props) => {
   console.log("[VIEW] Tag List");
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: (Dimensions.get("window").width - 30 - 20 - 30) / 2,
-    height: (Dimensions.get("window").width - 30 - 20 - 30) / 2,
+    width: (SIZES.width - 30 - 20 - 30) / 2,
+    height: (SIZES.width - 30 - 20 - 30) / 2,
     margin: 10,
     borderRadius: 7,
   },

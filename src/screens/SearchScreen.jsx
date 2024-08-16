@@ -6,7 +6,6 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  Dimensions,
   Keyboard,
   ImageBackground,
   SafeAreaView,
@@ -21,6 +20,7 @@ import { useGetAllTags } from "../apis/tags/Queries/useGetAllTags";
 import { useKeywordSearch } from "../apis/search/Queries/useKeywordSearch";
 import Loading from "../components/common/loading";
 import Error from "../components/common/Error";
+import { SIZES } from "../styles/theme";
 
 const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
@@ -76,11 +76,10 @@ const Search = ({ navigation }) => {
       </View>
       <View style={styles.keywordInputArea}>
         <View
-          style={
-            inputSearchKeyword === false
-              ? styles.searchKeywordInputAreaWithCancelBtn
-              : styles.searchKeywordInputArea
-          }
+          style={[
+            styles.searchKeywordInputArea,
+            inputSearchKeyword && styles.searchKeywordInputAreaWithCancelBtn,
+          ]}
         >
           <TextInput
             style={styles.searchKeywordInput}
@@ -89,8 +88,8 @@ const Search = ({ navigation }) => {
             onFocus={_onFocus}
             onChange={_onChange}
             value={searchKeyword}
-          ></TextInput>
-          {inputSearchKeyword === false ? null : (
+          />
+          {inputSearchKeyword && (
             <TouchableOpacity
               onPress={() => {
                 Keyboard.dismiss();
@@ -152,80 +151,64 @@ const Search = ({ navigation }) => {
         </ScrollView>
       ) : (
         <ScrollView style={styles.contentsArea}>
-          {searchResultList.map((searchResult, searchResultIdx) => {
-            return (
-              <TouchableOpacity
-                key={searchResultIdx}
-                onPress={() => {
-                  if (searchResult.resultType === "media") {
-                    navigation.navigate("MediaDetail", {
-                      channelId: config.CHANNEL,
-                      media: searchResult,
-                      objectId: searchResult.object_id,
-                    });
-                  } else {
-                    navigation.navigate("MediaList", {
-                      categorized: "tag",
-                      categorizedId: searchResult.tagName,
-                      headerTitle: "#" + searchResult.tagName,
-                    });
-                  }
-                }}
-              >
-                {searchResult.resultType === "media" ? (
-                  <View style={styles.mediaBox}>
-                    <View style={styles.mediaThumbnailArea}>
-                      {typeof searchResult.poster_url === "undefined" ||
-                      searchResult.resultImg === null ? (
-                        <View style={styles.mediaThumbnailEmptyArea}>
-                          <Text style={styles.mediaThumbnailEmptyText}>
-                            media
-                          </Text>
-                        </View>
-                      ) : (
-                        <ImageBackground
-                          source={{ uri: "https://" + searchResult.poster_url }}
-                          resizeMode="cover"
-                          style={styles.mediaThumbnail}
-                          imageStyle={{ borderRadius: 7 }}
-                        ></ImageBackground>
-                      )}
-                    </View>
-                    <View style={styles.mediaTextArea}>
-                      <View style={{ flex: 1 }}>
-                        <Text style={styles.mediaMainText}>
-                          {removeFileExtension(searchResult.media_name)}
+          {searchResultList.map((searchResult, searchResultIdx) => (
+            <TouchableOpacity
+              key={searchResultIdx}
+              onPress={() => {
+                if (searchResult.resultType === "media") {
+                  navigation.navigate("MediaDetail", {
+                    channelId: config.CHANNEL,
+                    media: searchResult,
+                    objectId: searchResult.object_id,
+                  });
+                } else {
+                  navigation.navigate("MediaList", {
+                    categorized: "tag",
+                    categorizedId: searchResult.tagName,
+                    headerTitle: "#" + searchResult.tagName,
+                  });
+                }
+              }}
+            >
+              {searchResult.resultType === "media" ? (
+                <View style={styles.mediaBox}>
+                  <View style={styles.mediaThumbnailArea}>
+                    {!searchResult.poster_url ? (
+                      <View style={styles.mediaThumbnailEmptyArea}>
+                        <Text style={styles.mediaThumbnailEmptyText}>
+                          media
                         </Text>
                       </View>
-                      <View style={{ flex: 1 }}>
-                        <Text style={styles.mediaSubText}>
-                          {searchResult.duration}
-                        </Text>
-                      </View>
-                    </View>
+                    ) : (
+                      <ImageBackground
+                        source={{ uri: "https://" + searchResult.poster_url }}
+                        resizeMode="cover"
+                        style={styles.mediaThumbnail}
+                        imageStyle={styles.mediaThumbnailImage}
+                      />
+                    )}
                   </View>
-                ) : (
-                  <View style={styles.channelTagBox}>
-                    <View
-                      style={{
-                        flex: 8,
-                        flexDirection: "column",
-                      }}
-                    >
-                      <View style={{ flex: 1 }}>
-                        <Text style={styles.channelTagMainText}>
-                          {searchResult.tagName}
-                        </Text>
-                      </View>
-                      <View style={{ flex: 1 }}>
-                        <Text style={styles.channelTagSubText}>태그</Text>
-                      </View>
-                    </View>
+                  <View style={styles.mediaTextArea}>
+                    <Text style={styles.mediaMainText}>
+                      {removeFileExtension(searchResult.media_name)}
+                    </Text>
+                    <Text style={styles.mediaSubText}>
+                      {searchResult.duration}
+                    </Text>
                   </View>
-                )}
-              </TouchableOpacity>
-            );
-          })}
+                </View>
+              ) : (
+                <View style={styles.channelTagBox}>
+                  <View style={styles.channelTagTextContainer}>
+                    <Text style={styles.channelTagMainText}>
+                      {searchResult.tagName}
+                    </Text>
+                    <Text style={styles.channelTagSubText}>태그</Text>
+                  </View>
+                </View>
+              )}
+            </TouchableOpacity>
+          ))}
         </ScrollView>
       )}
     </SafeAreaView>
@@ -234,125 +217,99 @@ const Search = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#000000",
+    flex: 1,
+    backgroundColor: "#000",
   },
   headerArea: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "100%",
     height: 70,
+    paddingHorizontal: 15,
   },
   logoImage: {
     width: "40%",
-    objectFit: "contain",
-    marginLeft: 15,
+    resizeMode: "contain",
   },
   iconContainer: {
-    alignItems: "flex-end",
     marginRight: 20,
   },
   keywordInputArea: {
     width: "100%",
     height: 40,
     marginBottom: 30,
-    flextDirection: "row",
   },
   searchKeywordInputArea: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    width: Dimensions.get("window").width - 80,
-    height: 40,
-    alignSelf: "flex-start",
-    paddingLeft: 15,
-    paddingRight: 20,
+    paddingHorizontal: 15,
   },
   searchKeywordInputAreaWithCancelBtn: {
-    width: Dimensions.get("window").width,
-    height: 40,
-    alignSelf: "flex-start",
+    width: SIZES.width - 15,
+    height: 50,
     paddingLeft: 15,
     paddingRight: 15,
   },
   searchKeywordInput: {
-    fontFamily: "Pretendard-SemiBold",
-    width: "100%",
+    flex: 1,
     height: 50,
     borderColor: "#2e2e2e",
     borderWidth: 1,
     backgroundColor: "#2e2e2e",
     borderRadius: 5,
-    color: "#ffffff",
-    paddingLeft: 15,
-    paddingRight: 10,
+    color: "#fff",
+    paddingHorizontal: 15,
   },
   keywordSearchCancelBtnArea: {
-    display: "flex",
     justifyContent: "center",
     width: 80,
     height: 50,
-    margin: 5,
+    marginLeft: 10,
     backgroundColor: "#DB202C",
-    borderWidth: 1,
     borderRadius: 5,
   },
   keywordSearchCancelBtn: {
     fontFamily: "Pretendard-Bold",
     textAlign: "center",
     fontSize: 18,
-    color: "#ffffff",
+    color: "#fff",
   },
   contentsArea: {
-    width: "100%",
     flex: 1,
   },
   classificationArea: {
     width: "100%",
     height: 220,
+    marginBottom: 20,
   },
   channelTagBox: {
     width: "100%",
     height: 70,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
     flexDirection: "row",
   },
-  channelTagIconArea: {
-    flex: 1,
-    backgroundColor: "#242527",
-    borderRadius: 5,
-  },
-  channelTagIcon: {
-    flex: 1,
-    alignItems: "center",
+  channelTagTextContainer: {
+    flex: 8,
     justifyContent: "center",
   },
   channelTagMainText: {
     fontFamily: "Pretendard-Bold",
     fontSize: 16,
-    color: "#ffffff",
-    textAlign: "left",
+    color: "#fff",
     marginLeft: 10,
   },
   channelTagSubText: {
     fontFamily: "Pretendard-Regular",
     fontSize: 12,
     color: "#9D9FA0",
-    textAlign: "left",
     marginLeft: 10,
   },
   mediaBox: {
     width: "100%",
     height: 101,
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
     flexDirection: "row",
   },
   mediaThumbnailArea: {
@@ -364,65 +321,58 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
+  mediaThumbnailImage: {
+    borderRadius: 7,
+  },
   mediaThumbnailEmptyArea: {
     backgroundColor: "#28292c",
-    height: "100%",
     borderRadius: 7,
     justifyContent: "center",
+    alignItems: "center",
   },
   mediaThumbnailEmptyText: {
     fontSize: 15,
     color: "#fff",
     textAlign: "center",
-    marginTop: -10,
   },
   mediaTextArea: {
     flex: 2,
-    flexDirection: "column",
+    justifyContent: "center",
+    paddingLeft: 10,
   },
   mediaMainText: {
     fontFamily: "Pretendard-Bold",
     fontSize: 16,
-    color: "#ffffff",
-    textAlign: "left",
-    marginTop: 18,
-    marginLeft: 10,
+    color: "#fff",
+    marginBottom: 4,
   },
   mediaSubText: {
     fontFamily: "Pretendard-Regular",
     fontSize: 13,
-    color: "#ffffff",
-    textAlign: "left",
-    marginLeft: 10,
+    color: "#fff",
   },
   titleContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "100%",
-    paddingHorizontal: 8,
+    paddingHorizontal: 20,
     marginBottom: 8,
   },
   mainTitle: {
-    color: "#ffffff",
-    marginLeft: 12,
+    color: "#fff",
     fontWeight: "800",
     fontSize: 24,
-    textAlign: "left",
-    textAlignVertical: "center",
   },
   viewMoreText: {
     fontFamily: "Pretendard-Medium",
     fontSize: 16,
     color: "#898989",
-    textAlign: "right",
-    marginRight: 10,
   },
   loaderContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#000000",
+    backgroundColor: "#000",
   },
 });
 

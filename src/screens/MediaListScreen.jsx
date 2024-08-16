@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Dimensions,
   ImageBackground,
   SafeAreaView,
 } from "react-native";
@@ -15,6 +14,7 @@ import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
 import Loading from "../components/common/loading";
 import Error from "../components/common/Error";
+import { SIZES } from "../styles/theme";
 
 const MediaList = (props) => {
   const categorizedId = props.route.params.categorizedId;
@@ -42,9 +42,8 @@ const MediaList = (props) => {
       <ScrollView style={styles.scrollArea}>
         {mediaList.map((media, mediaIdx) => {
           return (
-            <>
+            <React.Fragment key={"list" + mediaIdx}>
               <TouchableOpacity
-                key={"list" + mediaIdx}
                 onPress={() => {
                   // 미디어 상세
                   props.navigation.push("MediaDetail", {
@@ -66,17 +65,17 @@ const MediaList = (props) => {
                         source={{ uri: "https://" + media.poster_url }}
                         resizeMode="cover"
                         style={styles.mediaThumbnail}
-                        imageStyle={{ borderRadius: 7 }}
-                      ></ImageBackground>
+                        imageStyle={styles.mediaThumbnailImage}
+                      />
                     )}
                   </View>
                   <View style={styles.mediaTextArea}>
-                    <View style={{ flex: 1, marginRight: 30 }}>
+                    <View style={styles.mediaTextWrapper}>
                       <Text style={styles.mediaMainText} numberOfLines={1}>
                         {removeFileExtension(media.media_name)}
                       </Text>
                     </View>
-                    <View style={{ flex: 1 }}>
+                    <View style={styles.mediaTextWrapper}>
                       <Text style={styles.mediaSubText}>
                         {media.created.substring(0, 4) +
                           "-" +
@@ -92,12 +91,7 @@ const MediaList = (props) => {
                       </Text>
                     </View>
                   </View>
-                  <View
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
+                  <View style={styles.iconContainer}>
                     <Icon
                       name="chevron-forward-outline"
                       size={20}
@@ -107,7 +101,7 @@ const MediaList = (props) => {
                 </View>
               </TouchableOpacity>
               <View style={styles.horizontalDivider} />
-            </>
+            </React.Fragment>
           );
         })}
       </ScrollView>
@@ -127,7 +121,7 @@ const styles = StyleSheet.create({
   },
   mediaBox: {
     width: "95%",
-    height: Dimensions.get("window").height / 10,
+    height: SIZES.height / 10,
     flex: 1,
     flexDirection: "row",
     borderBottomWidth: 2,
@@ -142,6 +136,7 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 7,
     justifyContent: "center",
+    alignItems: "center",
   },
   mediaThumbnailEmptyText: {
     fontSize: 15,
@@ -153,9 +148,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
+  mediaThumbnailImage: {
+    borderRadius: 7,
+  },
   mediaTextArea: {
     flex: 2,
     flexDirection: "column",
+  },
+  mediaTextWrapper: {
+    flex: 1,
+    marginRight: 30,
   },
   mediaMainText: {
     fontFamily: "Pretendard-SemiBold",
@@ -183,6 +185,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#000000",
+  },
+  iconContainer: {
+    display: "flex",
+    justifyContent: "center",
   },
 });
 

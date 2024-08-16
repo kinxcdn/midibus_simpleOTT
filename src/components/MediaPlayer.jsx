@@ -71,7 +71,7 @@ const MediaPlayer = ({ mediaInfo }) => {
 
   return (
     // <JWPlayer
-    //   style={{flex: 1}}
+    //   style={}
     //   ref={p => (this.JWPlayer = p)}
     //   config={config}
     //   onPlay={() => onPlay()}
