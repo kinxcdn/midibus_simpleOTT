@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Text,
+  Image,
 } from "react-native";
 import Orientation from "react-native-orientation-locker";
 import Swiper from "react-native-swiper";
@@ -16,6 +17,15 @@ import Empty from "./common/Empty";
 const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
   const [previewIndex, setPreviewIndex] = useState(0);
   Orientation.lockToPortrait();
+
+  // Import your number images
+  const numberImages = [
+    require("../assets/images/number_one.png"),
+    require("../assets/images/number_two.png"),
+    require("../assets/images/number_three.png"),
+    require("../assets/images/number_four.png"),
+    require("../assets/images/number_five.png"),
+  ];
 
   useEffect(() => {
     console.log("previewIndex : " + previewIndex);
@@ -104,6 +114,7 @@ const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
                 )}
               </View>
             )}
+            <Image source={numberImages[mediaIdx]} style={styles.numberImage} />
             <View style={styles.mediaNameArea}>
               <Text style={styles.mediaText} numberOfLines={2}>
                 {removeFileExtension(media.media_name)}
@@ -145,10 +156,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   mediaText: {
-    fontFamily: "Pretendard-SemiBold",
-    fontSize: 16,
+    fontFamily: "Pretendard-Bold",
+    fontSize: 20,
     color: "#fff",
-    fontWeight: "600",
+    marginLeft: 70,
   },
   mediaNameArea: {
     width: getScreenWidthSize(),
@@ -189,6 +200,14 @@ const styles = StyleSheet.create({
     color: "#898989",
     fontSize: 20,
     marginTop: 20,
+  },
+  numberImage: {
+    position: "absolute",
+    bottom: 30,
+    left: -10,
+    width: 100,
+    height: 100,
+    resizeMode: "contain",
   },
 });
 
