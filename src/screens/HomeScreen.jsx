@@ -3,12 +3,10 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import Icon from "react-native-vector-icons/dist/Ionicons";
 import * as config from "../constants/properties";
 import PlayTopNCards from "../components/PlayTopNCards";
 import HorizontalScrollCards from "../components/HorizontalScrollCards";
@@ -119,22 +117,6 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "#000000",
   },
-  headerArea: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    height: 70,
-  },
-  logoImage: {
-    width: "40%",
-    objectFit: "contain",
-    marginLeft: 15,
-  },
-  iconContainer: {
-    alignItems: "flex-end",
-    marginRight: 20,
-  },
   contentsArea: {
     width: "100%",
     flex: 1,
@@ -147,7 +129,7 @@ const styles = StyleSheet.create({
   },
   currentArea: {
     width: "100%",
-    height: ((SIZES.width - 30) * 9) / 16 + 60 + 80,
+    height: ((SIZES.width - 30) * 7) / 16 + 60 + 80,
     marginTop: 10,
   },
   tagListArea: {

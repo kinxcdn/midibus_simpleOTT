@@ -5,10 +5,8 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
-  Text,
 } from "react-native";
 import Orientation from "react-native-orientation-locker";
-import { removeFileExtension } from "../constants/removeFileExtension";
 import Empty from "./common/Empty";
 import { SIZES } from "../styles/theme";
 
@@ -34,26 +32,12 @@ const HorizontalScrollCards = ({ mediaList, channelId, navigation }) => {
           style={styles.touchable}
         >
           <View style={styles.mediaCard}>
-            {!media.poster_url ? (
-              <View style={styles.mediaThumbnailEmptyArea}>
-                <Text style={styles.mediaThumbnailEmptyText}>
-                  {removeFileExtension(media.media_name)}
-                </Text>
-              </View>
-            ) : (
-              <ImageBackground
-                source={{ uri: `https://${media.poster_url}` }}
-                resizeMode="cover"
-                style={styles.mediaThumbnail}
-                imageStyle={styles.mediaThumbnailImage}
-              />
-            )}
-          </View>
-
-          <View style={styles.mediaNameArea}>
-            <Text style={styles.mediaText} numberOfLines={2}>
-              {removeFileExtension(media.media_name)}
-            </Text>
+            <ImageBackground
+              source={{ uri: `https://${media.poster_url}` }}
+              resizeMode="cover"
+              style={styles.mediaThumbnail}
+              imageStyle={styles.mediaThumbnailImage}
+            />
           </View>
         </TouchableOpacity>
       ))}
@@ -75,11 +59,11 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   mediaCard: {
-    width: getScreenWidthSize() - 50, // Adjusted for consistent spacing
+    width: getScreenWidthSize() - 50,
     height: ((getScreenWidthSize() - 50) * 9) / 16,
     backgroundColor: "#898989",
     borderRadius: 7,
-    overflow: "hidden", // Ensures the borderRadius is applied correctly
+    overflow: "hidden",
   },
   mediaThumbnail: {
     flex: 1,

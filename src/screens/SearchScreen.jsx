@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TextInput,
   TouchableOpacity,
   Keyboard,
@@ -12,16 +11,14 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import * as config from "../constants/properties";
-import Icon from "react-native-vector-icons/dist/Ionicons";
 import ClassificationCards from "../components/ClassificationCards";
 import Orientation from "react-native-orientation-locker";
-import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetAllTags } from "../apis/tags/Queries/useGetAllTags";
 import { useKeywordSearch } from "../apis/search/Queries/useKeywordSearch";
 import Loading from "../components/common/loading";
 import Error from "../components/common/Error";
-import { SIZES } from "../styles/theme";
 import Header from "../components/common/Header";
+import { removeFileExtension } from "../constants/removeFileExtension";
 
 const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
@@ -33,33 +30,17 @@ const Search = ({ navigation }) => {
     isError: tagsError,
   } = useGetAllTags(config.CHANNEL);
 
-  const {
-    data: searchResultList = [], // 기본값으로 빈 배열을 설정합니다.
-  } = useKeywordSearch(searchKeyword);
-
-  /*
-   검색어 입력창에 대한 이벤트 처리 & 검색 수행
-  */
-  const _onFocus = () => {
-    setInputSearchKeyword(true);
-  };
-
-  const _onChange = (inputEvent) => {
-    setSearchKeyword(inputEvent.nativeEvent.text);
-  };
+  const { data: searchResultList = [] } = useKeywordSearch(searchKeyword);
 
   useEffect(() => {
     console.log("[VIEW] Search");
-
     Orientation.lockToPortrait();
   }, []);
 
-  // 모든 쿼리가 로딩 중이면 로딩 스피너를 표시
   if (tagsLoading) {
     return <Loading />;
   }
 
-  // 에러 상태 처리
   if (tagsError) {
     return <Error />;
   }
@@ -78,8 +59,8 @@ const Search = ({ navigation }) => {
             style={styles.searchKeywordInput}
             placeholder="미디어, 채널, 태그 검색"
             placeholderTextColor={"#ffffff"}
-            onFocus={_onFocus}
-            onChange={_onChange}
+            onFocus={() => setInputSearchKeyword(true)}
+            onChange={(e) => setSearchKeyword(e.nativeEvent.text)}
             value={searchKeyword}
           />
           {inputSearchKeyword && (
@@ -97,19 +78,18 @@ const Search = ({ navigation }) => {
           )}
         </View>
       </View>
-      {inputSearchKeyword === false ? (
+      {!inputSearchKeyword ? (
         <ScrollView style={styles.contentsArea}>
-          {/* 태그 */}
           <View style={styles.classificationArea}>
             <View style={styles.titleContainer}>
               <Text style={styles.mainTitle}>태그</Text>
               <TouchableOpacity
-                onPress={() => {
+                onPress={() =>
                   navigation.navigate("TagList", {
                     headerTitle: "태그",
                     tagList: tagList,
-                  });
-                }}
+                  })
+                }
               >
                 <Text style={styles.viewMoreText}>모두보기</Text>
               </TouchableOpacity>
@@ -119,18 +99,16 @@ const Search = ({ navigation }) => {
               navigation={navigation}
             />
           </View>
-          {/* // 태그 */}
-          {/* 인기 태그 */}
           <View style={styles.classificationArea}>
             <View style={styles.titleContainer}>
               <Text style={styles.mainTitle}>인기태그</Text>
               <TouchableOpacity
-                onPress={() => {
+                onPress={() =>
                   navigation.push("TagList", {
                     headerTitle: "태그",
                     tagList: tagList,
-                  });
-                }}
+                  })
+                }
               >
                 <Text style={styles.viewMoreText}>모두보기</Text>
               </TouchableOpacity>
@@ -140,13 +118,12 @@ const Search = ({ navigation }) => {
               navigation={navigation}
             />
           </View>
-          {/* // 인기 태그 */}
         </ScrollView>
       ) : (
         <ScrollView style={styles.contentsArea}>
-          {searchResultList.map((searchResult, searchResultIdx) => (
+          {searchResultList.map((searchResult, index) => (
             <TouchableOpacity
-              key={searchResultIdx}
+              key={index}
               onPress={() => {
                 if (searchResult.resultType === "media") {
                   navigation.navigate("MediaDetail", {
@@ -163,43 +140,30 @@ const Search = ({ navigation }) => {
                 }
               }}
             >
-              {searchResult.resultType === "media" ? (
-                <View style={styles.mediaBox}>
-                  <View style={styles.mediaThumbnailArea}>
-                    {!searchResult.poster_url ? (
-                      <View style={styles.mediaThumbnailEmptyArea}>
-                        <Text style={styles.mediaThumbnailEmptyText}>
-                          media
-                        </Text>
-                      </View>
-                    ) : (
-                      <ImageBackground
-                        source={{ uri: "https://" + searchResult.poster_url }}
-                        resizeMode="cover"
-                        style={styles.mediaThumbnail}
-                        imageStyle={styles.mediaThumbnailImage}
-                      />
-                    )}
-                  </View>
-                  <View style={styles.mediaTextArea}>
-                    <Text style={styles.mediaMainText}>
-                      {removeFileExtension(searchResult.media_name)}
-                    </Text>
-                    <Text style={styles.mediaSubText}>
-                      {searchResult.duration}
-                    </Text>
-                  </View>
+              <View style={styles.mediaBox}>
+                <View style={styles.mediaThumbnailArea}>
+                  {!searchResult.poster_url ? (
+                    <View style={styles.mediaThumbnailEmptyArea}>
+                      <Text style={styles.mediaThumbnailEmptyText}>media</Text>
+                    </View>
+                  ) : (
+                    <ImageBackground
+                      source={{ uri: "https://" + searchResult.poster_url }}
+                      resizeMode="cover"
+                      style={styles.mediaThumbnail}
+                      imageStyle={styles.mediaThumbnailImage}
+                    />
+                  )}
                 </View>
-              ) : (
-                <View style={styles.channelTagBox}>
-                  <View style={styles.channelTagTextContainer}>
-                    <Text style={styles.channelTagMainText}>
-                      {searchResult.tagName}
-                    </Text>
-                    <Text style={styles.channelTagSubText}>태그</Text>
-                  </View>
+                <View style={styles.mediaTextArea}>
+                  <Text style={styles.mediaMainText}>
+                    {removeFileExtension(searchResult.media_name)}
+                  </Text>
+                  <Text style={styles.mediaSubText}>
+                    {searchResult.duration}
+                  </Text>
                 </View>
-              )}
+              </View>
             </TouchableOpacity>
           ))}
         </ScrollView>
@@ -213,20 +177,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000",
   },
-  headerArea: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    height: 70,
-    paddingHorizontal: 15,
-  },
-  logoImage: {
-    width: "40%",
-    resizeMode: "contain",
-  },
-  iconContainer: {
-    marginRight: 20,
-  },
   keywordInputArea: {
     width: "100%",
     height: 40,
@@ -238,7 +188,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
   searchKeywordInputAreaWithCancelBtn: {
-    width: SIZES.width - 15,
+    width: "100%",
     height: 50,
     paddingLeft: 15,
     paddingRight: 15,
@@ -360,12 +310,6 @@ const styles = StyleSheet.create({
     fontFamily: "Pretendard-Medium",
     fontSize: 16,
     color: "#898989",
-  },
-  loaderContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#000",
   },
 });
 

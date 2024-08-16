@@ -12,7 +12,6 @@ import Icon from "react-native-vector-icons/dist/FontAwesome";
 import base64 from "base-64";
 import * as config from "../constants/properties";
 import Orientation from "react-native-orientation-locker";
-import { SIZES } from "../styles/theme";
 import { storage } from "../constants/storage";
 import { useGetLogin } from "../apis/user/Queries/useGetLogin";
 
@@ -65,7 +64,7 @@ const Login = ({ navigation }) => {
     setAuthHeader(header);
     setCurrentDate(date);
 
-    refetch(); // refetch를 호출하여 쿼리를 강제로 재실행합니다.
+    refetch();
   };
 
   return (
@@ -159,13 +158,6 @@ const styles = StyleSheet.create({
     fontFamily: "Pretendard-Bold",
     color: "#fff",
     fontSize: 16,
-  },
-  searchKeywordInputArea: {
-    width: SIZES.width - 80,
-    height: 40,
-    alignSelf: "flex-start",
-    paddingLeft: 30,
-    paddingRight: 30,
   },
 });
 
