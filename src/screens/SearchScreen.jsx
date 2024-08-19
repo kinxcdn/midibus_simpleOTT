@@ -294,15 +294,15 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   mediaMainText: {
-    fontFamily: "Pretendard-Bold",
-    fontSize: 16,
+    fontFamily: "Pretendard-Medium",
+    fontSize: 20,
     color: "#fff",
     marginBottom: 4,
   },
   mediaSubText: {
     fontFamily: "Pretendard-Regular",
-    fontSize: 13,
-    color: "#fff",
+    fontSize: 14,
+    color: "#7A8287",
   },
   titleContainer: {
     flexDirection: "row",
