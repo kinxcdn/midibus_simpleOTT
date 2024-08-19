@@ -92,7 +92,10 @@ const Home = ({ navigation }) => {
           />
         </View>
         <View style={styles.tagListArea}>
-          <TagRail tagList={tagList} onTagSelect={handleTagSelect} />
+          <TagRail
+            tagList={["전체", ...tagList]}
+            onTagSelect={handleTagSelect}
+          />
           {(filteredTagList.length > 0 ? filteredTagList : tagList).map(
             (tagName, tagIdx) => (
               <View key={tagIdx} style={styles.byTagArea}>

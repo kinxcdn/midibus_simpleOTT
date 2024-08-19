@@ -85,7 +85,7 @@ const MediaList = (props) => {
                     <Icon
                       name="chevron-forward-outline"
                       size={20}
-                      color={"#ffffff"}
+                      color={"#7A8287"}
                     />
                   </View>
                 </View>
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   },
   mediaMainText: {
     fontFamily: "Pretendard-SemiBold",
-    fontSize: 16,
+    fontSize: 18,
     color: "#ffffff",
     textAlign: "left",
     marginTop: 18,
@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     justifyContent: "center",
+    marginRight: 10,
   },
 });
 
