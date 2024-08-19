@@ -9,10 +9,8 @@ import {
   ImageBackground,
 } from "react-native";
 import { SIZES } from "../styles/theme";
-import * as config from "../constants/properties";
-import { removeFileExtension } from "../constants/removeFileExtension";
-import { dateFormatting } from "../constants/dateFormatting";
-import Icon from "react-native-vector-icons/dist/Ionicons";
+
+import MediaItem from "./mediaItem";
 
 const ClassificationCards = ({ tagName, tagIdx, mediaList, navigation }) => {
   return (
@@ -41,40 +39,12 @@ const ClassificationCards = ({ tagName, tagIdx, mediaList, navigation }) => {
         </View>
         <View style={styles.horizontalDivider} />
         {mediaList.slice(0, 3).map((media, mediaIdx) => (
-          <TouchableOpacity
+          <MediaItem
             key={mediaIdx}
-            style={styles.mediaArea}
-            onPress={() => {
-              navigation.push("MediaDetail", {
-                channelId: config.CHANNEL,
-                media: media,
-              });
-            }}
-          >
-            <Image
-              source={{ uri: `https://${media.poster_url}` }}
-              style={styles.mediaThumbnail}
-            />
-            <View style={styles.mediaTextArea}>
-              <View style={styles.mediaTextWrapper}>
-                <Text style={styles.mediaMainText} numberOfLines={1}>
-                  {removeFileExtension(media.media_name)}
-                </Text>
-              </View>
-              <View style={styles.mediaTextWrapper}>
-                <Text style={styles.mediaSubText}>
-                  {dateFormatting(media.created)}
-                </Text>
-              </View>
-            </View>
-            <View style={styles.iconContainer}>
-              <Icon
-                name="chevron-forward-outline"
-                size={20}
-                color={"#ffffff"}
-              />
-            </View>
-          </TouchableOpacity>
+            media={media}
+            marginValue={200}
+            navigation={navigation}
+          />
         ))}
       </View>
     </TouchableOpacity>
