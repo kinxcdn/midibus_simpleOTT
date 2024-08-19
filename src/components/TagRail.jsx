@@ -12,7 +12,6 @@ import Icon from "react-native-vector-icons/Ionicons";
 const TagRail = ({ tagList, onTagSelect }) => {
   const [selectedTag, setSelectedTag] = useState("전체");
   const scrollViewRef = useRef(null);
-  const tags = ["전체", ...tagList];
 
   const handleTagPress = (tag) => {
     setSelectedTag(tag);
@@ -27,7 +26,7 @@ const TagRail = ({ tagList, onTagSelect }) => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.railContainer}
       >
-        {tags.map((tag) => (
+        {tagList.map((tag) => (
           <TouchableOpacity
             key={tag}
             style={[
@@ -63,7 +62,7 @@ const TagRail = ({ tagList, onTagSelect }) => {
                   selectedTag === tag && styles.selectedTagText,
                 ]}
               >
-                {tag}
+                # {tag}
               </Text>
             )}
           </TouchableOpacity>
@@ -87,13 +86,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   tag: {
-    backgroundColor: "#272727",
+    backgroundColor: "#262732",
     borderRadius: 8,
     paddingVertical: 6,
     paddingHorizontal: 12,
     marginHorizontal: 5,
     borderWidth: 1,
-    borderColor: "#272727",
+    borderColor: "#262732",
   },
   selectedTag: {
     borderRadius: 8,
