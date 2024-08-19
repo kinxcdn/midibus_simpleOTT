@@ -191,6 +191,7 @@ const styles = StyleSheet.create({
   inputText: {
     fontFamily: "Pretendard-Medium",
     color: "#fff",
+    fontSize: 16,
     paddingLeft: 10,
   },
   showPasswordText: {
