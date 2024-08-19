@@ -24,7 +24,7 @@ const MediaCards = (props) => {
     data: mediaListByTag,
     isLoading,
     isError,
-  } = useGetLimitTagMediaList(config.CHANNEL, categorizedId);
+  } = useGetLimitTagMediaList(config.CHANNEL, 5, categorizedId);
 
   // 태그가 변경될 때마다 스크롤 위치 초기화
   useEffect(() => {

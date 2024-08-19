@@ -19,6 +19,8 @@ import Loading from "../components/common/loading";
 import Error from "../components/common/Error";
 import Header from "../components/common/Header";
 import { removeFileExtension } from "../constants/removeFileExtension";
+import SearchTagRail from "../components/SearchTagRail";
+import { useGetLimitTagMediaList } from "../apis/media/Queries/useGetLimitTagMediaList";
 
 const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
@@ -31,6 +33,10 @@ const Search = ({ navigation }) => {
   } = useGetAllTags(config.CHANNEL);
 
   const { data: searchResultList = [] } = useKeywordSearch(searchKeyword);
+
+  const mediaLists = tagList?.map((tagName) => {
+    return useGetLimitTagMediaList(config.CHANNEL, 3, tagName);
+  });
 
   useEffect(() => {
     console.log("[VIEW] Search");
@@ -80,43 +86,40 @@ const Search = ({ navigation }) => {
       </View>
       {!inputSearchKeyword ? (
         <ScrollView style={styles.contentsArea}>
-          <View style={styles.classificationArea}>
-            <View style={styles.titleContainer}>
-              <Text style={styles.mainTitle}>태그</Text>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("TagList", {
-                    headerTitle: "태그",
-                    tagList: tagList,
-                  })
-                }
-              >
-                <Text style={styles.viewMoreText}>모두보기</Text>
-              </TouchableOpacity>
-            </View>
-            <ClassificationCards
-              classificationList={tagList}
-              navigation={navigation}
-            />
+          <View style={styles.tagRailArea}>
+            <SearchTagRail tagList={tagList} navigation={navigation} />
           </View>
           <View style={styles.classificationArea}>
             <View style={styles.titleContainer}>
               <Text style={styles.mainTitle}>인기태그</Text>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.push("TagList", {
-                    headerTitle: "태그",
-                    tagList: tagList,
-                  })
-                }
-              >
-                <Text style={styles.viewMoreText}>모두보기</Text>
-              </TouchableOpacity>
             </View>
-            <ClassificationCards
-              classificationList={tagList}
-              navigation={navigation}
-            />
+            <ScrollView horizontal style={styles.scrollView}>
+              {tagList.map((tagName, tagIdx) => {
+                const {
+                  data: mediaList,
+                  isLoading,
+                  isError,
+                } = mediaLists[tagIdx];
+
+                if (isLoading) {
+                  return <Loading key={tagIdx} />;
+                }
+
+                if (isError) {
+                  return <Error key={tagIdx} />;
+                }
+
+                return (
+                  <ClassificationCards
+                    key={tagIdx}
+                    tagName={tagName}
+                    tagIdx={tagIdx}
+                    mediaList={mediaList}
+                    navigation={navigation}
+                  />
+                );
+              })}
+            </ScrollView>
           </View>
         </ScrollView>
       ) : (
@@ -177,6 +180,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#000",
   },
+  scrollView: {
+    marginLeft: 20,
+    marginTop: 5,
+  },
   keywordInputArea: {
     width: "100%",
     height: 40,
@@ -222,7 +229,10 @@ const styles = StyleSheet.create({
   },
   classificationArea: {
     width: "100%",
-    height: 220,
+    marginBottom: 20,
+  },
+  tagRailArea: {
+    width: "100%",
     marginBottom: 20,
   },
   channelTagBox: {
@@ -302,9 +312,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   mainTitle: {
+    fontFamily: "Pretendard-Bold",
     color: "#fff",
-    fontWeight: "800",
-    fontSize: 24,
+    fontSize: 32,
   },
   viewMoreText: {
     fontFamily: "Pretendard-Medium",
