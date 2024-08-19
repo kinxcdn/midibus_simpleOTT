@@ -1,12 +1,5 @@
-import React, { useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
 import Orientation from "react-native-orientation-locker";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetTagListByObject } from "../apis/tags/Queries/useGetTagListByObject";
@@ -14,10 +7,19 @@ import { useGetObjectPlayCount } from "../apis/media/Queries/useGetObjectPlayCou
 import Error from "../components/common/Error";
 import MediaPlayer from "../components/MediaPlayer";
 import { dateFormatting } from "../constants/dateFormatting";
+import TagRail from "../components/TagRail";
+import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
+import Loading from "../components/common/loading";
+import MediaItem from "../components/mediaItem";
 
 const MediaDetail = (props) => {
   const { channelId, media } = props.route.params;
   const objectId = media.object_id;
+  const [filteredTagList, setFilteredTagList] = useState("");
+
+  const handleTagSelect = (selectedTag) => {
+    setFilteredTagList(tags.filter((tag) => tag === selectedTag));
+  };
 
   // tag로 object리스트
   const {
@@ -32,12 +34,18 @@ const MediaDetail = (props) => {
     isError: playCountError,
   } = useGetObjectPlayCount(objectId);
 
+  const {
+    data: mediaList = [],
+    isLoading: mediaListLoading,
+    isError: mediaListError,
+  } = useGetTagMediaList(channelId, filteredTagList);
+
   useEffect(() => {
     console.log("[VIEW] MediaDetail");
     Orientation.lockToPortrait();
   }, []);
 
-  if (tagsError || playCountError) {
+  if (tagsError || playCountError || mediaListError) {
     return <Error />;
   }
 
@@ -68,21 +76,22 @@ const MediaDetail = (props) => {
               </Text>
             </View>
             <View style={styles.channelTagArea}>
-              {tags.map((tag, tagIdx) => (
-                <TouchableOpacity
-                  style={styles.tagTouchable}
-                  key={tagIdx}
-                  onPress={() =>
-                    props.navigation.navigate("MediaList", {
-                      categorized: "tag",
-                      categorizedId: tag,
-                      headerTitle: "#" + tag,
-                    })
-                  }
-                >
-                  <Text style={styles.tagText}>#{tag}</Text>
-                </TouchableOpacity>
-              ))}
+              <TagRail tagList={tags} onTagSelect={handleTagSelect} />
+            </View>
+            <View style={styles.horizontalDivider} />
+            <View style={styles.mediaListArea}>
+              {mediaListLoading ? (
+                <Loading />
+              ) : (
+                mediaList.map((media, mediaIdx) => (
+                  <MediaItem
+                    key={mediaIdx}
+                    media={media}
+                    marginValue={160}
+                    navigation={props.navigation}
+                  />
+                ))
+              )}
             </View>
           </>
         )}
@@ -128,10 +137,9 @@ const styles = StyleSheet.create({
   },
   channelTagArea: {
     width: "100%",
-    paddingLeft: 30,
-    paddingRight: 30,
-    paddingBottom: 3,
-    flexDirection: "row",
+    marginHorizontal: 20,
+    // margin: 20,
+    flexDirection: "column",
   },
   tagTouchable: {
     marginRight: 10,
@@ -140,6 +148,16 @@ const styles = StyleSheet.create({
     fontFamily: "Pretendard-SemiBold",
     fontSize: 18,
     color: "#2ED88F",
+  },
+  mediaListArea: {
+    width: "100%",
+    alignItems: "center",
+  },
+  horizontalDivider: {
+    height: 1.2,
+    backgroundColor: "#404247",
+    marginBottom: 20,
+    marginHorizontal: 0,
   },
 });
 
