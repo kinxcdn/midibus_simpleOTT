@@ -143,30 +143,54 @@ const Search = ({ navigation }) => {
                 }
               }}
             >
-              <View style={styles.mediaBox}>
-                <View style={styles.mediaThumbnailArea}>
-                  {!searchResult.poster_url ? (
-                    <View style={styles.mediaThumbnailEmptyArea}>
-                      <Text style={styles.mediaThumbnailEmptyText}>media</Text>
+              {searchResult.resultType === "media" ? (
+                <View style={styles.mediaBox}>
+                  <View style={styles.mediaThumbnailArea}>
+                    {!searchResult.poster_url ? (
+                      <View style={styles.mediaThumbnailEmptyArea}>
+                        <Text style={styles.mediaThumbnailEmptyText}>
+                          media
+                        </Text>
+                      </View>
+                    ) : (
+                      <ImageBackground
+                        source={{ uri: "https://" + searchResult.poster_url }}
+                        resizeMode="cover"
+                        style={styles.mediaThumbnail}
+                        imageStyle={styles.mediaThumbnailImage}
+                      />
+                    )}
+                  </View>
+                  <View style={styles.mediaTextArea}>
+                    <Text style={styles.mediaMainText}>
+                      {!searchResult.poster_url
+                        ? "none"
+                        : removeFileExtension(searchResult.media_name)}
+                    </Text>
+                    <Text style={styles.mediaSubText}>
+                      {searchResult.duration}
+                    </Text>
+                  </View>
+                </View>
+              ) : (
+                <View style={styles.channelTagBox}>
+                  <View
+                    style={{
+                      flex: 8,
+                      flexDirection: "column",
+                    }}
+                  >
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.channelTagMainText}>
+                        {searchResult.tagName}
+                      </Text>
                     </View>
-                  ) : (
-                    <ImageBackground
-                      source={{ uri: "https://" + searchResult.poster_url }}
-                      resizeMode="cover"
-                      style={styles.mediaThumbnail}
-                      imageStyle={styles.mediaThumbnailImage}
-                    />
-                  )}
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.channelTagSubText}>태그</Text>
+                    </View>
+                  </View>
                 </View>
-                <View style={styles.mediaTextArea}>
-                  <Text style={styles.mediaMainText}>
-                    {removeFileExtension(searchResult.media_name)}
-                  </Text>
-                  <Text style={styles.mediaSubText}>
-                    {searchResult.duration}
-                  </Text>
-                </View>
-              </View>
+              )}
             </TouchableOpacity>
           ))}
         </ScrollView>
