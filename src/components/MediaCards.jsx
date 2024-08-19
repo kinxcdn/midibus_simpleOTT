@@ -17,9 +17,7 @@ const MediaCards = (props) => {
   const { categorizedId, navigation } = props;
   const scrollViewRef = useRef(null);
 
-  /*
-   * 태그별 미디어 리스트 가져오기
-   */
+  // 태그별 미디어 리스트 가져오기
   const {
     data: mediaListByTag,
     isLoading,

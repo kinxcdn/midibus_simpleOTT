@@ -20,19 +20,19 @@ import { dateFormatting } from "../constants/dateFormatting";
 const MediaList = (props) => {
   const categorizedId = props.route.params.categorizedId;
 
-  /*
-   * 태그로 조회한 미디어 리스트
-   */
+  // 태그로 조회한 미디어 리스트
   const {
     data: mediaList,
     isLoading,
     isError,
   } = useGetTagMediaList(config.CHANNEL, categorizedId);
 
+  // 데이터 요청하는 동안 로딩화면
   if (isLoading) {
     return <Loading />;
   }
 
+  // 잘못된 데이터 요청 시 에러화면
   if (isError) {
     return <Error />;
   }

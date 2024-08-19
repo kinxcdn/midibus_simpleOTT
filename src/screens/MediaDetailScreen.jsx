@@ -13,38 +13,38 @@ import Loading from "../components/common/loading";
 import MediaItem from "../components/mediaItem";
 
 const MediaDetail = (props) => {
-  const { channelId, media } = props.route.params;
-  const objectId = media.object_id;
   const [filteredTagList, setFilteredTagList] = useState("");
 
-  const handleTagSelect = (selectedTag) => {
-    setFilteredTagList(tags.filter((tag) => tag === selectedTag));
-  };
-
-  // tag로 object리스트
-  const {
-    data: tags = [],
-    // isLoading: tagsLoading,
-    isError: tagsError,
-  } = useGetTagListByObject(channelId, objectId);
-
-  const {
-    data: playCount = 0,
-    // isLoading: playCountLoading,
-    isError: playCountError,
-  } = useGetObjectPlayCount(objectId);
-
-  const {
-    data: mediaList = [],
-    isLoading: mediaListLoading,
-    isError: mediaListError,
-  } = useGetTagMediaList(channelId, filteredTagList);
+  const { channelId, media } = props.route.params;
+  const objectId = media.object_id;
 
   useEffect(() => {
     console.log("[VIEW] MediaDetail");
     Orientation.lockToPortrait();
   }, []);
 
+  const handleTagSelect = (selectedTag) => {
+    setFilteredTagList(tags.filter((tag) => tag === selectedTag));
+  };
+
+  // 선택된 미디어(오브젝트)의 태그 리스트 가져오기
+  const { data: tags = [], isError: tagsError } = useGetTagListByObject(
+    channelId,
+    objectId
+  );
+
+  // 해당 미디어의 재생 수 가져오기
+  const { data: playCount = 0, isError: playCountError } =
+    useGetObjectPlayCount(objectId);
+
+  // 태그로 조회한 미디어 리스트 가져오기
+  const {
+    data: mediaList = [],
+    isLoading: mediaListLoading,
+    isError: mediaListError,
+  } = useGetTagMediaList(channelId, filteredTagList);
+
+  // 잘못된 데이터 요청 시 에러화면
   if (tagsError || playCountError || mediaListError) {
     return <Error />;
   }
@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
   channelTagArea: {
     width: "100%",
     marginHorizontal: 20,
-    // margin: 20,
     flexDirection: "column",
   },
   tagTouchable: {

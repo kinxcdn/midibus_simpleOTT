@@ -27,19 +27,7 @@ const Login = ({ navigation }) => {
   const [currentDate, setCurrentDate] = useState(null);
   const [showPassword, setShowPassword] = useState(false); // 비밀번호 표시 상태
 
-  const errorLoginToast = () => {
-    Toast.show({
-      type: "error",
-      text1: "로그인 실패",
-      text2: "잘못된 이메일 또는 API Key입니다.",
-    });
-  };
-
-  const {
-    data: tokenInfo,
-    isError,
-    refetch,
-  } = useGetLogin(authHeader, currentDate);
+  const isButtonDisabled = !userEmail || !userApiKey;
 
   useEffect(() => {
     Orientation.lockToPortrait();
@@ -55,9 +43,24 @@ const Login = ({ navigation }) => {
     }
   }, [tokenInfo, isError]);
 
+  // 유저 로그인 로직
+  const {
+    data: tokenInfo,
+    isError,
+    refetch,
+  } = useGetLogin(authHeader, currentDate);
+
   const handleLoginError = () => {
     storage.clearAll();
     errorLoginToast();
+  };
+
+  const errorLoginToast = () => {
+    Toast.show({
+      type: "error",
+      text1: "로그인 실패",
+      text2: "잘못된 이메일 또는 API Key입니다.",
+    });
   };
 
   const handleLogin = () => {
@@ -69,8 +72,6 @@ const Login = ({ navigation }) => {
 
     refetch();
   };
-
-  const isButtonDisabled = !userEmail || !userApiKey;
 
   return (
     <KeyboardAvoidingView

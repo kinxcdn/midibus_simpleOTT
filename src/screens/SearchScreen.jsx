@@ -26,22 +26,25 @@ const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
 
+  useEffect(() => {
+    console.log("[VIEW] Search");
+    Orientation.lockToPortrait();
+  }, []);
+
+  // 전체 태그 리스트
   const {
     data: tagList,
     isLoading: tagsLoading,
     isError: tagsError,
   } = useGetAllTags(config.CHANNEL);
 
+  // 전체 태그, 미디어 검색
   const { data: searchResultList = [] } = useKeywordSearch(searchKeyword);
 
+  // 태그로 조회한 미디어 리스트 가져오기
   const mediaLists = tagList?.map((tagName) => {
     return useGetTagMediaList(config.CHANNEL, tagName);
   });
-
-  useEffect(() => {
-    console.log("[VIEW] Search");
-    Orientation.lockToPortrait();
-  }, []);
 
   if (tagsLoading) {
     return <Loading />;

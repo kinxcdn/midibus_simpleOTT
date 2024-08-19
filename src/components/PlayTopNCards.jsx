@@ -18,7 +18,7 @@ const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
   const [previewIndex, setPreviewIndex] = useState(0);
   Orientation.lockToPortrait();
 
-  // Import your number images
+  // TOP5 rank 관련 에셋
   const numberImages = [
     require("../assets/images/number_one.png"),
     require("../assets/images/number_two.png"),
@@ -26,10 +26,6 @@ const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
     require("../assets/images/number_four.png"),
     require("../assets/images/number_five.png"),
   ];
-
-  useEffect(() => {
-    console.log("previewIndex : " + previewIndex);
-  }, [previewIndex]);
 
   if (!mediaList || mediaList.length === 0) {
     return <Empty message="최근에 재생한 영상이 없습니다..." />;

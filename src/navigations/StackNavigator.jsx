@@ -31,14 +31,6 @@ const StackNavigation = () => {
       <Stack.Screen name="Splash" component={Splash} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen
-        name="TagList"
-        component={TagList}
-        options={({ route }) => ({
-          ...defaultHeaderOptions,
-          headerTitle: route.params.headerTitle,
-        })}
-      />
-      <Stack.Screen
         name="MediaList"
         component={MediaList}
         options={({ route }) => ({

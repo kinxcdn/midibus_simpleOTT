@@ -23,13 +23,40 @@ import Header from "../components/common/Header";
 import TagRail from "../components/TagRail";
 
 const Home = ({ navigation }) => {
+  const [filteredTagList, setFilteredTagList] = useState([]);
+
+  useEffect(() => {
+    console.log("[VIEW] Home");
+    Orientation.lockToPortrait();
+  }, []);
+
+  // 전체 태그 리스트
   const {
     data: tagList,
     isLoading: tagsLoading,
     isError: tagsError,
   } = useGetAllTags(config.CHANNEL);
 
-  const [filteredTagList, setFilteredTagList] = useState([]);
+  // 최신 업로드 미디어 리스트
+  const {
+    data: currentUploadedMediaList,
+    isLoading: uploadsLoading,
+    isError: uploadsError,
+  } = useGetLatestUploadsMediaList(config.CHANNEL, 5);
+
+  // 최근 일주일동안 가장 많이 재생된 비디오
+  const {
+    data: objectList,
+    isLoading: weeklyLoading,
+    isError: weeklyError,
+  } = useGetMostWeeklyPlayedMediaList(config.CHANNEL);
+
+  // TOP5 미디어 정보
+  const {
+    data: playTopNMediaList,
+    isLoading: playTopNLoading,
+    isError: playTopNError,
+  } = useGetPlayTopNMediaList(objectList, config.CHANNEL);
 
   const handleTagSelect = (selectedTag) => {
     if (selectedTag === "전체") {
@@ -39,33 +66,12 @@ const Home = ({ navigation }) => {
     }
   };
 
-  const {
-    data: currentUploadedMediaList,
-    isLoading: uploadsLoading,
-    isError: uploadsError,
-  } = useGetLatestUploadsMediaList(config.CHANNEL, 5);
-
-  const {
-    data: objectList,
-    isLoading: weeklyLoading,
-    isError: weeklyError,
-  } = useGetMostWeeklyPlayedMediaList(config.CHANNEL);
-
-  const {
-    data: playTopNMediaList,
-    isLoading: playTopNLoading,
-    isError: playTopNError,
-  } = useGetPlayTopNMediaList(objectList, config.CHANNEL);
-
-  useEffect(() => {
-    console.log("[VIEW] Home");
-    Orientation.lockToPortrait();
-  }, []);
-
+  // 데이터 요청하는 동안 로딩화면
   if (tagsLoading || uploadsLoading || weeklyLoading || playTopNLoading) {
     return <Loading />;
   }
 
+  // 잘못된 데이터 요청 시 에러화면
   if (tagsError || uploadsError || weeklyError || playTopNError) {
     return <Error />;
   }
