@@ -13,6 +13,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { storage } from "../constants/storage";
 import RNFS from "react-native-fs";
 import Orientation from "react-native-orientation-locker";
+import Icon from "react-native-vector-icons/Ionicons";
 
 // 유틸리티 함수로 분리할 수 있음
 const convertHumanbytes = (bytesValue, decimals = 2) => {
@@ -140,16 +141,19 @@ const Settings = ({ navigation }) => {
         <TouchableOpacity onPress={showTermsAlert}>
           <View style={styles.settingsMenu}>
             <Text style={styles.settingsMenuName}>약관</Text>
+            <Icon name="chevron-forward-outline" size={20} color={"#7A8287"} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleClearCache}>
           <View style={styles.settingsMenu}>
             <Text style={styles.settingsMenuName}>저장된 캐시 데이터 삭제</Text>
+            <Icon name="chevron-forward-outline" size={20} color={"#7A8287"} />
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleLogout}>
           <View style={styles.settingsMenu}>
             <Text style={styles.settingsMenuName}>로그아웃</Text>
+            <Icon name="chevron-forward-outline" size={20} color={"#7A8287"} />
           </View>
         </TouchableOpacity>
       </ScrollView>
@@ -167,8 +171,10 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: "center",
     paddingLeft: 30,
+    backgroundColor: "#1C2022",
   },
   headerText: {
+    fontFamily: "Pretendard-Bold",
     fontSize: 30,
     color: "#fff",
   },
@@ -178,19 +184,21 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   settingsMenu: {
-    backgroundColor: "#2e2e2e",
-    height: 40,
-    marginBottom: 1,
+    backgroundColor: "#1C2022",
+    height: 60,
+    marginBottom: 5,
     paddingHorizontal: 30,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   settingsMenuName: {
+    fontFamily: "Pretendard-SemiBold",
     color: "#fff",
     fontSize: 18,
   },
   version: {
+    fontFamily: "Pretendard-Medium",
     color: "#fff",
     fontSize: 16,
   },
