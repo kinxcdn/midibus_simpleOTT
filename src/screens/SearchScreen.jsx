@@ -20,7 +20,7 @@ import Error from "../components/common/Error";
 import Header from "../components/common/Header";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import SearchTagRail from "../components/SearchTagRail";
-import { useGetLimitTagMediaList } from "../apis/media/Queries/useGetLimitTagMediaList";
+import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
 
 const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
@@ -35,7 +35,7 @@ const Search = ({ navigation }) => {
   const { data: searchResultList = [] } = useKeywordSearch(searchKeyword);
 
   const mediaLists = tagList?.map((tagName) => {
-    return useGetLimitTagMediaList(config.CHANNEL, 3, tagName);
+    return useGetTagMediaList(config.CHANNEL, tagName);
   });
 
   useEffect(() => {

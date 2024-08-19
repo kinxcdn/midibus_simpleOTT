@@ -36,11 +36,11 @@ const ClassificationCards = ({ tagName, tagIdx, mediaList, navigation }) => {
               <Text style={styles.tagNameText}>{tagName}</Text>
               {"에서\n가져온 미디어"}
             </Text>
-            <Text style={styles.mediaCountText}>34개 영상</Text>
+            <Text style={styles.mediaCountText}>{mediaList.length}개 영상</Text>
           </View>
         </View>
         <View style={styles.horizontalDivider} />
-        {mediaList.map((media, mediaIdx) => (
+        {mediaList.slice(0, 3).map((media, mediaIdx) => (
           <TouchableOpacity
             key={mediaIdx}
             style={styles.mediaArea}
