@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import * as config from "../constants/properties";
-import PlayTopNCards from "../components/PlayTopNCards";
-import HorizontalScrollCards from "../components/HorizontalScrollCards";
-import MediaCards from "../components/MediaCards";
+import PlayTopNCards from "../components/home/PlayTopNCards";
+import HorizontalScrollCards from "../components/home/HorizontalScrollCards";
+import MediaCards from "../components/home/MediaCards";
 import { useGetAllTags } from "../apis/tags/Queries/useGetAllTags";
 import { useGetLatestUploadsMediaList } from "../apis/media/Queries/useGetLatestUploadsMediaList";
 import Orientation from "react-native-orientation-locker";
@@ -20,7 +20,7 @@ import Error from "../components/common/Error";
 import Loading from "../components/common/loading";
 import { SIZES } from "../styles/theme";
 import Header from "../components/common/Header";
-import TagRail from "../components/TagRail";
+import TagRail from "../components/home/TagRail";
 
 const Home = ({ navigation }) => {
   const [filteredTagList, setFilteredTagList] = useState([]);

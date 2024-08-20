@@ -10,9 +10,9 @@ import {
 import Orientation from "react-native-orientation-locker";
 import Swiper from "react-native-swiper";
 import Video from "react-native-video";
-import { removeFileExtension } from "../constants/removeFileExtension";
-import { SIZES } from "../styles/theme";
-import Empty from "./common/Empty";
+import { removeFileExtension } from "../../constants/removeFileExtension";
+import { SIZES } from "../../styles/theme";
+import Empty from "../common/Empty";
 
 const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
   const [previewIndex, setPreviewIndex] = useState(0);
@@ -20,11 +20,11 @@ const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
 
   // TOP5 rank 관련 에셋
   const numberImages = [
-    require("../assets/images/number_one.png"),
-    require("../assets/images/number_two.png"),
-    require("../assets/images/number_three.png"),
-    require("../assets/images/number_four.png"),
-    require("../assets/images/number_five.png"),
+    require("../../assets/images/number_one.png"),
+    require("../../assets/images/number_two.png"),
+    require("../../assets/images/number_three.png"),
+    require("../../assets/images/number_four.png"),
+    require("../../assets/images/number_five.png"),
   ];
 
   // 재생한 영상이 없는 경우 default page

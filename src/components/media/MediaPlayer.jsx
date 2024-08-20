@@ -2,10 +2,9 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import JWPlayer from "@jwplayer/jwplayer-react-native";
 import Orientation from "react-native-orientation-locker";
-import * as config from "../constants/properties";
+import * as config from "../../constants/properties";
 
 const MediaPlayer = ({ channelId, media, objectId }) => {
-
   // JWPlayer setting 옵션 설정
   const playerConfigs = {
     license: Platform.select({

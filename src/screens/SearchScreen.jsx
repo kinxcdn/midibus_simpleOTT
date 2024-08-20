@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import * as config from "../constants/properties";
-import ClassificationCards from "../components/ClassificationCards";
+import ClassificationCards from "../components/search/ClassificationCards";
 import Orientation from "react-native-orientation-locker";
 import { useGetAllTags } from "../apis/tags/Queries/useGetAllTags";
 import { useKeywordSearch } from "../apis/search/Queries/useKeywordSearch";
@@ -19,7 +19,7 @@ import Loading from "../components/common/loading";
 import Error from "../components/common/Error";
 import Header from "../components/common/Header";
 import { removeFileExtension } from "../constants/removeFileExtension";
-import SearchTagRail from "../components/SearchTagRail";
+import SearchTagRail from "../components/search/SearchTagRail";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
 
 const Search = ({ navigation }) => {

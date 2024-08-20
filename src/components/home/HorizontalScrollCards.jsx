@@ -9,10 +9,10 @@ import {
   Text,
 } from "react-native";
 import Orientation from "react-native-orientation-locker";
-import Empty from "./common/Empty";
-import { SIZES } from "../styles/theme";
-import { removeFileExtension } from "../constants/removeFileExtension";
-import { uploadTimeAgo } from "../constants/uploadTimeAgo";
+import Empty from "../common/Empty";
+import { SIZES } from "../../styles/theme";
+import { removeFileExtension } from "../../constants/removeFileExtension";
+import { uploadTimeAgo } from "../../constants/uploadTimeAgo";
 
 const HorizontalScrollCards = ({ mediaList, channelId, navigation }) => {
   Orientation.lockToPortrait();
@@ -45,7 +45,7 @@ const HorizontalScrollCards = ({ mediaList, channelId, navigation }) => {
               <View style={styles.overlay} />
               <Image
                 style={styles.playBtn}
-                source={require("../assets/images/play_button.png")}
+                source={require("../../assets/images/play_button.png")}
               />
               {/* </View> */}
             </ImageBackground>

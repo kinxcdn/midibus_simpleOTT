@@ -5,12 +5,12 @@ import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetTagListByObject } from "../apis/tags/Queries/useGetTagListByObject";
 import { useGetObjectPlayCount } from "../apis/media/Queries/useGetObjectPlayCount";
 import Error from "../components/common/Error";
-import MediaPlayer from "../components/MediaPlayer";
+import MediaPlayer from "../components/media/MediaPlayer";
 import { dateFormatting } from "../constants/dateFormatting";
-import TagRail from "../components/TagRail";
+import TagRail from "../components/home/TagRail";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
 import Loading from "../components/common/loading";
-import MediaItem from "../components/mediaItem";
+import MediaItem from "../components/common/mediaItem";
 
 const MediaDetail = (props) => {
   const [filteredTagList, setFilteredTagList] = useState("");

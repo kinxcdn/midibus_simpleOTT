@@ -8,9 +8,9 @@ import {
   Image,
   ImageBackground,
 } from "react-native";
-import { SIZES } from "../styles/theme";
+import { SIZES } from "../../styles/theme";
 
-import MediaItem from "./mediaItem";
+import MediaItem from "../common/mediaItem";
 
 const ClassificationCards = ({ tagName, tagIdx, mediaList, navigation }) => {
   return (
@@ -26,7 +26,7 @@ const ClassificationCards = ({ tagName, tagIdx, mediaList, navigation }) => {
       <View style={styles.classificationCard}>
         <View style={styles.headerSection}>
           <Image
-            source={require("../assets/images/popular_logo.png")}
+            source={require("../../assets/images/popular_logo.png")}
             style={styles.logoImage}
           />
           <View style={styles.textVeiw}>

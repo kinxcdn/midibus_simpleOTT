@@ -8,10 +8,10 @@ import {
   ImageBackground,
 } from "react-native";
 
-import * as config from "../constants/properties";
-import { useGetLimitTagMediaList } from "../apis/media/Queries/useGetLimitTagMediaList";
-import Loading from "./common/loading";
-import Error from "./common/Error";
+import * as config from "../../constants/properties";
+import { useGetLimitTagMediaList } from "../../apis/media/Queries/useGetLimitTagMediaList";
+import Loading from "../common/loading";
+import Error from "../common/Error";
 
 const MediaCards = (props) => {
   const { categorizedId, navigation } = props;
