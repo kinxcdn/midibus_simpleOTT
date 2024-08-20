@@ -5,6 +5,8 @@ import Orientation from "react-native-orientation-locker";
 import * as config from "../constants/properties";
 
 const MediaPlayer = ({ channelId, media, objectId }) => {
+
+  // JWPlayer setting 옵션 설정
   const playerConfigs = {
     license: Platform.select({
       ios: config.JW_IOS_API_KEY,
@@ -39,6 +41,7 @@ const MediaPlayer = ({ channelId, media, objectId }) => {
     console.log(">>>>> onPlayerError");
     console.log(evt.nativeEvent);
   };
+  const onBeforePlay = () => {};
   const onPlay = () => {};
   const onPause = () => {};
   const onSetupPlayerError = (evt) => {

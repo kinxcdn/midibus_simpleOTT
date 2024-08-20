@@ -10,7 +10,7 @@ const Splash = ({ navigation }) => {
 
     Orientation.lockToPortrait();
 
-    storage.clearAll(); // TODO TEST!!!
+    storage.clearAll(); 
 
     try {
       const authKey = storage.getString("authKey");

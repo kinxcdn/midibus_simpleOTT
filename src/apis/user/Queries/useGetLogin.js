@@ -3,7 +3,7 @@ import { getLogin } from "../userApi";
 
 const useGetLogin = (authHeader, currentDate) => {
   return useQuery({
-    queryKey: ["userId", { authHeader, currentDate }],
+    queryKey: ["userId", authHeader, currentDate],
     queryFn: () => {
       if (!authHeader || !currentDate) {
         return null; // queryFn이 실행되지 않도록 합니다.

@@ -1,3 +1,4 @@
+// 요청에서 받은 데이터 전처리 로직
 export const dateFormatting = (dateTimeString) => {
   if (!dateTimeString || dateTimeString.length !== 14) {
     return dateTimeString;

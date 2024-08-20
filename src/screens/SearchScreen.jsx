@@ -46,10 +46,12 @@ const Search = ({ navigation }) => {
     return useGetTagMediaList(config.CHANNEL, tagName);
   });
 
+  // 데이터 요청하는 동안 로딩화면
   if (tagsLoading) {
     return <Loading />;
   }
 
+  // 잘못된 데이터 요청 시 에러화면
   if (tagsError) {
     return <Error />;
   }

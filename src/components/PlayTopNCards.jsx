@@ -27,6 +27,7 @@ const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
     require("../assets/images/number_five.png"),
   ];
 
+  // 재생한 영상이 없는 경우 default page
   if (!mediaList || mediaList.length === 0) {
     return <Empty message="최근에 재생한 영상이 없습니다..." />;
   }
@@ -112,7 +113,7 @@ const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
             )}
             <Image source={numberImages[mediaIdx]} style={styles.numberImage} />
             <View style={styles.mediaNameArea}>
-              <Text style={styles.mediaText} numberOfLines={2}>
+              <Text style={styles.mediaText} numberOfLines={1}>
                 {removeFileExtension(media.media_name)}
               </Text>
             </View>

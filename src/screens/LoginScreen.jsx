@@ -4,7 +4,6 @@ import {
   View,
   SafeAreaView,
   Image,
-  Alert,
   Text,
   KeyboardAvoidingView,
   ScrollView,
@@ -25,16 +24,28 @@ const Login = ({ navigation }) => {
   const [userApiKey, setUserApiKey] = useState("");
   const [authHeader, setAuthHeader] = useState(null);
   const [currentDate, setCurrentDate] = useState(null);
-  const [showPassword, setShowPassword] = useState(false); // 비밀번호 표시 상태
+  const [showPassword, setShowPassword] = useState(false);
 
   const isButtonDisabled = !userEmail || !userApiKey;
+
+  const {
+    data: tokenInfo,
+    isError,
+    refetch,
+  } = useGetLogin(authHeader, currentDate);
 
   useEffect(() => {
     Orientation.lockToPortrait();
   }, []);
 
   useEffect(() => {
-    if (tokenInfo && tokenInfo.token) {
+    if (authHeader && currentDate) {
+      refetch();
+    }
+  }, [authHeader, currentDate]);
+
+  useEffect(() => {
+    if (tokenInfo?.token) {
       storage.set("authKey", tokenInfo.token);
       storage.set("channelId", config.CHANNEL);
       navigation.navigate("BottomTabs");
@@ -42,13 +53,6 @@ const Login = ({ navigation }) => {
       handleLoginError();
     }
   }, [tokenInfo, isError]);
-
-  // 유저 로그인 로직
-  const {
-    data: tokenInfo,
-    isError,
-    refetch,
-  } = useGetLogin(authHeader, currentDate);
 
   const handleLoginError = () => {
     storage.clearAll();
@@ -69,8 +73,6 @@ const Login = ({ navigation }) => {
 
     setAuthHeader(header);
     setCurrentDate(date);
-
-    refetch();
   };
 
   return (
@@ -100,7 +102,7 @@ const Login = ({ navigation }) => {
               />
               <Input
                 placeholder="API키를 입력해주세요"
-                secureTextEntry={!showPassword} // secureTextEntry 속성 설정
+                secureTextEntry={!showPassword}
                 rightIcon={
                   <TouchableOpacity
                     onPress={() => setShowPassword(!showPassword)}
@@ -177,14 +179,14 @@ const styles = StyleSheet.create({
   inputContainer: {
     justifyContent: "center",
     marginBottom: 10,
-    width: "100%", // Input의 width를 100%로 설정
+    width: "100%",
   },
   customInputContainer: {
     backgroundColor: "#333333",
     borderRadius: 5,
     paddingHorizontal: 15,
     paddingVertical: 4,
-    borderBottomWidth: 0, // 밑줄 제거
+    borderBottomWidth: 0,
   },
   input: {
     marginBottom: 8,
@@ -202,7 +204,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginTop: 0,
-    width: "100%", // 로그인 버튼의 width를 Input과 동일하게 설정
+    width: "100%",
   },
   loginButton: {
     height: 50,

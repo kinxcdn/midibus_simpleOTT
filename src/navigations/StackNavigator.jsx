@@ -3,7 +3,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import TabNavigation from "./TabNavigator";
 import Splash from "../screens/SplashScreen";
 import Login from "../screens/LoginScreen";
-import TagList from "../screens/TagListScreen";
 import MediaList from "../screens/MediaListScreen";
 import MediaDetail from "../screens/MediaDetailScreen";
 

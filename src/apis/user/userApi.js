@@ -15,6 +15,8 @@ const getLogin = async (authHeader, currentDate) => {
       }
     );
 
+    console.log(response.data);
+
     return response.data;
   } catch {
     console.log(new Error("api 연동 오류 - getLogin 실패"));

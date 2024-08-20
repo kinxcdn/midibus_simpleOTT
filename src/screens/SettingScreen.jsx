@@ -15,7 +15,7 @@ import RNFS from "react-native-fs";
 import Orientation from "react-native-orientation-locker";
 import Icon from "react-native-vector-icons/Ionicons";
 
-// 유틸리티 함수로 분리할 수 있음
+// cache data 처리 로직
 const convertHumanbytes = (bytesValue, decimals = 2) => {
   if (!bytesValue) return "0 bytes";
   const k = 1024;
@@ -32,6 +32,7 @@ const Settings = ({ navigation }) => {
     Orientation.lockToPortrait();
   }, []);
 
+  // 이용 약관 관련
   const showTermsAlert = () => {
     const terms = [
       {
@@ -107,6 +108,7 @@ const Settings = ({ navigation }) => {
     });
   };
 
+    // 로그아웃 관련 로직
   const handleLogout = () => {
     Alert.alert(
       "로그아웃",
