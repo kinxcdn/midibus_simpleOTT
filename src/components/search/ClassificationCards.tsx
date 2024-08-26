@@ -9,8 +9,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { SIZES } from "../../styles/theme";
-
-import MediaItem from "../common/mediaItem";
+import MediaItem from "../common/MediaItem";
 
 const ClassificationCards = ({ tagName, tagIdx, mediaList, navigation }) => {
   return (

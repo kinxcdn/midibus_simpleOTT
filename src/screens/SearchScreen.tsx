@@ -15,7 +15,7 @@ import ClassificationCards from "../components/search/ClassificationCards";
 import Orientation from "react-native-orientation-locker";
 import { useGetAllTags } from "../apis/tags/Queries/useGetAllTags";
 import { useKeywordSearch } from "../apis/search/Queries/useKeywordSearch";
-import Loading from "../components/common/loading";
+import Loading from "../components/common/Loading";
 import Error from "../components/common/Error";
 import Header from "../components/common/Header";
 import { removeFileExtension } from "../constants/removeFileExtension";

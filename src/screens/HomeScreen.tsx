@@ -17,7 +17,7 @@ import Orientation from "react-native-orientation-locker";
 import { useGetMostWeeklyPlayedMediaList } from "../apis/media/Queries/useGetMostWeeklyPlayedMediaList";
 import { useGetPlayTopNMediaList } from "../apis/media/Queries/useGetPlayTopNMediaList";
 import Error from "../components/common/Error";
-import Loading from "../components/common/loading";
+import Loading from "../components/common/Loading";
 import { SIZES } from "../styles/theme";
 import Header from "../components/common/Header";
 import TagRail from "../components/home/TagRail";

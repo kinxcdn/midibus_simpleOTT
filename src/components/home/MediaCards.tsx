@@ -10,7 +10,7 @@ import {
 
 import * as config from "../../constants/properties";
 import { useGetLimitTagMediaList } from "../../apis/media/Queries/useGetLimitTagMediaList";
-import Loading from "../common/loading";
+import Loading from "../common/Loading";
 import Error from "../common/Error";
 
 const MediaCards = (props) => {

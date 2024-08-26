@@ -9,8 +9,8 @@ import MediaPlayer from "../components/media/MediaPlayer";
 import { dateFormatting } from "../constants/dateFormatting";
 import TagRail from "../components/home/TagRail";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
-import Loading from "../components/common/loading";
-import MediaItem from "../components/common/mediaItem";
+import Loading from "../components/common/Loading";
+import MediaItem from "../components/common/MediaItem";
 
 const MediaDetail = (props) => {
   const [categorizedId, setCategorizedId] = useState("");
