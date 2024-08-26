@@ -21,16 +21,7 @@ import Header from "../components/common/Header";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import SearchTagRail from "../components/search/SearchTagRail";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
-
-// SearchResult 타입 정의
-interface SearchResult {
-  resultType: string;
-  object_id?: string;
-  poster_url?: string;
-  media_name?: string;
-  duration?: string;
-  tagName?: string;
-}
+import { SearchResultProps } from "types/search/searchTypes";
 
 const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
@@ -51,7 +42,7 @@ const Search = ({ navigation }) => {
 
   // 전체 태그, 미디어 검색
   const { data: searchResultList = [] } = useKeywordSearch(searchKeyword) as {
-    data: SearchResult[];
+    data: SearchResultProps[];
   };
 
   // 태그로 조회한 미디어 리스트 가져오기
