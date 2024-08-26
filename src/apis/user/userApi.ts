@@ -1,4 +1,3 @@
-import * as config from "../../constants/properties";
 import { LoginProps } from "types/apis/userTypes";
 import axios from "axios";
 
@@ -8,7 +7,7 @@ import axios from "axios";
 const getLogin = async ({ authHeader, currentDate }: LoginProps) => {
   try {
     const response = await axios.get(
-      `${config.MIDIBUS_API}/v2/token?expire=${currentDate}`,
+      `https://api-v2.midibus.dev-kinxcdn.com/v2/token?expire=${currentDate}`,
       {
         headers: {
           Authorization: authHeader,

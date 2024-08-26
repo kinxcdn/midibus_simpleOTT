@@ -12,7 +12,7 @@ import Orientation from "react-native-orientation-locker";
 import Empty from "../common/Empty";
 import { SIZES } from "../../styles/theme";
 import { removeFileExtension } from "../../constants/removeFileExtension";
-import { uploadTimeAgo } from "../../constants/uploadTimeAgo";
+import { useUploadTimeAgo } from "../../constants/uploadTimeAgo";
 
 const HorizontalScrollCards = ({ mediaList, channelId, navigation }) => {
   Orientation.lockToPortrait();
@@ -55,7 +55,7 @@ const HorizontalScrollCards = ({ mediaList, channelId, navigation }) => {
               {removeFileExtension(media.media_name)}
             </Text>
             <Text style={styles.mediaDateAgo}>
-              {uploadTimeAgo(media.created)}
+              {useUploadTimeAgo(media.created)}
             </Text>
           </View>
         </TouchableOpacity>
