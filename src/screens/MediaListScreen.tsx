@@ -12,7 +12,7 @@ import * as config from "../constants/properties";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
-import Loading from "../components/common/loading";
+import Loading from "../components/common/Loading";
 import Error from "../components/common/Error";
 import { SIZES } from "../styles/theme";
 import { dateFormatting } from "../constants/dateFormatting";
@@ -71,12 +71,12 @@ const MediaList = (props) => {
                     )}
                   </View>
                   <View style={styles.mediaTextArea}>
-                    <View style={styles.mediaTextWrapper}>
+                    <View>
                       <Text style={styles.mediaMainText} numberOfLines={1}>
                         {removeFileExtension(media.media_name)}
                       </Text>
                     </View>
-                    <View style={styles.mediaTextWrapper}>
+                    <View>
                       <Text style={styles.mediaSubText}>
                         {dateFormatting(media.created)}
                       </Text>
@@ -144,25 +144,19 @@ const styles = StyleSheet.create({
   mediaTextArea: {
     flex: 2,
     flexDirection: "column",
-  },
-  mediaTextWrapper: {
-    flex: 1,
-    marginRight: 30,
+    justifyContent: "center",
+    padding: 10,
   },
   mediaMainText: {
     fontFamily: "Pretendard-SemiBold",
     fontSize: 18,
     color: "#ffffff",
-    textAlign: "left",
-    marginTop: 18,
-    marginLeft: 10,
+    marginBottom: 8,
   },
   mediaSubText: {
     fontFamily: "Pretendard-Regular",
     fontSize: 13,
     color: "#898989",
-    textAlign: "left",
-    marginLeft: 10,
   },
   horizontalDivider: {
     height: 1.2,
