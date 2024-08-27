@@ -22,6 +22,7 @@ import { removeFileExtension } from "../constants/removeFileExtension";
 import SearchTagRail from "../components/search/SearchTagRail";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
 import { SearchResultProps } from "types/search/searchTypes";
+import Icon from "react-native-vector-icons/Ionicons"; // Ionicons 사용
 
 const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
@@ -70,14 +71,23 @@ const Search = ({ navigation }) => {
             inputSearchKeyword && styles.searchKeywordInputAreaWithCancelBtn,
           ]}
         >
-          <TextInput
-            style={styles.searchKeywordInput}
-            placeholder="미디어, 채널, 태그 검색"
-            placeholderTextColor={"#ffffff"}
-            onFocus={() => setInputSearchKeyword(true)}
-            onChange={(e) => setSearchKeyword(e.nativeEvent.text)}
-            value={searchKeyword}
-          />
+          {/* TextInput 내부에 돋보기 아이콘 추가 */}
+          <View style={styles.searchInputWrapper}>
+            <Icon
+              name="search"
+              size={24}
+              color="#9E9E9E"
+              style={styles.searchIcon}
+            />
+            <TextInput
+              style={styles.searchKeywordInput}
+              placeholder="미디어, 채널, 태그 검색"
+              placeholderTextColor={"#9E9E9E"}
+              onFocus={() => setInputSearchKeyword(true)}
+              onChange={(e) => setSearchKeyword(e.nativeEvent.text)}
+              value={searchKeyword}
+            />
+          </View>
           {inputSearchKeyword && (
             <TouchableOpacity
               onPress={() => {
@@ -243,6 +253,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     color: "#fff",
     paddingHorizontal: 15,
+    fontSize: 16,
   },
   keywordSearchCancelBtnArea: {
     justifyContent: "center",
@@ -354,6 +365,17 @@ const styles = StyleSheet.create({
     fontFamily: "Pretendard-Medium",
     fontSize: 16,
     color: "#898989",
+  },
+  searchIcon: {
+    marginLeft: 8,
+  },
+  searchInputWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#2e2e2e",
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    flex: 1,
   },
 });
 

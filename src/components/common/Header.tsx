@@ -10,7 +10,7 @@ const Header = () => {
         style={styles.logoImage}
       />
       <View style={styles.iconContainer}>
-        <Icon name="person-circle-outline" size={35} color={"#ffffff"} />
+        <Icon name="albums-outline" size={35} color={"#9E9E9E"} />
       </View>
     </View>
   );
