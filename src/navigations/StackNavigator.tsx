@@ -2,6 +2,7 @@ import React from "react";
 import {
   createStackNavigator,
   StackNavigationOptions,
+  TransitionPresets,
 } from "@react-navigation/stack";
 import TabNavigation from "./TabNavigator";
 import Splash from "../screens/SplashScreen";
@@ -24,29 +25,57 @@ const Stack = createStackNavigator<RootStackParamList>();
 const defaultHeaderOptions: StackNavigationOptions = {
   headerStyle: {
     backgroundColor: "#000",
+    height: 60,
   },
   headerTintColor: "#fff",
   headerBackTitleVisible: false,
   animationEnabled: true,
+  headerTitleStyle: {
+    fontFamily: "Pretendard-Bold",
+  },
+  transitionSpec: {
+    open: {
+      animation: "timing",
+      config: {
+        duration: 300,
+      },
+    },
+    close: {
+      animation: "timing",
+      config: {
+        duration: 300,
+      },
+    },
+  },
 };
 
 const StackNavigation = () => (
-  <Stack.Navigator initialRouteName="Splash">
+  <Stack.Navigator
+    initialRouteName="Splash"
+    screenOptions={{
+      ...defaultHeaderOptions,
+      ...TransitionPresets.SlideFromRightIOS,
+    }}
+  >
     <Stack.Screen
       name="Splash"
       component={Splash}
-      options={{ headerShown: false }}
+      options={{
+        headerShown: false,
+      }}
     />
     <Stack.Screen
       name="Login"
       component={Login}
-      options={{ headerShown: false }}
+      options={{
+        headerShown: false,
+        ...TransitionPresets.FadeFromBottomAndroid,
+      }}
     />
     <Stack.Screen
       name="MediaList"
       component={MediaList}
       options={({ route }) => ({
-        ...defaultHeaderOptions,
         headerTitle: route.params.headerTitle,
       })}
     />
@@ -54,8 +83,8 @@ const StackNavigation = () => (
       name="MediaDetail"
       component={MediaDetail}
       options={{
-        ...defaultHeaderOptions,
         headerTitle: "",
+        ...TransitionPresets.ModalSlideFromBottomIOS, // 모달 슬라이드 애니메이션 적용
       }}
     />
     <Stack.Screen

@@ -6,8 +6,4 @@ export const JW_IOS_API_KEY =
 export const JW_ANDROID_API_KEY =
   "rPtXYXBjYjjvIUOX6vDbX9Y1sIJ2/cM+v3nKo5Gb4eN0JgQa";
 
-export const TEST_EMAIL = "tngud124@kakao.com";
-export const TEST_API_KEY = "190c50e0aada395e";
 export const CHANNEL = "ch_190c1550";
-export const OBJCET = "190c837325c26c58";
-export const CATEGORY = "5804";

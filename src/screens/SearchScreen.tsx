@@ -236,6 +236,7 @@ const styles = StyleSheet.create({
   searchKeywordInput: {
     flex: 1,
     height: 50,
+    fontFamily: "Pretendard-SemiBold",
     borderColor: "#2e2e2e",
     borderWidth: 1,
     backgroundColor: "#2e2e2e",

@@ -4,8 +4,8 @@ import { storage } from "../constants/storage";
 import Orientation from "react-native-orientation-locker";
 
 const Splash = ({ navigation }) => {
-  const fadeAnim = useRef(new Animated.Value(0)).current; // Opacity value for fade-in animation
-  const translateYAnim = useRef(new Animated.Value(-50)).current; // Y position for slide-down animation
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const translateYAnim = useRef(new Animated.Value(-50)).current;
 
   useEffect(() => {
     console.log("[VIEW] Start");
@@ -13,7 +13,7 @@ const Splash = ({ navigation }) => {
     Orientation.lockToPortrait();
     storage.clearAll();
 
-    // Start fade-in and slide-down animation
+    // fade-in & slide-down animation
     Animated.parallel([
       Animated.timing(fadeAnim, {
         toValue: 1,

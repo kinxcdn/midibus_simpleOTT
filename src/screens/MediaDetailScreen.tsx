@@ -34,8 +34,11 @@ const MediaDetail = (props) => {
   });
 
   // 해당 미디어의 재생 수 가져오기
-  const { data: playCount = 0, isError: playCountError } =
-    useGetObjectPlayCount(objectId);
+  const {
+    data: playCount = 0,
+    isLoading: cntLoading,
+    isError: playCountError,
+  } = useGetObjectPlayCount(objectId);
 
   // 태그로 조회한 미디어 리스트 가져오기
   const {
@@ -43,6 +46,10 @@ const MediaDetail = (props) => {
     isLoading: mediaListLoading,
     isError: mediaListError,
   } = useGetTagMediaList({ channelId, categorizedId });
+
+  // if (cntLoading) {
+  //   return <Loading />;
+  // }
 
   // 잘못된 데이터 요청 시 에러화면
   if (tagsError || playCountError || mediaListError) {

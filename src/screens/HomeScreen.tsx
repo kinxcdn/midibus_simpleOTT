@@ -21,6 +21,7 @@ import Loading from "../components/common/Loading";
 import { SIZES } from "../styles/theme";
 import Header from "../components/common/Header";
 import TagRail from "../components/home/TagRail";
+import { useGetChannelList } from "../apis/user/Queries/useGetChannelList";
 
 const Home = ({ navigation }) => {
   const [filteredTagList, setFilteredTagList] = useState<string[]>([]); // 빈 배열을 초기화하고 타입을 명시적으로 지정

@@ -26,8 +26,9 @@ const tabBarOptions = {
   },
   tabBarActiveTintColor: "#ffffff",
   tabBarLabelStyle: {
-    fontSize: 13,
+    fontSize: 14,
     marginBottom: 10,
+    fontFamily: "Pretendard-SemiBold",
   },
 };
 
@@ -39,7 +40,7 @@ const TabNavigation = () => {
         component={Home}
         options={{
           headerShown: false,
-          tabBarIcon: tabBarIcon("home-outline"),
+          tabBarIcon: tabBarIcon("home"),
         }}
       />
       <Tab.Screen
@@ -47,7 +48,7 @@ const TabNavigation = () => {
         component={Search}
         options={{
           headerShown: false,
-          tabBarIcon: tabBarIcon("search-outline"),
+          tabBarIcon: tabBarIcon("search"),
         }}
       />
       <Tab.Screen
@@ -55,7 +56,7 @@ const TabNavigation = () => {
         component={Settings}
         options={{
           headerShown: false,
-          tabBarIcon: tabBarIcon("cog-outline"),
+          tabBarIcon: tabBarIcon("cog"),
         }}
       />
     </Tab.Navigator>
