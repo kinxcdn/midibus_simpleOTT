@@ -9,6 +9,7 @@ const useGetTagListByObject = ({
   const {
     data = [],
     isLoading,
+    refetch,
     isError,
     error,
   } = useQuery({
@@ -22,6 +23,7 @@ const useGetTagListByObject = ({
   return {
     data,
     isLoading,
+    refetch,
     isError,
     error,
   };

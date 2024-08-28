@@ -7,6 +7,7 @@ import {
   ImageBackground,
   SafeAreaView,
 } from "react-native";
+import { useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import * as config from "../constants/properties";
 import Icon from "react-native-vector-icons/dist/Ionicons";
@@ -18,14 +19,23 @@ import { SIZES } from "../styles/theme";
 import { dateFormatting } from "../constants/dateFormatting";
 
 const MediaList = (props) => {
+  const [refreshing, setRefreshing] = useState(false);
   const categorizedId = props.route.params.categorizedId;
   const channelId = config.CHANNEL;
+
+  // 모든 데이터 재요청 보내는 함수
+  const fetchData = async () => {
+    setRefreshing(true);
+    await Promise.all([tagMediaListRefetch()]);
+    setRefreshing(false);
+  };
 
   // 태그로 조회한 미디어 리스트
   const {
     data: mediaList,
     isLoading,
     isError,
+    refetch: tagMediaListRefetch,
   } = useGetTagMediaList({ channelId, categorizedId });
 
   // 데이터 요청하는 동안 로딩화면
@@ -35,7 +45,7 @@ const MediaList = (props) => {
 
   // 잘못된 데이터 요청 시 에러화면
   if (isError) {
-    return <Error />;
+    return <Error onRetry={fetchData} />;
   }
 
   return (

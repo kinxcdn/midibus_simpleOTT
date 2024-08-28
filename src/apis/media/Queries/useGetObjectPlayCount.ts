@@ -5,6 +5,7 @@ const useGetObjectPlayCount = (objectId: string) => {
   const {
     data = 0, // 기본값을 0으로 설정하여 undefined 반환을 방지
     isLoading,
+    refetch,
     isError,
     error,
   } = useQuery({
@@ -18,6 +19,7 @@ const useGetObjectPlayCount = (objectId: string) => {
   return {
     data,
     isLoading,
+    refetch,
     isError,
     error,
   };

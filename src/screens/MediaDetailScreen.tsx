@@ -16,11 +16,21 @@ import MediaSkeletonPlaceholder from "../components/media/MediaSkeletonPlacehold
 
 const MediaDetail = (props) => {
   const [categorizedId, setCategorizedId] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
 
   const { channelId, media } = props.route.params;
   const objectId = media.object_id;
 
-  console.log(media !== undefined);
+  // 모든 데이터 재요청 보내는 함수
+  const fetchData = async () => {
+    setRefreshing(true);
+    await Promise.all([
+      tagListByObjectRefetch(),
+      tagMediaListRefetch(),
+      objectPlayCountRefetch(),
+    ]);
+    setRefreshing(false);
+  };
 
   useEffect(() => {
     console.log("[VIEW] MediaDetail");
@@ -32,7 +42,11 @@ const MediaDetail = (props) => {
   };
 
   // 선택된 미디어(오브젝트)의 태그 리스트 가져오기
-  const { data: tags = [], isError: tagsError } = useGetTagListByObject({
+  const {
+    data: tags = [],
+    refetch: tagListByObjectRefetch,
+    isError: tagsError,
+  } = useGetTagListByObject({
     channelId,
     objectId,
   });
@@ -41,6 +55,7 @@ const MediaDetail = (props) => {
   const {
     data: playCount = 0,
     isLoading: cntLoading,
+    refetch: objectPlayCountRefetch,
     isError: playCountError,
   } = useGetObjectPlayCount(objectId);
 
@@ -48,12 +63,13 @@ const MediaDetail = (props) => {
   const {
     data: mediaList = [],
     isLoading: mediaListLoading,
+    refetch: tagMediaListRefetch,
     isError: mediaListError,
   } = useGetTagMediaList({ channelId, categorizedId });
 
   // 잘못된 데이터 요청 시 에러화면
   if (tagsError || playCountError || mediaListError) {
-    return <Error />;
+    return <Error onRetry={fetchData} />;
   }
 
   return (
