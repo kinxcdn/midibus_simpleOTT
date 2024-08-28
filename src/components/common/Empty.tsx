@@ -21,13 +21,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#000",
   },
   emptyImage: {
-    width: 150,
-    height: 150,
-    marginBottom: 20,
+    width: 200,
+    height: 200,
+    resizeMode: "contain",
   },
   emptySubText: {
-    fontSize: 18,
-    color: "#fff",
+    fontFamily: "Pretendard-ㅠㅐ",
+    fontSize: 16,
+    color: "#474E61",
     textAlign: "center",
   },
 });
