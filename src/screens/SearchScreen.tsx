@@ -31,13 +31,14 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { SIZES } from "../styles/theme";
 import SearchSkeletonPlaceholder from "../components/search/SearchSkeletonPlaceholder";
 import TagEmpty from "../components/common/TagEmpty";
+import { storage } from "../constants/storage";
 
 const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
-  const channelId = config.CHANNEL;
+  const channelId = storage.getString("channelId");
 
   // 모든 데이터 재요청 보내는 함수
   const fetchData = async () => {
@@ -55,7 +56,7 @@ const Search = ({ navigation }) => {
   const inputStyle = useAnimatedStyle(() => {
     return {
       width: withTiming(
-        inputSearchKeyword ? SIZES.width - 70 : SIZES.width - 40,
+        inputSearchKeyword ? SIZES.width - 60 : SIZES.width - 30,
         {
           duration: 300,
         }
@@ -119,7 +120,7 @@ const Search = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header />
+      <Header navigation={navigation} />
       <View style={styles.keywordInputArea}>
         <View style={styles.searchKeywordInputArea}>
           <Animated.View
@@ -202,7 +203,7 @@ const Search = ({ navigation }) => {
               onPress={() => {
                 if (searchResult.resultType === "media") {
                   navigation.navigate("MediaDetail", {
-                    channelId: config.CHANNEL,
+                    channelId: channelId,
                     media: searchResult,
                     objectId: searchResult.object_id,
                   });
@@ -294,7 +295,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: SIZES.width - 128,
     fontFamily: "Pretendard-SemiBold",
-    backgroundColor: "#2e2e2e",
+    backgroundColor: "#242C32",
     borderRadius: 5,
     color: "#fff",
     paddingHorizontal: 10,
@@ -414,7 +415,7 @@ const styles = StyleSheet.create({
   searchInputWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#2e2e2e",
+    backgroundColor: "#242C32",
     borderRadius: 20,
     paddingHorizontal: 10,
   },

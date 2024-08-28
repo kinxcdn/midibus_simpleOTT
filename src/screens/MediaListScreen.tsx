@@ -17,11 +17,12 @@ import Loading from "../components/common/Loading";
 import Error from "../components/common/Error";
 import { SIZES } from "../styles/theme";
 import { dateFormatting } from "../constants/dateFormatting";
+import { storage } from "../constants/storage";
 
 const MediaList = (props) => {
   const [refreshing, setRefreshing] = useState(false);
   const categorizedId = props.route.params.categorizedId;
-  const channelId = config.CHANNEL;
+  const channelId = storage.getString("channelId");
 
   // 모든 데이터 재요청 보내는 함수
   const fetchData = async () => {
@@ -58,7 +59,7 @@ const MediaList = (props) => {
                 onPress={() => {
                   // 미디어 상세
                   props.navigation.push("MediaDetail", {
-                    channelId: config.CHANNEL,
+                    channelId: channelId,
                     media: media,
                   });
                 }}

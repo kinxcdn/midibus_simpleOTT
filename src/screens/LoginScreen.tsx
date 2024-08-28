@@ -48,8 +48,8 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     if (tokenInfo?.token) {
       storage.set("authKey", tokenInfo.token);
-      storage.set("channelId", config.CHANNEL);
-      navigation.navigate("BottomTabs");
+      // storage.set("channelId", config.CHANNEL);
+      navigation.navigate("ChannelSelection");
     } else if (isError) {
       handleLoginError();
     }
@@ -183,8 +183,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   customInputContainer: {
-    backgroundColor: "#333333",
-    borderRadius: 5,
+    backgroundColor: "#242C32",
+    borderRadius: 10,
     paddingHorizontal: 15,
     paddingVertical: 4,
     borderBottomWidth: 0,
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     height: 50,
-    borderRadius: 5,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
   },

@@ -11,10 +11,10 @@ import {
 import * as config from "../../constants/properties";
 import { useGetLimitTagMediaList } from "../../apis/media/Queries/useGetLimitTagMediaList";
 import Loading from "../common/Loading";
-import Error from "../common/Error";
+import { storage } from "../../constants/storage";
 
 const MediaCards = (props) => {
-  const channelId = config.CHANNEL;
+  const channelId = storage.getString("channelId");
   const { categorizedId, navigation } = props;
   const scrollViewRef = useRef<ScrollView>(null);
 
@@ -49,7 +49,7 @@ const MediaCards = (props) => {
           key={mediaIdx}
           onPress={() => {
             navigation.push("MediaDetail", {
-              channelId: config.CHANNEL,
+              channelId: channelId,
               media: media,
             });
           }}

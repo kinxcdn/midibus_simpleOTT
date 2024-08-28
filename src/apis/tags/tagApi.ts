@@ -4,12 +4,10 @@ import { TagListByObjectProps } from "types/apis/tagTypes";
 /*
  * 전체 태그 리스트
  */
-const getAllTags = async (channelId: string) => {
+const getAllTags = async (channelId?: string) => {
   try {
     const response = await instance.get(`/v2/channel/${channelId}/tag`);
     const tagList = response.data?.tag_list;
-
-    console.log(tagList);
 
     return Array.isArray(tagList) && tagList.length > 0 ? tagList : [];
   } catch {

@@ -21,11 +21,14 @@ import { SIZES } from "../styles/theme";
 import Header from "../components/common/Header";
 import TagRail from "../components/home/TagRail";
 import HomeSkeletonPlaceholder from "../components/home/HomeSkeletonPlaceholder";
+import { useGetChannelList } from "../apis/user/Queries/useGetChannelList";
+import { storage } from "../constants/storage";
 
 const Home = ({ navigation }) => {
   const [filteredTagList, setFilteredTagList] = useState<string[]>([]); // 빈 배열을 초기화하고 타입을 명시적으로 지정
-  const channelId = config.CHANNEL;
   const [refreshing, setRefreshing] = useState(false);
+
+  const channelId = storage.getString("channelId");
 
   // 모든 데이터 재요청 보내는 함수
   const fetchData = async () => {
@@ -45,12 +48,18 @@ const Home = ({ navigation }) => {
     fetchData();
   }, []);
 
+  // 전체 채널 리스트
+
+  const { data } = useGetChannelList();
+
+  // console.log(data);
+
   // 전체 태그 리스트
   const {
     data: tagList,
     isLoading: tagsLoading,
     isError: tagsError,
-    refetch: refetchTags, // Refetch function for tags
+    refetch: refetchTags,
   } = useGetAllTags(channelId);
 
   // 최신 업로드 미디어 리스트
@@ -58,7 +67,7 @@ const Home = ({ navigation }) => {
     data: currentUploadedMediaList,
     isLoading: uploadsLoading,
     isError: uploadsError,
-    refetch: refetchUploads, // Refetch function for uploads
+    refetch: refetchUploads,
   } = useGetLatestUploadsMediaList({ channelId, limit: 5 });
 
   // 최근 일주일동안 가장 많이 재생된 비디오
@@ -66,7 +75,7 @@ const Home = ({ navigation }) => {
     data: objectList,
     isLoading: weeklyLoading,
     isError: weeklyError,
-    refetch: refetchWeekly, // Refetch function for weekly media
+    refetch: refetchWeekly,
   } = useGetMostWeeklyPlayedMediaList(channelId);
 
   // TOP5 미디어 정보
@@ -74,7 +83,7 @@ const Home = ({ navigation }) => {
     data: playTopNMediaList,
     isLoading: playTopNLoading,
     isError: playTopNError,
-    refetch: refetchTopN, // Refetch function for top N media
+    refetch: refetchTopN,
   } = useGetPlayTopNMediaList({ objectList, channelId });
 
   const handleTagSelect = (selectedTag: string) => {
@@ -85,11 +94,14 @@ const Home = ({ navigation }) => {
     }
   };
 
+  // tagList 비어있을 떄 아닐 떄 구분 로직
+  const completeTagList = tagList.length > 0 ? ["전체", ...tagList] : tagList;
+
   // 데이터 요청하는 동안 로딩화면
   if (tagsLoading || uploadsLoading || weeklyLoading || playTopNLoading) {
     return (
       <SafeAreaView style={styles.container}>
-        <Header />
+        <Header navigation={navigation} />
         <HomeSkeletonPlaceholder />
       </SafeAreaView>
     );
@@ -102,14 +114,14 @@ const Home = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Header />
+      <Header navigation={navigation} />
       <ScrollView style={styles.contentsArea}>
         <View style={styles.playTopNArea}>
           <Text style={styles.subTitle}>최근 일주일 동안</Text>
           <Text style={styles.mainTitle}>가장 많이 재생된 Top5</Text>
           <PlayTopNCards
             mediaList={playTopNMediaList}
-            channelId={config.CHANNEL}
+            channelId={channelId}
             navigation={navigation}
           />
         </View>
@@ -117,15 +129,12 @@ const Home = ({ navigation }) => {
           <Text style={styles.sectionTitle}>최신 업로드</Text>
           <HorizontalScrollCards
             mediaList={currentUploadedMediaList}
-            channelId={config.CHANNEL}
+            channelId={channelId}
             navigation={navigation}
           />
         </View>
         <View style={styles.tagListArea}>
-          <TagRail
-            tagList={["전체", ...tagList]}
-            onTagSelect={handleTagSelect}
-          />
+          <TagRail tagList={completeTagList} onTagSelect={handleTagSelect} />
           {(filteredTagList.length > 0 ? filteredTagList : tagList).map(
             (tagName, tagIdx) => (
               <View key={tagIdx} style={styles.byTagArea}>

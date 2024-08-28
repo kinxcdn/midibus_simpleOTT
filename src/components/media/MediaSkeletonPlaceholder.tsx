@@ -1,5 +1,6 @@
 import React from "react";
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
+import { SIZES } from "../../styles/theme";
 
 const MediaSkeletonPlaceholder = () => {
   return (
@@ -12,7 +13,7 @@ const MediaSkeletonPlaceholder = () => {
         <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
           <SkeletonPlaceholder.Item marginLeft={20}>
             <SkeletonPlaceholder.Item
-              width={350}
+              width={SIZES.width - 45}
               height={40}
               borderRadius={4}
               marginBottom={10}

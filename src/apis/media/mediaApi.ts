@@ -11,7 +11,7 @@ import {
 /*
  * 최근 일주일동안 가장 많이 재생된 비디오
  */
-const getMostWeeklyPlayedMediaList = async (channelId: string) => {
+const getMostWeeklyPlayedMediaList = async (channelId?: string) => {
   try {
     // 7일 전 관련 로직
     const _7daysBeforeObj = new Date(
@@ -127,7 +127,7 @@ const getPlayTopNMediaList = async ({
       const objectInfo = response.data;
       return objectInfo && objectInfo.length !== 0 ? objectInfo : null;
     } catch (error) {
-      console.error(`Error fetching info for object ID ${objectId}:`, error);
+      console.log(new Error("api 연동 오류 - getPlayTopNMediaList 실패"));
     }
   });
 

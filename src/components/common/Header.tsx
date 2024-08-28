@@ -1,17 +1,20 @@
 import React from "react";
 import { View, Image, StyleSheet } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 
-const Header = () => {
+const Header = ({ navigation }) => {
   return (
     <View style={styles.headerArea}>
       <Image
         source={require("../../assets/images/logo_midibus_small.png")}
         style={styles.logoImage}
       />
-      <View style={styles.iconContainer}>
-        <Icon name="albums-outline" size={35} color={"#9E9E9E"} />
-      </View>
+      <TouchableOpacity onPress={() => navigation.navigate("ChannelSelection")}>
+        <View style={styles.iconContainer}>
+          <Icon name="albums-outline" size={35} color={"#9E9E9E"} />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };

@@ -1,12 +1,16 @@
 import { instance } from "../instance";
+import { storage } from "../../constants/storage";
 import * as config from "../../constants/properties";
+
+const channelId = storage.getString("channelId");
+console.log(channelId);
 
 /*
  * 전체 태그 검색
  */
 const getTagsByKeyword = async (keyword: string) => {
   const response = await instance.get(
-    `/v2/channel/${config.CHANNEL}/tag?keyword=${keyword}`
+    `/v2/channel/${channelId}/tag?keyword=${keyword}`
   );
 
   return response.data?.tag_list || [];
@@ -17,7 +21,7 @@ const getTagsByKeyword = async (keyword: string) => {
  */
 const getObjectsByKeyword = async (keyword: string) => {
   const response = await instance.get(
-    `/v2/channel/${config.CHANNEL}?keyword=${keyword}`
+    `/v2/channel/${channelId}?keyword=${keyword}`
   );
   return response.data?.object_list || [];
 };

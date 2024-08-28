@@ -14,24 +14,24 @@ interface MediaPlayInfo {
 }
 
 interface LatestUploadsMediaListProps {
-  channelId: string;
+  channelId?: string;
   limit: number;
 }
 
 interface TagMediaListProps {
-  channelId: string;
+  channelId?: string;
   categorizedId: string;
 }
 
 interface LimitTagMediaListProps {
-  channelId: string;
+  channelId?: string;
   limit: number;
   categorizedId: string;
 }
 
 interface PlayTopNMediaListProps {
   objectList: MediaPlayInfo[]; // 객체 배열로 정의
-  channelId: string;
+  channelId?: string;
 }
 
 export type {

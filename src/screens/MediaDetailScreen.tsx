@@ -11,7 +11,6 @@ import TagRail from "../components/home/TagRail";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
 import Loading from "../components/common/Loading";
 import MediaItem from "../components/common/MediaItem";
-import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 import MediaSkeletonPlaceholder from "../components/media/MediaSkeletonPlaceholder";
 
 const MediaDetail = (props) => {

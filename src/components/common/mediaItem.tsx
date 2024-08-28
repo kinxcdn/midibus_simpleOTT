@@ -4,17 +4,18 @@ import Icon from "react-native-vector-icons/dist/Ionicons";
 import { removeFileExtension } from "../../constants/removeFileExtension";
 import { dateFormatting } from "../../constants/dateFormatting";
 import { SIZES } from "../../styles/theme";
-import * as config from "../../constants/properties";
+import { storage } from "../../constants/storage";
 
 const MediaItem = ({ media, navigation, marginValue }) => {
   const calculatedWidth = SIZES.width - marginValue;
+  const channelId = storage.getString("channelId");
 
   return (
     <TouchableOpacity
       style={styles.mediaArea}
       onPress={() => {
         navigation.push("MediaDetail", {
-          channelId: config.CHANNEL,
+          channelId: channelId,
           media: media,
         });
       }}
