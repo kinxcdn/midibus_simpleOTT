@@ -21,15 +21,30 @@ import Loading from "../components/common/Loading";
 import { SIZES } from "../styles/theme";
 import Header from "../components/common/Header";
 import TagRail from "../components/home/TagRail";
-import { useGetChannelList } from "../apis/user/Queries/useGetChannelList";
+import HomeSkeletonPlaceholder from "../components/home/HomeSkeletonPlaceholder";
 
 const Home = ({ navigation }) => {
   const [filteredTagList, setFilteredTagList] = useState<string[]>([]); // 빈 배열을 초기화하고 타입을 명시적으로 지정
   const channelId = config.CHANNEL;
+  const [refreshing, setRefreshing] = useState(false);
+
+  // Function to refetch all the data
+  const fetchData = async () => {
+    setRefreshing(true);
+    // Trigger refetching all data. Here you would trigger a refetch if using a library like react-query
+    await Promise.all([
+      refetchTags(),
+      refetchUploads(),
+      refetchWeekly(),
+      refetchTopN(),
+    ]);
+    setRefreshing(false);
+  };
 
   useEffect(() => {
     console.log("[VIEW] Home");
     Orientation.lockToPortrait();
+    fetchData();
   }, []);
 
   // 전체 태그 리스트
@@ -37,6 +52,7 @@ const Home = ({ navigation }) => {
     data: tagList,
     isLoading: tagsLoading,
     isError: tagsError,
+    refetch: refetchTags, // Refetch function for tags
   } = useGetAllTags(channelId);
 
   // 최신 업로드 미디어 리스트
@@ -44,6 +60,7 @@ const Home = ({ navigation }) => {
     data: currentUploadedMediaList,
     isLoading: uploadsLoading,
     isError: uploadsError,
+    refetch: refetchUploads, // Refetch function for uploads
   } = useGetLatestUploadsMediaList({ channelId, limit: 5 });
 
   // 최근 일주일동안 가장 많이 재생된 비디오
@@ -51,6 +68,7 @@ const Home = ({ navigation }) => {
     data: objectList,
     isLoading: weeklyLoading,
     isError: weeklyError,
+    refetch: refetchWeekly, // Refetch function for weekly media
   } = useGetMostWeeklyPlayedMediaList(channelId);
 
   // TOP5 미디어 정보
@@ -58,6 +76,7 @@ const Home = ({ navigation }) => {
     data: playTopNMediaList,
     isLoading: playTopNLoading,
     isError: playTopNError,
+    refetch: refetchTopN, // Refetch function for top N media
   } = useGetPlayTopNMediaList({ objectList, channelId });
 
   const handleTagSelect = (selectedTag: string) => {
@@ -70,12 +89,17 @@ const Home = ({ navigation }) => {
 
   // 데이터 요청하는 동안 로딩화면
   if (tagsLoading || uploadsLoading || weeklyLoading || playTopNLoading) {
-    return <Loading />;
+    return (
+      <SafeAreaView style={styles.container}>
+        <Header />
+        <HomeSkeletonPlaceholder />
+      </SafeAreaView>
+    );
   }
 
   // 잘못된 데이터 요청 시 에러화면
   if (tagsError || uploadsError || weeklyError || playTopNError) {
-    return <Error />;
+    return <Error onRetry={fetchData} />;
   }
 
   return (

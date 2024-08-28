@@ -11,12 +11,16 @@ import TagRail from "../components/home/TagRail";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
 import Loading from "../components/common/Loading";
 import MediaItem from "../components/common/MediaItem";
+import SkeletonPlaceholder from "react-native-skeleton-placeholder";
+import MediaSkeletonPlaceholder from "../components/media/MediaSkeletonPlaceholder";
 
 const MediaDetail = (props) => {
   const [categorizedId, setCategorizedId] = useState("");
 
   const { channelId, media } = props.route.params;
   const objectId = media.object_id;
+
+  console.log(media !== undefined);
 
   useEffect(() => {
     console.log("[VIEW] MediaDetail");
@@ -47,10 +51,6 @@ const MediaDetail = (props) => {
     isError: mediaListError,
   } = useGetTagMediaList({ channelId, categorizedId });
 
-  // if (cntLoading) {
-  //   return <Loading />;
-  // }
-
   // 잘못된 데이터 요청 시 에러화면
   if (tagsError || playCountError || mediaListError) {
     return <Error />;
@@ -62,7 +62,7 @@ const MediaDetail = (props) => {
         <MediaPlayer channelId={channelId} media={media} objectId={objectId} />
       )}
       <ScrollView>
-        {media && (
+        {media !== undefined && !cntLoading ? (
           <>
             <View style={styles.mediaTitleArea}>
               <Text style={styles.mediaTitleText} numberOfLines={0}>
@@ -101,6 +101,8 @@ const MediaDetail = (props) => {
               )}
             </View>
           </>
+        ) : (
+          <MediaSkeletonPlaceholder />
         )}
       </ScrollView>
     </SafeAreaView>

@@ -19,11 +19,11 @@ const MediaCards = (props) => {
   const scrollViewRef = useRef<ScrollView>(null);
 
   // 태그별 미디어 리스트 가져오기
-  const {
-    data: mediaListByTag,
-    isLoading,
-    isError,
-  } = useGetLimitTagMediaList({ channelId, limit: 5, categorizedId });
+  const { data: mediaListByTag, isLoading } = useGetLimitTagMediaList({
+    channelId,
+    limit: 5,
+    categorizedId,
+  });
 
   // 태그가 변경될 때마다 스크롤 위치 초기화
   useEffect(() => {
@@ -35,11 +35,6 @@ const MediaCards = (props) => {
   // 로딩 중일 때 로딩 메시지 표시
   if (isLoading) {
     return <Loading />;
-  }
-
-  // 에러가 발생했을 때 에러 메시지 표시
-  if (isError) {
-    return <Error />;
   }
 
   return (
