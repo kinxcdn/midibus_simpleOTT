@@ -9,11 +9,13 @@ import Splash from "../screens/SplashScreen";
 import Login from "../screens/LoginScreen";
 import MediaList from "../screens/MediaListScreen";
 import MediaDetail from "../screens/MediaDetailScreen";
+import ChannelSelection from "../screens/ChannelSelectionScreen";
 
 // Stack Navigator의 파라미터 리스트 정의
 type RootStackParamList = {
   Splash: undefined;
   Login: undefined;
+  ChannelSelection: undefined;
   MediaList: { headerTitle: string };
   MediaDetail: undefined;
   BottomTabs: undefined;
@@ -69,6 +71,14 @@ const StackNavigation = () => (
       component={Login}
       options={{
         headerShown: false,
+        ...TransitionPresets.FadeFromBottomAndroid,
+      }}
+    />
+    <Stack.Screen
+      name="ChannelSelection"
+      component={ChannelSelection}
+      options={{
+        headerTitle: "",
         ...TransitionPresets.FadeFromBottomAndroid,
       }}
     />
