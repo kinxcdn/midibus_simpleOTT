@@ -10,6 +10,11 @@ import {
   SafeAreaView,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
 import * as config from "../constants/properties";
 import ClassificationCards from "../components/search/ClassificationCards";
 import Orientation from "react-native-orientation-locker";
@@ -22,7 +27,10 @@ import { removeFileExtension } from "../constants/removeFileExtension";
 import SearchTagRail from "../components/search/SearchTagRail";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
 import { SearchResultProps } from "types/search/searchTypes";
-import Icon from "react-native-vector-icons/Ionicons"; // Ionicons 사용
+import Icon from "react-native-vector-icons/Ionicons";
+import { SIZES } from "../styles/theme";
+import SearchSkeletonPlaceholder from "../components/search/SearchSkeletonPlaceholder";
+import TagEmpty from "../components/common/TagEmpty";
 
 const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
@@ -34,11 +42,46 @@ const Search = ({ navigation }) => {
     Orientation.lockToPortrait();
   }, []);
 
+  // 애니메이션 스타일
+  const inputStyle = useAnimatedStyle(() => {
+    return {
+      width: withTiming(
+        inputSearchKeyword ? SIZES.width - 70 : SIZES.width - 40,
+        {
+          duration: 300,
+        }
+      ),
+      transform: [
+        {
+          translateX: withTiming(inputSearchKeyword ? 30 : 0, {
+            duration: 300,
+          }),
+        },
+      ],
+    };
+  });
+
+  const cancelStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(inputSearchKeyword ? 1 : 0, {
+        duration: 250,
+      }),
+      transform: [
+        {
+          translateX: withTiming(inputSearchKeyword ? 0 : -100, {
+            duration: 250,
+          }),
+        },
+      ],
+    };
+  });
+
   // 전체 태그 리스트
   const {
     data: tagList,
     isLoading: tagsLoading,
     isError: tagsError,
+    refetch: tagsRefetch,
   } = useGetAllTags(channelId);
 
   // 전체 태그, 미디어 검색
@@ -47,9 +90,13 @@ const Search = ({ navigation }) => {
   };
 
   // 태그로 조회한 미디어 리스트 가져오기
-  const mediaLists = tagList?.map((categorizedId) => {
+  let mediaLists = tagList?.map((categorizedId) => {
     return useGetTagMediaList({ channelId, categorizedId });
   });
+
+  const mediaListsLoading = mediaLists?.some(
+    (mediaList) => mediaList.isLoading
+  );
 
   // 데이터 요청하는 동안 로딩화면
   if (tagsLoading) {
@@ -58,21 +105,33 @@ const Search = ({ navigation }) => {
 
   // 잘못된 데이터 요청 시 에러화면
   if (tagsError) {
-    return <Error />;
+    return <Error onRetry={tagsRefetch} />;
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <Header />
       <View style={styles.keywordInputArea}>
-        <View
-          style={[
-            styles.searchKeywordInputArea,
-            inputSearchKeyword && styles.searchKeywordInputAreaWithCancelBtn,
-          ]}
-        >
-          {/* TextInput 내부에 돋보기 아이콘 추가 */}
-          <View style={styles.searchInputWrapper}>
+        <View style={styles.searchKeywordInputArea}>
+          <Animated.View
+            style={[styles.keywordSearchCancelBtnArea, cancelStyle]}
+          >
+            <TouchableOpacity
+              onPress={() => {
+                Keyboard.dismiss();
+                setSearchKeyword("");
+                setInputSearchKeyword(false);
+              }}
+            >
+              <Icon
+                name="chevron-back"
+                size={32}
+                color="#fff"
+                style={styles.backIcon}
+              />
+            </TouchableOpacity>
+          </Animated.View>
+          <Animated.View style={[styles.searchInputWrapper, inputStyle]}>
             <Icon
               name="search"
               size={24}
@@ -83,24 +142,13 @@ const Search = ({ navigation }) => {
               style={styles.searchKeywordInput}
               placeholder="미디어, 채널, 태그 검색"
               placeholderTextColor={"#9E9E9E"}
-              onFocus={() => setInputSearchKeyword(true)}
+              onFocus={() => {
+                setInputSearchKeyword(true);
+              }}
               onChange={(e) => setSearchKeyword(e.nativeEvent.text)}
               value={searchKeyword}
             />
-          </View>
-          {inputSearchKeyword && (
-            <TouchableOpacity
-              onPress={() => {
-                Keyboard.dismiss();
-                setSearchKeyword("");
-                setInputSearchKeyword(false);
-              }}
-            >
-              <View style={styles.keywordSearchCancelBtnArea}>
-                <Text style={styles.keywordSearchCancelBtn}>취소</Text>
-              </View>
-            </TouchableOpacity>
-          )}
+          </Animated.View>
         </View>
       </View>
       {!inputSearchKeyword ? (
@@ -112,33 +160,29 @@ const Search = ({ navigation }) => {
             <View style={styles.titleContainer}>
               <Text style={styles.mainTitle}>인기태그</Text>
             </View>
-            <ScrollView horizontal style={styles.scrollView}>
-              {tagList.map((tagName, tagIdx) => {
-                const {
-                  data: mediaList,
-                  isLoading,
-                  isError,
-                } = mediaLists[tagIdx];
+            {!mediaListsLoading ? (
+              mediaLists.length > 0 ? (
+                <ScrollView horizontal style={styles.scrollView}>
+                  {tagList.map((tagName, tagIdx) => {
+                    const { data: mediaList } = mediaLists[tagIdx];
 
-                if (isLoading) {
-                  return <Loading key={tagIdx} />;
-                }
-
-                if (isError) {
-                  return <Error key={tagIdx} />;
-                }
-
-                return (
-                  <ClassificationCards
-                    key={tagIdx}
-                    tagName={tagName}
-                    tagIdx={tagIdx}
-                    mediaList={mediaList}
-                    navigation={navigation}
-                  />
-                );
-              })}
-            </ScrollView>
+                    return (
+                      <ClassificationCards
+                        key={tagIdx}
+                        tagName={tagName}
+                        tagIdx={tagIdx}
+                        mediaList={mediaList}
+                        navigation={navigation}
+                      />
+                    );
+                  })}
+                </ScrollView>
+              ) : (
+                <TagEmpty />
+              )
+            ) : (
+              <SearchSkeletonPlaceholder />
+            )}
           </View>
         </ScrollView>
       ) : (
@@ -237,31 +281,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 15,
   },
-  searchKeywordInputAreaWithCancelBtn: {
-    width: "100%",
-    height: 50,
-    paddingLeft: 15,
-    paddingRight: 15,
-  },
   searchKeywordInput: {
-    flex: 1,
     height: 50,
+    width: SIZES.width - 128,
     fontFamily: "Pretendard-SemiBold",
-    borderColor: "#2e2e2e",
-    borderWidth: 1,
     backgroundColor: "#2e2e2e",
     borderRadius: 5,
     color: "#fff",
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     fontSize: 16,
   },
   keywordSearchCancelBtnArea: {
     justifyContent: "center",
-    width: 80,
-    height: 50,
-    marginLeft: 10,
-    backgroundColor: "#DB202C",
-    borderRadius: 5,
+    position: "absolute",
   },
   keywordSearchCancelBtn: {
     fontFamily: "Pretendard-Bold",
@@ -274,6 +306,7 @@ const styles = StyleSheet.create({
   },
   classificationArea: {
     width: "100%",
+    height: "100%",
     marginBottom: 20,
   },
   tagRailArea: {
@@ -373,9 +406,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#2e2e2e",
-    borderRadius: 5,
+    borderRadius: 20,
     paddingHorizontal: 10,
-    flex: 1,
+  },
+  backIcon: {
+    marginLeft: 10,
   },
 });
 
