@@ -5,6 +5,7 @@ const useGetMostWeeklyPlayedMediaList = (channelId: string) => {
   const {
     data = [], // 기본값을 빈 배열로 설정하여 undefined 반환을 방지
     isLoading,
+    refetch,
     isError,
     error,
   } = useQuery({
@@ -18,6 +19,7 @@ const useGetMostWeeklyPlayedMediaList = (channelId: string) => {
   return {
     data,
     isLoading,
+    refetch,
     isError,
     error,
   };

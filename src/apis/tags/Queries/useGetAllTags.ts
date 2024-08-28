@@ -5,6 +5,7 @@ const useGetAllTags = (channelId: string) => {
   const {
     data = [],
     isLoading,
+    refetch,
     isError,
     error,
   } = useQuery({
@@ -15,6 +16,7 @@ const useGetAllTags = (channelId: string) => {
   return {
     data,
     isLoading,
+    refetch,
     isError,
     error,
   };

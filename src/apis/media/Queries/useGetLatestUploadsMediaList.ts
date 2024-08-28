@@ -10,6 +10,7 @@ const useGetLatestUploadsMediaList = ({
     data = [],
     isLoading,
     isError,
+    refetch,
     error,
   } = useQuery({
     queryKey: ["latestUploadsMedia", { channelId, limit }],
@@ -20,6 +21,7 @@ const useGetLatestUploadsMediaList = ({
     data,
     isLoading,
     isError,
+    refetch,
     error,
   };
 };

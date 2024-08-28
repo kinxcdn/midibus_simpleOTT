@@ -17,7 +17,6 @@ import Orientation from "react-native-orientation-locker";
 import { useGetMostWeeklyPlayedMediaList } from "../apis/media/Queries/useGetMostWeeklyPlayedMediaList";
 import { useGetPlayTopNMediaList } from "../apis/media/Queries/useGetPlayTopNMediaList";
 import Error from "../components/common/Error";
-import Loading from "../components/common/Loading";
 import { SIZES } from "../styles/theme";
 import Header from "../components/common/Header";
 import TagRail from "../components/home/TagRail";
@@ -28,10 +27,9 @@ const Home = ({ navigation }) => {
   const channelId = config.CHANNEL;
   const [refreshing, setRefreshing] = useState(false);
 
-  // Function to refetch all the data
+  // 모든 데이터 재요청 보내는 함수
   const fetchData = async () => {
     setRefreshing(true);
-    // Trigger refetching all data. Here you would trigger a refetch if using a library like react-query
     await Promise.all([
       refetchTags(),
       refetchUploads(),

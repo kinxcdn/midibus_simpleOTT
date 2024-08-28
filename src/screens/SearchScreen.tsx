@@ -35,7 +35,16 @@ import TagEmpty from "../components/common/TagEmpty";
 const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
+
   const channelId = config.CHANNEL;
+
+  // 모든 데이터 재요청 보내는 함수
+  const fetchData = async () => {
+    setRefreshing(true);
+    await Promise.all([tagsRefetch()]);
+    setRefreshing(false);
+  };
 
   useEffect(() => {
     console.log("[VIEW] Search");
@@ -105,7 +114,7 @@ const Search = ({ navigation }) => {
 
   // 잘못된 데이터 요청 시 에러화면
   if (tagsError) {
-    return <Error onRetry={tagsRefetch} />;
+    return <Error onRetry={fetchData} />;
   }
 
   return (
