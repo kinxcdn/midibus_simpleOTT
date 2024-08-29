@@ -1,5 +1,6 @@
 import { LoginProps } from "types/apis/userTypes";
 import axios from "axios";
+
 import { instance } from "../instance";
 
 /*
@@ -7,8 +8,9 @@ import { instance } from "../instance";
  */
 const getLogin = async ({ authHeader, currentDate }: LoginProps) => {
   try {
+    console.log(process.env.MIDIBUS_API);
     const response = await axios.get(
-      `https://api-v2.midibus.dev-kinxcdn.com/v2/token?expire=${currentDate}`,
+      `${process.env.MIDIBUS_API}/v2/token?expire=${currentDate}`,
       {
         headers: {
           Authorization: authHeader,

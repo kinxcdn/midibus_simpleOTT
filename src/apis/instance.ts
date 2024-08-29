@@ -3,7 +3,7 @@ import axios from "axios";
 import { storage } from "@/constants/storage";
 
 const instance = axios.create({
-  baseURL: `https://api-v2.midibus.dev-kinxcdn.com`,
+  baseURL: `${process.env.MIDIBUS_API}`,
 });
 
 export function getAuthToken() {

@@ -91,7 +91,6 @@ const ChannelSelection = ({ navigation }) => {
 
   const handleNavigate = () => {
     if (selectedChannel !== null) {
-      console.log(selectedChannel);
       storage.set("channelId", selectedChannel);
       navigation.navigate("BottomTabs");
     }

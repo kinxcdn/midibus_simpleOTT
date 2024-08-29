@@ -1,8 +1,6 @@
 import { instance } from "../instance";
 import axios from "axios";
 
-import * as config from "@/constants/properties";
-
 import {
   LatestUploadsMediaListProps,
   LimitTagMediaListProps,
@@ -25,7 +23,7 @@ const getMostWeeklyPlayedMediaList = async (channelId?: string) => {
       _7daysBeforeObj.getDate().toString().padStart(2, "0");
 
     const response = await axios.get(
-      `${config.MIDIBUS_PLAY_API}/play/log/object?contentIds=${channelId}&from=${_7daysBefore}000000&to=20500331235959&amount=5&dataIndex=0`
+      `${process.env.MIDIBUS_PLAY_API}/play/log/object?contentIds=${channelId}&from=${_7daysBefore}000000&to=20500331235959&amount=5&dataIndex=0`
     );
 
     const objectList = response.data;
@@ -61,7 +59,7 @@ const getLatestUploadsMediaList = async ({
 const getObjectPlayCount = async (objectId: string) => {
   try {
     const response = await axios.get(
-      `${config.MIDIBUS_PLAY_API}/play/count/${objectId}`
+      `${process.env.MIDIBUS_PLAY_API}/play/count/${objectId}`
     );
     const playCount = response.data?.totalCount;
 

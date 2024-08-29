@@ -10,7 +10,8 @@
       "@navigations/*": ["navigations/*"],
       "@screens/*": ["screens/*"],
       "@styles/*": ["styles/*"],
-      "@types/*": ["types/*"]
+      "@types/*": ["types/*"],
+      "@env": ["./@types/env.d.ts"]
     },
     "target": "es5",
     "lib": ["dom", "es2015"],
@@ -29,5 +30,5 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false
   },
-  "include": ["src"]
+  "include": ["src", "env.d.ts"]
 }

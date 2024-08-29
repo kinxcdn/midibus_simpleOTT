@@ -2,7 +2,6 @@ import React from "react";
 import { View, StyleSheet, Platform } from "react-native";
 import JWPlayer from "@jwplayer/jwplayer-react-native";
 import Orientation from "react-native-orientation-locker";
-import * as config from "@/constants/properties";
 
 const MediaPlayer = ({ channelId, media, objectId }) => {
   // Null 체크 및 설정
@@ -12,8 +11,8 @@ const MediaPlayer = ({ channelId, media, objectId }) => {
   // JWPlayer 설정 옵션
   const playerConfigs = {
     license: Platform.select({
-      ios: config.JW_IOS_API_KEY || "",
-      android: config.JW_ANDROID_API_KEY || "",
+      ios: process.env.JW_IOS_API_KEY || "",
+      android: process.env.JW_ANDROID_API_KEY || "",
     }) as string, // license는 빈 문자열로 초기화
     enableLockScreenControls: false,
     pipEnabled: false,
@@ -23,7 +22,7 @@ const MediaPlayer = ({ channelId, media, objectId }) => {
     playlist: [
       {
         mediaId: objectId,
-        file: `https://hls.midibus.dev-kinxcdn.com/hls/${channelId}/${objectId}/v/playlist.m3u8`,
+        file: `${process.env.MIDIBUS_HLS_API}/hls/${channelId}/${objectId}/v/playlist.m3u8`,
         image: posterUrl,
         title: undefined, // title을 undefined로 설정
         autostart: true,

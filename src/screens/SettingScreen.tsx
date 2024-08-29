@@ -10,10 +10,11 @@ import {
   Platform,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { storage } from "../constants/storage";
 import RNFS from "react-native-fs";
 import Orientation from "react-native-orientation-locker";
 import Icon from "react-native-vector-icons/Ionicons";
+
+import { storage } from "../constants/storage";
 
 // cache data 처리 로직
 const convertHumanbytes = (bytesValue, decimals = 2) => {

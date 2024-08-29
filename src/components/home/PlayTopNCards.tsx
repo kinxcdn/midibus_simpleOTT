@@ -65,7 +65,7 @@ const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
                   <View style={styles.mediaThumbnailEmptyArea}>
                     <Video
                       source={{
-                        uri: `https://hls.midibus.dev-kinxcdn.com/hls/${channelId}/${media.object_id}/v/playlist.m3u8`,
+                        uri: `${process.env.MIDIBUS_HLS_API}/hls/${channelId}/${media.object_id}/v/playlist.m3u8`,
                       }}
                       style={styles.backgroundVideo}
                       fullscreen={false}
@@ -83,7 +83,7 @@ const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
                   >
                     <Video
                       source={{
-                        uri: `https://hls.midibus.dev-kinxcdn.com/hls/${channelId}/${media.object_id}/v/playlist.m3u8`,
+                        uri: `${process.env.MIDIBUS_HLS_API}/hls/${channelId}/${media.object_id}/v/playlist.m3u8`,
                       }}
                       style={styles.backgroundVideo}
                       fullscreen={false}
