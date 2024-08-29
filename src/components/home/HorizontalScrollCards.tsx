@@ -52,7 +52,7 @@ const HorizontalScrollCards = ({ mediaList, channelId, navigation }) => {
             </ImageBackground>
           </View>
           <View style={styles.mediaNameArea}>
-            <Text style={styles.mediaName} numberOfLines={2}>
+            <Text style={styles.mediaName} numberOfLines={1}>
               {removeFileExtension(media.media_name)}
             </Text>
             <Text style={styles.mediaDateAgo}>
@@ -114,12 +114,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
+    width: SIZES.width - 90,
     paddingVertical: 8,
   },
   mediaName: {
     fontFamily: "Pretendard-Medium",
     color: "#fff",
     fontSize: 18,
+    marginRight: 10,
   },
   mediaDateAgo: {
     fontFamily: "Pretendard-Light",
