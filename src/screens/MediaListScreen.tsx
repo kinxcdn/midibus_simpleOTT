@@ -13,7 +13,7 @@ import * as config from "../constants/properties";
 import Icon from "react-native-vector-icons/dist/Ionicons";
 import { removeFileExtension } from "../constants/removeFileExtension";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
-import Loading from "../components/common/Loading";
+import MediaListSkeletonPlaceholder from "../components/media/MediaListSkeletonPlaceholder";
 import Error from "../components/common/Error";
 import { SIZES } from "../styles/theme";
 import { dateFormatting } from "../constants/dateFormatting";
@@ -40,8 +40,12 @@ const MediaList = (props) => {
   } = useGetTagMediaList({ channelId, categorizedId });
 
   // 데이터 요청하는 동안 로딩화면
-  if (isLoading) {
-    return <Loading />;
+  if (!isLoading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <MediaListSkeletonPlaceholder />
+      </SafeAreaView>
+    );
   }
 
   // 잘못된 데이터 요청 시 에러화면
