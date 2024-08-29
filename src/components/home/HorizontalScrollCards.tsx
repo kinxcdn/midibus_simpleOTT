@@ -77,9 +77,10 @@ const styles = StyleSheet.create({
   },
   touchable: {
     margin: 10,
+    width: SIZES.width - 59,
   },
   mediaCard: {
-    width: getScreenWidthSize() - 50,
+    width: "100%",
     height: ((getScreenWidthSize() - 50) * 9) / 16,
     backgroundColor: "#898989",
     borderRadius: 7,
@@ -113,13 +114,14 @@ const styles = StyleSheet.create({
   mediaNameArea: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "flex-end",
-    width: SIZES.width - 90,
-    paddingVertical: 8,
+    alignItems: "center",
+    width: SIZES.width - 60,
+    paddingVertical: 10,
   },
   mediaName: {
     fontFamily: "Pretendard-Medium",
     color: "#fff",
+    width: "80%",
     fontSize: 18,
     marginRight: 10,
   },
