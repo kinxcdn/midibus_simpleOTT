@@ -11,38 +11,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 import LinearGradient from "react-native-linear-gradient";
 
+import { useGetChannelList } from "@/apis/user/Queries/useGetChannelList";
+
 import { storage } from "@/constants/storage";
 import { dateFormatting } from "@/constants/dateFormatting";
 
-const channels = [
-  {
-    channel_id: "ch_190c1550",
-    channel_name: "기본 채널",
-    created: "20240718175551",
-    modified: "20240718175551",
-    open: true,
-    play_control: false,
-    security_list: null,
-  },
-  {
-    channel_id: "ch_190c4a4d",
-    channel_name: "라이브 기본 채널",
-    created: "20240718175551",
-    modified: "20240718175551",
-    open: true,
-    play_control: false,
-    security_list: null,
-  },
-  {
-    channel_id: "ch_19180982",
-    channel_name: "CDN 채널",
-    created: "20240826171248",
-    modified: "20240826171248",
-    open: true,
-    play_control: false,
-    security_list: null,
-  },
-];
+import ChannelSkeletonPlaceholder from "@/components/home/ChannelSkeletonPlaceholder";
 
 const ChannelItem = ({ channel, isSelected, onSelect }) => (
   <TouchableOpacity onPress={() => onSelect(channel.channel_id)}>
@@ -84,6 +58,7 @@ const ChannelItem = ({ channel, isSelected, onSelect }) => (
 
 const ChannelSelection = ({ navigation }) => {
   const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
+  const { data: channels, isLoading, isError, error } = useGetChannelList();
 
   const handleSelectChannel = (channelId) => {
     setSelectedChannel(channelId);
@@ -105,17 +80,22 @@ const ChannelSelection = ({ navigation }) => {
         />
       </View>
       <Text style={styles.headerText}>채널을 선택해주세요</Text>
-      <FlatList
-        data={channels}
-        keyExtractor={(item) => item.channel_id}
-        renderItem={({ item }) => (
-          <ChannelItem
-            channel={item}
-            isSelected={item.channel_id === selectedChannel}
-            onSelect={handleSelectChannel}
-          />
-        )}
-      />
+
+      {channels && !isLoading ? (
+        <FlatList
+          data={channels}
+          keyExtractor={(item) => item.channel_id}
+          renderItem={({ item }) => (
+            <ChannelItem
+              channel={item}
+              isSelected={item.channel_id === selectedChannel}
+              onSelect={handleSelectChannel}
+            />
+          )}
+        />
+      ) : (
+        <ChannelSkeletonPlaceholder />
+      )}
 
       <TouchableOpacity style={styles.button} onPress={handleNavigate}>
         {!selectedChannel ? (
