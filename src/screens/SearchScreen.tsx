@@ -20,7 +20,6 @@ import ClassificationCards from "../components/search/ClassificationCards";
 import Orientation from "react-native-orientation-locker";
 import { useGetAllTags } from "../apis/tags/Queries/useGetAllTags";
 import { useKeywordSearch } from "../apis/search/Queries/useKeywordSearch";
-import Loading from "../components/common/Loading";
 import Error from "../components/common/Error";
 import Header from "../components/common/Header";
 import { removeFileExtension } from "../constants/removeFileExtension";
@@ -107,11 +106,6 @@ const Search = ({ navigation }) => {
   const mediaListsLoading = mediaLists?.some(
     (mediaList) => mediaList.isLoading
   );
-
-  // 데이터 요청하는 동안 로딩화면
-  if (tagsLoading) {
-    return <Loading />;
-  }
 
   // 잘못된 데이터 요청 시 에러화면
   if (tagsError) {

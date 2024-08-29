@@ -116,7 +116,6 @@ dependencies {
 
     // react-native-vector-icons
     implementation project(':react-native-vector-icons')
-    implementation project(':lottie-react-native')
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

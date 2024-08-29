@@ -48,7 +48,6 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     if (tokenInfo?.token) {
       storage.set("authKey", tokenInfo.token);
-      // storage.set("channelId", config.CHANNEL);
       navigation.navigate("ChannelSelection");
     } else if (isError) {
       handleLoginError();

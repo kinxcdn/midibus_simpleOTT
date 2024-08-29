@@ -10,7 +10,6 @@ import {
 
 import * as config from "../../constants/properties";
 import { useGetLimitTagMediaList } from "../../apis/media/Queries/useGetLimitTagMediaList";
-import Loading from "../common/Loading";
 import { storage } from "../../constants/storage";
 
 const MediaCards = (props) => {
@@ -19,7 +18,7 @@ const MediaCards = (props) => {
   const scrollViewRef = useRef<ScrollView>(null);
 
   // 태그별 미디어 리스트 가져오기
-  const { data: mediaListByTag, isLoading } = useGetLimitTagMediaList({
+  const { data: mediaListByTag } = useGetLimitTagMediaList({
     channelId,
     limit: 5,
     categorizedId,
@@ -31,11 +30,6 @@ const MediaCards = (props) => {
       scrollViewRef.current.scrollTo({ x: 0, animated: true });
     }
   }, [categorizedId]);
-
-  // 로딩 중일 때 로딩 메시지 표시
-  if (isLoading) {
-    return <Loading />;
-  }
 
   return (
     <ScrollView

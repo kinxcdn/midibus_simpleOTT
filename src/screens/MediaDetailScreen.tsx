@@ -9,7 +9,6 @@ import MediaPlayer from "../components/media/MediaPlayer";
 import { dateFormatting } from "../constants/dateFormatting";
 import TagRail from "../components/home/TagRail";
 import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
-import Loading from "../components/common/Loading";
 import MediaItem from "../components/common/MediaItem";
 import MediaSkeletonPlaceholder from "../components/media/MediaSkeletonPlaceholder";
 
@@ -103,7 +102,7 @@ const MediaDetail = (props) => {
             <View style={styles.horizontalDivider} />
             <View style={styles.mediaListArea}>
               {mediaListLoading ? (
-                <Loading />
+                <></>
               ) : (
                 mediaList.map((media, mediaIdx) => (
                   <MediaItem

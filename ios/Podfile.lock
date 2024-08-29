@@ -10,29 +10,6 @@ PODS:
     - hermes-engine/Pre-built (= 0.74.3)
   - hermes-engine/Pre-built (0.74.3)
   - JWPlayerKit (4.19.2)
-  - lottie-ios (4.4.1)
-  - lottie-react-native (6.7.2):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - lottie-ios (= 4.4.1)
-    - RCT-Folly (= 2024.01.01.00)
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Codegen
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-ImageManager
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-rendererdebug
-    - React-utils
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - Yoga
   - MMKV (1.3.9):
     - MMKVCore (~> 1.3.9)
   - MMKVCore (1.3.9)
@@ -1226,8 +1203,8 @@ PODS:
     - React-utils (= 0.74.3)
   - RNCAsyncStorage (1.24.0):
     - React-Core
-  - RNCMaskedView (0.1.11):
-    - React
+  - RNCMaskedView (0.3.1):
+    - React-Core
   - RNFS (2.20.0):
     - React-Core
   - RNGestureHandler (2.18.1):
@@ -1308,7 +1285,6 @@ DEPENDENCIES:
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
-  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTDeprecation (from `../node_modules/react-native/ReactApple/Libraries/RCTFoundation/RCTDeprecation`)
@@ -1363,7 +1339,7 @@ DEPENDENCIES:
   - React-utils (from `../node_modules/react-native/ReactCommon/react/utils`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
-  - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - "RNCMaskedView (from `../node_modules/@react-native-masked-view/masked-view`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNJWPlayer (from `../node_modules/@jwplayer/jwplayer-react-native`)"
@@ -1374,7 +1350,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - JWPlayerKit
-    - lottie-ios
     - MMKV
     - MMKVCore
     - SocketRocket
@@ -1395,8 +1370,6 @@ EXTERNAL SOURCES:
   hermes-engine:
     :podspec: "../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec"
     :tag: hermes-2024-06-28-RNv0.74.3-7bda0c267e76d11b68a585f84cfdd65000babf85
-  lottie-react-native:
-    :path: "../node_modules/lottie-react-native"
   RCT-Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec"
   RCTDeprecation:
@@ -1502,7 +1475,7 @@ EXTERNAL SOURCES:
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
-    :path: "../node_modules/@react-native-community/masked-view"
+    :path: "../node_modules/@react-native-masked-view/masked-view"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
@@ -1525,8 +1498,6 @@ SPEC CHECKSUMS:
   glog: fdfdfe5479092de0c4bdbebedd9056951f092c4f
   hermes-engine: 1f547997900dd0752dc0cc0ae6dd16173c49e09b
   JWPlayerKit: ddc83cdd4864895dbc48b6edf84769aac4c410f0
-  lottie-ios: e047b1d2e6239b787cc5e9755b988869cf190494
-  lottie-react-native: 4279da8b681e89c29a2adb9f99985d6cf372d49d
   MMKV: 817ba1eea17421547e01e087285606eb270a8dcb
   MMKVCore: af055b00e27d88cd92fad301c5fecd1ff9b26dd9
   RCT-Folly: 02617c592a293bd6d418e0a88ff4ee1f88329b47
@@ -1581,7 +1552,7 @@ SPEC CHECKSUMS:
   React-utils: a06061b3887c702235d2dac92dacbd93e1ea079e
   ReactCommon: f00e436b3925a7ae44dfa294b43ef360fbd8ccc4
   RNCAsyncStorage: ec53e44dc3e75b44aa2a9f37618a49c3bc080a7a
-  RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
+  RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: efed690b8493a00b99654043daeb1335276ac4a2
   RNJWPlayer: 2cdc5d72ce5e5039478e78556474afe3a621fcdd
