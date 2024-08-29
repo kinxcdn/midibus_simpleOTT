@@ -169,19 +169,22 @@ const Search = ({ navigation }) => {
             {!mediaListsLoading ? (
               mediaLists.length > 0 ? (
                 <ScrollView horizontal style={styles.scrollView}>
-                  {tagList.map((tagName, tagIdx) => {
-                    const { data: mediaList } = mediaLists[tagIdx];
+                  {mediaLists
+                    .map((list, index) => ({ ...list, tagIdx: index }))
+                    .sort((a, b) => b.data.length - a.data.length)
+                    .map(({ data: mediaList, tagIdx }, _) => {
+                      const tagName = tagList[tagIdx];
 
-                    return (
-                      <ClassificationCards
-                        key={tagIdx}
-                        tagName={tagName}
-                        tagIdx={tagIdx}
-                        mediaList={mediaList}
-                        navigation={navigation}
-                      />
-                    );
-                  })}
+                      return (
+                        <ClassificationCards
+                          key={tagIdx}
+                          tagName={tagName}
+                          tagIdx={tagIdx}
+                          mediaList={mediaList}
+                          navigation={navigation}
+                        />
+                      );
+                    })}
                 </ScrollView>
               ) : (
                 <TagEmpty />
