@@ -9,10 +9,11 @@ import {
   Text,
 } from "react-native";
 import Orientation from "react-native-orientation-locker";
-import Empty from "../common/Empty";
-import { SIZES } from "../../styles/theme";
-import { removeFileExtension } from "../../constants/removeFileExtension";
-import { useUploadTimeAgo } from "../../constants/uploadTimeAgo";
+import Empty from "@/components/common/Empty";
+
+import { removeFileExtension } from "@/constants/removeFileExtension";
+import { useUploadTimeAgo } from "@/constants/uploadTimeAgo";
+import { SIZES } from "@/styles/theme";
 
 const HorizontalScrollCards = ({ mediaList, channelId, navigation }) => {
   Orientation.lockToPortrait();

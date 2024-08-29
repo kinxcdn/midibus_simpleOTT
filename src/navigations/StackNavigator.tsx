@@ -5,11 +5,12 @@ import {
   TransitionPresets,
 } from "@react-navigation/stack";
 import TabNavigation from "./TabNavigator";
-import Splash from "../screens/SplashScreen";
-import Login from "../screens/LoginScreen";
-import MediaList from "../screens/MediaListScreen";
-import MediaDetail from "../screens/MediaDetailScreen";
-import ChannelSelection from "../screens/ChannelSelectionScreen";
+
+import Splash from "@/screens/SplashScreen";
+import Login from "@/screens/LoginScreen";
+import MediaList from "@/screens/MediaListScreen";
+import MediaDetail from "@/screens/MediaDetailScreen";
+import ChannelSelection from "@/screens/ChannelSelectionScreen";
 
 // Stack Navigator의 파라미터 리스트 정의
 type RootStackParamList = {

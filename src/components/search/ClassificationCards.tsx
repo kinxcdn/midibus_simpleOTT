@@ -1,15 +1,9 @@
 import React from "react";
-import {
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-  ImageBackground,
-} from "react-native";
-import { SIZES } from "../../styles/theme";
-import MediaItem from "../common/MediaItem";
+import { Text, View, TouchableOpacity, StyleSheet, Image } from "react-native";
+
+import MediaItem from "@/components/common/mediaItem";
+
+import { SIZES } from "@/styles/theme";
 
 const ClassificationCards = ({ tagName, tagIdx, mediaList, navigation }) => {
   return (

@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
-import { SIZES } from "../../styles/theme";
+import { SIZES } from "@/styles/theme";
 
 const MediaListSkeletonPlaceholder = () => {
   return (

@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import { Image, StyleSheet, SafeAreaView, Animated } from "react-native";
-import { storage } from "../constants/storage";
+import { StyleSheet, SafeAreaView, Animated } from "react-native";
 import Orientation from "react-native-orientation-locker";
+
+import { storage } from "../constants/storage";
 
 const Splash = ({ navigation }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;

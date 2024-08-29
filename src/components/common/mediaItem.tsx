@@ -1,10 +1,11 @@
 import React from "react";
 import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/dist/Ionicons";
-import { removeFileExtension } from "../../constants/removeFileExtension";
-import { dateFormatting } from "../../constants/dateFormatting";
-import { SIZES } from "../../styles/theme";
-import { storage } from "../../constants/storage";
+
+import { removeFileExtension } from "@/constants/removeFileExtension";
+import { dateFormatting } from "@/constants/dateFormatting";
+import { storage } from "@/constants/storage";
+import { SIZES } from "@/styles/theme";
 
 const MediaItem = ({ media, navigation, marginValue }) => {
   const calculatedWidth = SIZES.width - marginValue;

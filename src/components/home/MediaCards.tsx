@@ -8,9 +8,9 @@ import {
   ImageBackground,
 } from "react-native";
 
-import * as config from "../../constants/properties";
-import { useGetLimitTagMediaList } from "../../apis/media/Queries/useGetLimitTagMediaList";
-import { storage } from "../../constants/storage";
+import { useGetLimitTagMediaList } from "@/apis/media/Queries/useGetLimitTagMediaList";
+
+import { storage } from "@/constants/storage";
 
 const MediaCards = (props) => {
   const channelId = storage.getString("channelId");

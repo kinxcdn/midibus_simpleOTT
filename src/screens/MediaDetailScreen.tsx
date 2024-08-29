@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
 import Orientation from "react-native-orientation-locker";
-import { removeFileExtension } from "../constants/removeFileExtension";
-import { useGetTagListByObject } from "../apis/tags/Queries/useGetTagListByObject";
-import { useGetObjectPlayCount } from "../apis/media/Queries/useGetObjectPlayCount";
-import Error from "../components/common/Error";
-import MediaPlayer from "../components/media/MediaPlayer";
-import { dateFormatting } from "../constants/dateFormatting";
-import TagRail from "../components/home/TagRail";
-import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
-import MediaItem from "../components/common/MediaItem";
-import MediaSkeletonPlaceholder from "../components/media/MediaSkeletonPlaceholder";
+
+import Error from "@/components/common/Error";
+import MediaPlayer from "@/components/media/MediaPlayer";
+import TagRail from "@/components/home/TagRail";
+import MediaItem from "@/components/common/mediaItem";
+import MediaSkeletonPlaceholder from "@/components/media/MediaSkeletonPlaceholder";
+
+import { useGetTagListByObject } from "@/apis/tags/Queries/useGetTagListByObject";
+import { useGetObjectPlayCount } from "@/apis/media/Queries/useGetObjectPlayCount";
+import { useGetTagMediaList } from "@/apis/media/Queries/useGetTagMediaList";
+
+import { dateFormatting } from "@/constants/dateFormatting";
+import { removeFileExtension } from "@/constants/removeFileExtension";
 
 const MediaDetail = (props) => {
   const [categorizedId, setCategorizedId] = useState("");

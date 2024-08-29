@@ -1,6 +1,6 @@
 import { instance } from "../instance";
-import { storage } from "../../constants/storage";
-import * as config from "../../constants/properties";
+
+import { storage } from "@/constants/storage";
 
 const channelId = storage.getString("channelId");
 console.log(channelId);

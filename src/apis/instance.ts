@@ -1,5 +1,6 @@
 import axios from "axios";
-import { storage } from "../constants/storage";
+
+import { storage } from "@/constants/storage";
 
 const instance = axios.create({
   baseURL: `https://api-v2.midibus.dev-kinxcdn.com`,

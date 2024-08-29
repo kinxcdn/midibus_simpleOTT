@@ -1,6 +1,17 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"],
+      "@apis/*": ["apis/*"],
+      "@assets/*": ["assets/*"],
+      "@components/*": ["components/*"],
+      "@constants/*": ["constants/*"],
+      "@navigations/*": ["navigations/*"],
+      "@screens/*": ["screens/*"],
+      "@styles/*": ["styles/*"],
+      "@types/*": ["types/*"]
+    },
     "target": "es5",
     "lib": ["dom", "es2015"],
     "allowJs": true,
@@ -14,7 +25,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react", // or "react-jsx" for React 17+
+    "jsx": "react",
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false
   },

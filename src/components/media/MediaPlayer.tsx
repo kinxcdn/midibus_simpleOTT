@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet, Platform } from "react-native";
 import JWPlayer from "@jwplayer/jwplayer-react-native";
 import Orientation from "react-native-orientation-locker";
-import * as config from "../../constants/properties";
+import * as config from "@/constants/properties";
 
 const MediaPlayer = ({ channelId, media, objectId }) => {
   // Null 체크 및 설정

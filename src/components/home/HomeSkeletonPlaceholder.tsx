@@ -1,6 +1,6 @@
 import React from "react";
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
-import { SIZES } from "../../styles/theme";
+import { SIZES } from "@/styles/theme";
 
 const HomeSkeletonPlaceholder = () => {
   return (

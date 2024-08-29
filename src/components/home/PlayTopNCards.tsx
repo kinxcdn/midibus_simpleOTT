@@ -10,9 +10,11 @@ import {
 import Orientation from "react-native-orientation-locker";
 import Swiper from "react-native-swiper";
 import Video from "react-native-video";
-import { removeFileExtension } from "../../constants/removeFileExtension";
-import { SIZES } from "../../styles/theme";
-import Empty from "../common/Empty";
+
+import Empty from "@/components/common/Empty";
+
+import { removeFileExtension } from "@/constants/removeFileExtension";
+import { SIZES } from "@/styles/theme";
 
 const PlayTopNCards = ({ channelId, mediaList, navigation }) => {
   const [previewIndex, setPreviewIndex] = useState(0);

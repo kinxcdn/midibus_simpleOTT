@@ -7,22 +7,23 @@ import {
   SafeAreaView,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import * as config from "../constants/properties";
-import PlayTopNCards from "../components/home/PlayTopNCards";
-import HorizontalScrollCards from "../components/home/HorizontalScrollCards";
-import MediaCards from "../components/home/MediaCards";
-import { useGetAllTags } from "../apis/tags/Queries/useGetAllTags";
-import { useGetLatestUploadsMediaList } from "../apis/media/Queries/useGetLatestUploadsMediaList";
 import Orientation from "react-native-orientation-locker";
-import { useGetMostWeeklyPlayedMediaList } from "../apis/media/Queries/useGetMostWeeklyPlayedMediaList";
-import { useGetPlayTopNMediaList } from "../apis/media/Queries/useGetPlayTopNMediaList";
-import Error from "../components/common/Error";
-import { SIZES } from "../styles/theme";
-import Header from "../components/common/Header";
-import TagRail from "../components/home/TagRail";
-import HomeSkeletonPlaceholder from "../components/home/HomeSkeletonPlaceholder";
-import { useGetChannelList } from "../apis/user/Queries/useGetChannelList";
-import { storage } from "../constants/storage";
+
+import PlayTopNCards from "@/components/home/PlayTopNCards";
+import HorizontalScrollCards from "@/components/home/HorizontalScrollCards";
+import MediaCards from "@/components/home/MediaCards";
+import Error from "@/components/common/Error";
+import Header from "@/components/common/Header";
+import TagRail from "@/components/home/TagRail";
+import HomeSkeletonPlaceholder from "@/components/home/HomeSkeletonPlaceholder";
+
+import { useGetAllTags } from "@/apis/tags/Queries/useGetAllTags";
+import { useGetLatestUploadsMediaList } from "@/apis/media/Queries/useGetLatestUploadsMediaList";
+import { useGetMostWeeklyPlayedMediaList } from "@/apis/media/Queries/useGetMostWeeklyPlayedMediaList";
+import { useGetPlayTopNMediaList } from "@/apis/media/Queries/useGetPlayTopNMediaList";
+
+import { SIZES } from "@/styles/theme";
+import { storage } from "@/constants/storage";
 
 const Home = ({ navigation }) => {
   const [filteredTagList, setFilteredTagList] = useState<string[]>([]); // 빈 배열을 초기화하고 타입을 명시적으로 지정
@@ -47,12 +48,6 @@ const Home = ({ navigation }) => {
     Orientation.lockToPortrait();
     fetchData();
   }, []);
-
-  // 전체 채널 리스트
-
-  const { data } = useGetChannelList();
-
-  // console.log(data);
 
   // 전체 태그 리스트
   const {

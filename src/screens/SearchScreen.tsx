@@ -11,26 +11,28 @@ import {
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Animated, {
-  useSharedValue,
   useAnimatedStyle,
   withTiming,
 } from "react-native-reanimated";
-import * as config from "../constants/properties";
-import ClassificationCards from "../components/search/ClassificationCards";
 import Orientation from "react-native-orientation-locker";
-import { useGetAllTags } from "../apis/tags/Queries/useGetAllTags";
-import { useKeywordSearch } from "../apis/search/Queries/useKeywordSearch";
-import Error from "../components/common/Error";
-import Header from "../components/common/Header";
-import { removeFileExtension } from "../constants/removeFileExtension";
-import SearchTagRail from "../components/search/SearchTagRail";
-import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
-import { SearchResultProps } from "types/search/searchTypes";
 import Icon from "react-native-vector-icons/Ionicons";
-import { SIZES } from "../styles/theme";
-import SearchSkeletonPlaceholder from "../components/search/SearchSkeletonPlaceholder";
-import TagEmpty from "../components/common/TagEmpty";
-import { storage } from "../constants/storage";
+
+import ClassificationCards from "@/components/search/ClassificationCards";
+import Error from "@/components/common/Error";
+import Header from "@/components/common/Header";
+import SearchTagRail from "@/components/search/SearchTagRail";
+import SearchSkeletonPlaceholder from "@/components/search/SearchSkeletonPlaceholder";
+import TagEmpty from "@/components/common/TagEmpty";
+
+import { useGetAllTags } from "@/apis/tags/Queries/useGetAllTags";
+import { useKeywordSearch } from "@/apis/search/Queries/useKeywordSearch";
+import { useGetTagMediaList } from "@/apis/media/Queries/useGetTagMediaList";
+
+import { removeFileExtension } from "@/constants/removeFileExtension";
+import { storage } from "@/constants/storage";
+import { SIZES } from "@/styles/theme";
+
+import { SearchResultProps } from "types/search/searchTypes";
 
 const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);

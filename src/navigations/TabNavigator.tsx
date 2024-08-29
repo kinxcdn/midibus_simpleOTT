@@ -1,9 +1,10 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
-import Home from "../screens/HomeScreen";
-import Search from "../screens/SearchScreen";
-import Settings from "../screens/SettingScreen";
+
+import Home from "@/screens/HomeScreen";
+import Search from "@/screens/SearchScreen";
+import Settings from "@/screens/SettingScreen";
 
 interface TabBarIconProps {
   color: string;

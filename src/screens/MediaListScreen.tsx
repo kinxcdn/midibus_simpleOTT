@@ -9,15 +9,17 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { ScrollView } from "react-native-gesture-handler";
-import * as config from "../constants/properties";
 import Icon from "react-native-vector-icons/dist/Ionicons";
-import { removeFileExtension } from "../constants/removeFileExtension";
-import { useGetTagMediaList } from "../apis/media/Queries/useGetTagMediaList";
-import MediaListSkeletonPlaceholder from "../components/media/MediaListSkeletonPlaceholder";
-import Error from "../components/common/Error";
-import { SIZES } from "../styles/theme";
-import { dateFormatting } from "../constants/dateFormatting";
-import { storage } from "../constants/storage";
+
+import Error from "@/components/common/Error";
+
+import { useGetTagMediaList } from "@/apis/media/Queries/useGetTagMediaList";
+import MediaListSkeletonPlaceholder from "@/components/media/MediaListSkeletonPlaceholder";
+
+import { removeFileExtension } from "@/constants/removeFileExtension";
+import { dateFormatting } from "@/constants/dateFormatting";
+import { storage } from "@/constants/storage";
+import { SIZES } from "@/styles/theme";
 
 const MediaList = (props) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -40,7 +42,7 @@ const MediaList = (props) => {
   } = useGetTagMediaList({ channelId, categorizedId });
 
   // 데이터 요청하는 동안 로딩화면
-  if (!isLoading) {
+  if (isLoading) {
     return (
       <SafeAreaView style={styles.container}>
         <MediaListSkeletonPlaceholder />

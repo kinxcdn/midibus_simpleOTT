@@ -1,6 +1,8 @@
 import { instance } from "../instance";
 import axios from "axios";
-import * as config from "../../constants/properties";
+
+import * as config from "@/constants/properties";
+
 import {
   LatestUploadsMediaListProps,
   LimitTagMediaListProps,

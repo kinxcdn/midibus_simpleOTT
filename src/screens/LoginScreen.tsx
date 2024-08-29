@@ -11,14 +11,15 @@ import {
 } from "react-native";
 import { Input } from "@rneui/themed";
 import Icon from "react-native-vector-icons/dist/FontAwesome";
-import base64 from "base-64";
-import * as config from "../constants/properties";
-import Orientation from "react-native-orientation-locker";
-import { storage } from "../constants/storage";
-import { useGetLogin } from "../apis/user/Queries/useGetLogin";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import LinearGradient from "react-native-linear-gradient";
 import Toast from "react-native-toast-message";
+import base64 from "base-64";
+import Orientation from "react-native-orientation-locker";
+
+import { useGetLogin } from "@/apis/user/Queries/useGetLogin";
+
+import { storage } from "@/constants/storage";
 
 const Login = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState("");

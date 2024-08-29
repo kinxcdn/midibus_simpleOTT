@@ -1,7 +1,8 @@
 import React from "react";
 import SkeletonPlaceholder from "react-native-skeleton-placeholder";
-import { SIZES } from "../../styles/theme";
 import { View } from "react-native";
+
+import { SIZES } from "@/styles/theme";
 
 const SearchSkeletonPlaceholder = () => {
   return (

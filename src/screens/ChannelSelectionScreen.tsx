@@ -10,8 +10,9 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 import LinearGradient from "react-native-linear-gradient";
-import { storage } from "../constants/storage";
-import { dateFormatting } from "../constants/dateFormatting";
+
+import { storage } from "@/constants/storage";
+import { dateFormatting } from "@/constants/dateFormatting";
 
 const channels = [
   {
