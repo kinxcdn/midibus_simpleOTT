@@ -8,7 +8,6 @@ import { instance } from "../instance";
  */
 const getLogin = async ({ authHeader, currentDate }: LoginProps) => {
   try {
-    console.log(process.env.MIDIBUS_API);
     const response = await axios.get(
       `${process.env.MIDIBUS_API}/v2/token?expire=${currentDate}`,
       {

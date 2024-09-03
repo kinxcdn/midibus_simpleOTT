@@ -30,5 +30,5 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false
   },
-  "include": ["src", "env.d.ts"]
+  "include": ["src", "src/types/env.d.ts"]
 }

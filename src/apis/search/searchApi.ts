@@ -3,7 +3,6 @@ import { instance } from "../instance";
 import { storage } from "@/constants/storage";
 
 const channelId = storage.getString("channelId");
-console.log(channelId);
 
 /*
  * 전체 태그 검색
