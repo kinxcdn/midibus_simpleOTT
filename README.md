@@ -94,6 +94,7 @@ npm run ios
 - JWplayer API Key는
   https://docs.jwplayer.com/platform/reference/create-and-manage-api-keys를 참고
   하여 입력해주시면 됩니다.
+- 라이브 채널 같은 경우는 데이터가 없습니다. -> 데이터가 없을 경우의 화면을 확인해보세요
 
 <br />
 
