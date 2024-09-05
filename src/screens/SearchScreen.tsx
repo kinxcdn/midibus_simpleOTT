@@ -37,7 +37,7 @@ import { SearchResultProps } from "types/search/searchTypes";
 const Search = ({ navigation }) => {
   const [inputSearchKeyword, setInputSearchKeyword] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [refreshing, setRefreshing] = useState(false);
+  const [_, setRefreshing] = useState(false);
 
   const channelId = storage.getString("channelId");
 
@@ -46,6 +46,15 @@ const Search = ({ navigation }) => {
     setRefreshing(true);
     await Promise.all([tagsRefetch()]);
     setRefreshing(false);
+  };
+
+  // 전체 태그, 미디어 검색
+  const { data: searchResultList = [] } = useKeywordSearch(
+    channelId,
+    searchKeyword
+  ) as {
+    data: SearchResultProps[];
+    isLoading: boolean;
   };
 
   useEffect(() => {
@@ -95,11 +104,6 @@ const Search = ({ navigation }) => {
     refetch: tagsRefetch,
   } = useGetAllTags(channelId);
 
-  // 전체 태그, 미디어 검색
-  const { data: searchResultList = [] } = useKeywordSearch(searchKeyword) as {
-    data: SearchResultProps[];
-  };
-
   // 태그로 조회한 미디어 리스트 가져오기
   let mediaLists = tagList?.map((categorizedId) => {
     return useGetTagMediaList({ channelId, categorizedId });
@@ -109,8 +113,8 @@ const Search = ({ navigation }) => {
     (mediaList) => mediaList.isLoading
   );
 
-  // 잘못된 데이터 요청 시 에러화면
   if (tagsError) {
+    // 잘못된 데이터 요청 시 에러화면
     return <Error onRetry={fetchData} />;
   }
 

@@ -6,13 +6,13 @@ interface SearchResult {
   resultType: "tag" | "media";
 }
 
-const useKeywordSearch = (keyword: string) => {
-  return useQuery({
+const useKeywordSearch = (channelId?: string, keyword?: string) => {
+  const { data = [], isLoading } = useQuery({
     queryKey: ["keywordSearch", keyword],
     queryFn: async () => {
       const [tags, objects] = await Promise.all([
-        getTagsByKeyword(keyword),
-        getObjectsByKeyword(keyword),
+        getTagsByKeyword(channelId, keyword),
+        getObjectsByKeyword(channelId, keyword),
       ]);
 
       const searchResultList: SearchResult[] = [];
@@ -35,6 +35,11 @@ const useKeywordSearch = (keyword: string) => {
     },
     enabled: !!keyword, // 쿼리는 keyword가 있을 때만 실행
   });
+
+  return {
+    data,
+    isLoading,
+  };
 };
 
 export { useKeywordSearch };

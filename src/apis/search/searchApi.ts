@@ -2,12 +2,10 @@ import { instance } from "../instance";
 
 import { storage } from "@/constants/storage";
 
-const channelId = storage.getString("channelId");
-
 /*
  * 전체 태그 검색
  */
-const getTagsByKeyword = async (keyword: string) => {
+const getTagsByKeyword = async (channelId?: string, keyword?: string) => {
   const response = await instance.get(
     `/v2/channel/${channelId}/tag?keyword=${keyword}`
   );
@@ -18,7 +16,7 @@ const getTagsByKeyword = async (keyword: string) => {
 /*
  * 전체 미디어 검색
  */
-const getObjectsByKeyword = async (keyword: string) => {
+const getObjectsByKeyword = async (channelId?: string, keyword?: string) => {
   const response = await instance.get(
     `/v2/channel/${channelId}?keyword=${keyword}`
   );
