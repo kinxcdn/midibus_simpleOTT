@@ -10,8 +10,7 @@
     <img src="https://img.shields.io/badge/LinkedIn-blue?style=flat-square&logo=linkedin&logoColor=white" alt="Follow RATH on LinkedIn"/>
   </a>
   <a href="https://www.kinx.net/">
-    <img src="https://img.shields.io/badge/KINX-light_green
-?style=flat-square&logo=Keras&logoColor=white" alt="Follow RATH on KINX"/>
+    <img src="https://img.shields.io/badge/KINX-light_green?style=flat-square&logoColor=white" alt="Read about RATH on KINX"/>
   </a>
   <a href="https://www.facebook.com/KINXofficial/">
     <img src="https://img.shields.io/badge/facebook-blue?style=flat-square&logo=facebook&logoColor=white" alt="Follow RATH on facebook"/>
