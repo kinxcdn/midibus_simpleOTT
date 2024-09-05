@@ -10,6 +10,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/FontAwesome";
 import LinearGradient from "react-native-linear-gradient";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { useGetChannelList } from "@/apis/user/Queries/useGetChannelList";
 
@@ -57,18 +58,21 @@ const ChannelItem = ({ channel, isSelected, onSelect }) => (
 );
 
 const ChannelSelection = ({ navigation }) => {
-  const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
-  const { data: channels, isLoading, isError, error } = useGetChannelList();
+  const queryClient = useQueryClient();
+  const [selectedChannel, setSelectedChannel] = useState<string>("");
+  const { data: channels, isLoading } = useGetChannelList();
 
-  const handleSelectChannel = (channelId) => {
+  const handleSelectChannel = (channelId: string) => {
     setSelectedChannel(channelId);
   };
 
   const handleNavigate = () => {
-    if (selectedChannel !== null) {
-      storage.set("channelId", selectedChannel);
-      navigation.navigate("BottomTabs");
-    }
+    storage.set("channelId", selectedChannel);
+
+    // 쿼리 키가 "keywordSearch"인 캐시를 삭제
+    queryClient.removeQueries({ queryKey: ["keywordSearch"] });
+
+    navigation.navigate("BottomTabs");
   };
 
   return (

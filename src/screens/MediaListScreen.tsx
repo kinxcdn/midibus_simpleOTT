@@ -22,7 +22,7 @@ import { storage } from "@/constants/storage";
 import { SIZES } from "@/styles/theme";
 
 const MediaList = (props) => {
-  const [refreshing, setRefreshing] = useState(false);
+  const [_, setRefreshing] = useState(false);
   const categorizedId = props.route.params.categorizedId;
   const channelId = storage.getString("channelId");
 

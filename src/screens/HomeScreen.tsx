@@ -27,7 +27,7 @@ import { storage } from "@/constants/storage";
 
 const Home = ({ navigation }) => {
   const [filteredTagList, setFilteredTagList] = useState<string[]>([]); // 빈 배열을 초기화하고 타입을 명시적으로 지정
-  const [refreshing, setRefreshing] = useState(false);
+  const [_, setRefreshing] = useState(false);
 
   const channelId = storage.getString("channelId");
 

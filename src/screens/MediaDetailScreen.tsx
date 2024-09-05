@@ -17,7 +17,7 @@ import { removeFileExtension } from "@/constants/removeFileExtension";
 
 const MediaDetail = (props) => {
   const [categorizedId, setCategorizedId] = useState("");
-  const [refreshing, setRefreshing] = useState(false);
+  const [_, setRefreshing] = useState(false);
 
   const { channelId, media } = props.route.params;
   const objectId = media.object_id;
