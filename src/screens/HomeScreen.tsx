@@ -25,6 +25,8 @@ import { useGetPlayTopNMediaList } from "@/apis/media/Queries/useGetPlayTopNMedi
 import { SIZES } from "@/styles/theme";
 import { storage } from "@/constants/storage";
 
+import mostWeeklyMediaList from "@/constants/mostWeeklyMediaList";
+
 const Home = ({ navigation }) => {
   const [filteredTagList, setFilteredTagList] = useState<string[]>([]); // 빈 배열을 초기화하고 타입을 명시적으로 지정
   const [_, setRefreshing] = useState(false);
@@ -37,7 +39,7 @@ const Home = ({ navigation }) => {
     await Promise.all([
       refetchTags(),
       refetchUploads(),
-      refetchWeekly(),
+      // refetchWeekly(),
       refetchTopN(),
     ]);
     setRefreshing(false);
@@ -66,12 +68,14 @@ const Home = ({ navigation }) => {
   } = useGetLatestUploadsMediaList({ channelId, limit: 5 });
 
   // 최근 일주일동안 가장 많이 재생된 비디오
-  const {
-    data: objectList,
-    isLoading: weeklyLoading,
-    isError: weeklyError,
-    refetch: refetchWeekly,
-  } = useGetMostWeeklyPlayedMediaList(channelId);
+  // const {
+  //   data: objectList,
+  //   isLoading: weeklyLoading,
+  //   isError: weeklyError,
+  //   refetch: refetchWeekly,
+  // } = useGetMostWeeklyPlayedMediaList(channelId);
+
+  const objectList = mostWeeklyMediaList[channelId ?? ""] || [];
 
   // TOP5 미디어 정보
   const {
@@ -93,7 +97,7 @@ const Home = ({ navigation }) => {
   const completeTagList = tagList.length > 0 ? ["전체", ...tagList] : tagList;
 
   // 데이터 요청하는 동안 로딩화면
-  if (tagsLoading || uploadsLoading || weeklyLoading || playTopNLoading) {
+  if (tagsLoading || uploadsLoading || /* weeklyLoading || */ playTopNLoading) {
     return (
       <SafeAreaView style={styles.container}>
         <Header navigation={navigation} />
@@ -103,7 +107,7 @@ const Home = ({ navigation }) => {
   }
 
   // 잘못된 데이터 요청 시 에러화면
-  if (tagsError || uploadsError || weeklyError || playTopNError) {
+  if (tagsError || uploadsError || /* weeklyError || */ playTopNError) {
     return <Error onRetry={fetchData} />;
   }
 

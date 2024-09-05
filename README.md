@@ -85,6 +85,25 @@ or
 npm run ios
 ```
 
+### 앱 실행
+
+- 현재 cloudfront api의 경우 보안때문에 공개하지 않습니다.
+  - 더미 데이터를 삽입하여 동작은 확인하실 수 있습니다.
+  - 이를 통해 조회수, 최신 미디어 부분은 더미데이터를 사용했습니다.
+  - 더 자세한 동작을 원하신다면 미디버스에 연락주세요
+- JWplayer API Key는
+  https://docs.jwplayer.com/platform/reference/create-and-manage-api-keys를 참고
+  하여 입력해주시면 됩니다.
+
+<br />
+
+- 동작을 위한 테스트 계정
+
+```bash
+Id : sonsuhyeong124@gmail.com
+API키 : 191bfe32cce76ace
+```
+
 ## ✅ 기능 소개
 
 ### 스플래시
