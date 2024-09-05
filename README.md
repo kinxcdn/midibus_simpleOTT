@@ -56,11 +56,14 @@ Get started with Midibus now!
 > 안드로이드 스튜디오 또는 Xcode 시뮬레이션 환경 설정을 완료하세요
 
 ## Setup
-
 - node 18.x를 설치하는 것을 권장합니다.
 - react native로 제작된 앱으로 관련 설정이 필요합니다.
 - 이 저장소를 복제합니다 Clone this repo:
   `git clone https://github.com/RocketChat/Rocket.Chat.git`
+
+```bash
+npm install
+```
 
 ### 앱 실행
 
