@@ -71,7 +71,6 @@ const ChannelSelection = ({ navigation }) => {
 
     // 쿼리 키가 "keywordSearch"인 캐시를 삭제
     queryClient.removeQueries({ queryKey: ["keywordSearch"] });
-
     navigation.navigate("BottomTabs");
   };
 

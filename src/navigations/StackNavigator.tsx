@@ -40,13 +40,13 @@ const defaultHeaderOptions: StackNavigationOptions = {
     open: {
       animation: "timing",
       config: {
-        duration: 300,
+        duration: 200,
       },
     },
     close: {
       animation: "timing",
       config: {
-        duration: 300,
+        duration: 200,
       },
     },
   },
@@ -94,7 +94,7 @@ const StackNavigation = () => (
       name="MediaDetail"
       component={MediaDetail}
       options={{
-        headerTitle: "",
+        headerShown: false,
         ...TransitionPresets.ModalSlideFromBottomIOS, // 모달 슬라이드 애니메이션 적용
       }}
     />

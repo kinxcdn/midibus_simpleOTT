@@ -75,6 +75,7 @@ const Home = ({ navigation }) => {
   //   refetch: refetchWeekly,
   // } = useGetMostWeeklyPlayedMediaList(channelId);
 
+  // opensource 배포를 위한 임시 로직
   const objectList = mostWeeklyMediaList[channelId ?? ""] || [];
 
   // TOP5 미디어 정보

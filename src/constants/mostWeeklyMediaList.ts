@@ -1,3 +1,5 @@
+// opensource를 위한 임시 데모 데이터
+
 const mostWeeklyMediaList = {
   ch_191bfcbe: [
     {

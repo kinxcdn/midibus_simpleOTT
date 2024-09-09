@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Orientation from "react-native-orientation-locker";
+import Icon from "react-native-vector-icons/dist/Ionicons";
 
 import Error from "@/components/common/Error";
 import MediaPlayer from "@/components/media/MediaPlayer";
@@ -77,6 +79,14 @@ const MediaDetail = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.headerArea}>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => props.navigation.goBack()}
+        >
+          <Icon name="arrow-back-outline" size={30} color={"#fff"} />
+        </TouchableOpacity>
+      </View>
       {media && (
         <MediaPlayer channelId={channelId} media={media} objectId={objectId} />
       )}
@@ -132,6 +142,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#000000",
+  },
+  headerArea: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    height: 70,
+  },
+  iconContainer: {
+    alignItems: "flex-end",
+    marginLeft: 15,
   },
   mediaTitleArea: {
     width: "100%",
