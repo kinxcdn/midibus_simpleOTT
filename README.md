@@ -259,6 +259,3 @@ API키 : 191bfe32cce76ace
   <a href="https://midibus.kinx.net/">
     <img src="readme_assets/midibus_logo.png" style={{background: "#fff"}} alt="Read about RATH on Midibus"/>
   </a>
-
-  	
-📚 Docs : Midibus_SimpleOTT Readme 작성
