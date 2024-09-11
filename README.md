@@ -236,7 +236,9 @@ API키 : 191bfe32cce76ace
 
 ## ✅ 미디버스의 다양한 기능 확인하기
 
-![alt text](image.png)
+  <a href="https://demo.midibus.kinxcdn.com/player">
+    <img src="readme_assets/midibus_function.png" style={{background: "#fff"}} alt="Read about RATH on Midibus"/>
+  </a>
 
 - 보안이 중요한 동영상을 수강생들에게만 공유하고 싶다면, 재생 암호나 재생 제한이
   걸린 링크를 만들어 공유하세요. 외부 SNS 채널이나 사이트에도 공개하고 싶다면,
@@ -257,3 +259,6 @@ API키 : 191bfe32cce76ace
   <a href="https://midibus.kinx.net/">
     <img src="readme_assets/midibus_logo.png" style={{background: "#fff"}} alt="Read about RATH on Midibus"/>
   </a>
+
+  	
+📚 Docs : Midibus_SimpleOTT Readme 작성
